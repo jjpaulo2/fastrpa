@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "fastrpa"
+version = "0.1.0"
+description = "A simple to use abstraction over Selenium"
+authors = ["João Paulo Carvalho <jjpaulo2@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+selenium = "^4.22.0"
+requests = "^2.32.3"
+types-requests = "^2.32.0.20240622"
+rich = "^13.7.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.1"
+mypy = "^1.10.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 88
