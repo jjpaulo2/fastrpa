@@ -90,7 +90,6 @@ my_page = app.browse('http://...')
 my_form = form_page.form('//form[@id="login"]')
 
 my_form.get_select_options('//select[@id="occupation"]')
-
 <<< [
     Option(value='1', label='Actor'),
     Option(value='2', label='Developer'),
@@ -120,7 +119,6 @@ my_page = app.browse('http://...')
 my_form = form_page.form('//form[@id="login"]')
 
 my_form.get_list_items('//ul[@id="occupations"]')
-
 <<< [
     Item(id='1', label='Actor'),
     Item(id='2', label='Developer'),
