@@ -2,7 +2,6 @@ from fastrpa.types import WebDriver, Keys, ActionChains
 
 
 class Keyboard:
-
     def __init__(self, webdriver: WebDriver):
         self.webdriver = webdriver
 
@@ -13,7 +12,7 @@ class Keyboard:
 
     def press_esc(self):
         self._press_key(Keys.ESCAPE)
-    
+
     def press_tab(self):
         self._press_key(Keys.TAB)
 

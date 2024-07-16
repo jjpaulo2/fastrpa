@@ -46,11 +46,11 @@ def get_file_path(path: str) -> str:
         return path
 
     file_response = requests.get(path)
-    file_extension = mimetypes.guess_extension(file_response.headers["Content-Type"])
+    file_extension = mimetypes.guess_extension(file_response.headers['Content-Type'])
     file_hash = abs(hash(file_response.content))
-    download_path = f"/tmp/{file_hash}{file_extension}"
+    download_path = f'/tmp/{file_hash}{file_extension}'
 
-    with open(download_path, "wb") as file:
+    with open(download_path, 'wb') as file:
         file.write(file_response.content)
 
     return download_path

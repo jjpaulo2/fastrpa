@@ -57,7 +57,7 @@ class Web:
 
 
 class FastRPA:
-    browser_arguments = ["--start-maximized", "--ignore-certificate-errors"]
+    browser_arguments = ['--start-maximized', '--ignore-certificate-errors']
 
     def __init__(
         self,

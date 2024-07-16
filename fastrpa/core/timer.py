@@ -5,7 +5,6 @@ from fastrpa.types import WebDriver
 
 
 class Timer:
-
     def __init__(self, webdriver: WebDriver):
         self.webdriver = webdriver
 
