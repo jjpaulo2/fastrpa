@@ -1,0 +1,247 @@
+from time import sleep
+from typing import Any
+from selenium.webdriver import ActionChains
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+
+from fastrpa.commons import get_file_path
+from fastrpa.dataclasses import Item, Option
+from fastrpa.types import WebDriver, WebElement
+
+
+class Element:
+    _tag: str | None = None
+    _id: str | None = None
+    _css_class: str | None = None
+    _text: str | None = None
+    _is_visible: bool | None = None
+    _actions: ActionChains | None = None
+
+    def __init__(self, element: WebElement, webdriver: WebDriver) -> None:
+        self.element = element
+        self.webdriver = webdriver
+
+    @property
+    def actions(self) -> ActionChains:
+        if self._actions is None:
+            self._actions = ActionChains(self.webdriver)
+        return self._actions
+
+    @property
+    def tag(self) -> str:
+        if self._tag is None:
+            self._tag = self.element.tag_name
+        return self._tag
+
+    @property
+    def id(self) -> str | None:
+        if self._id is None:
+            self._id = self.element.get_attribute("id")
+        return self._id
+
+    @property
+    def css_class(self) -> str | None:
+        if self._css_class is None:
+            self._css_class = self.element.get_attribute("class")
+        return self._css_class
+
+    @property
+    def text(self) -> str | None:
+        if self._text is None:
+            if self.element.text:
+                self._text = self.element.text
+            elif value := self.element.get_attribute("value"):
+                self._text = value
+            else:
+                self._text = None
+        return self._text
+
+    @property
+    def is_visible(self) -> bool:
+        if self._is_visible is None:
+            self._is_visible = self.element.is_displayed()
+        return self._is_visible
+    
+    def focus(self):
+        self.actions.scroll_to_element(self.element)
+        self.actions.move_to_element(self.element)
+        self.actions.perform()
+    
+    def check(self, attribute: str, value: str) -> bool:
+        return self.element.get_attribute(attribute) == value
+
+
+class InputElement(Element):
+
+    def clear(self):
+        self.element.clear()
+
+    def fill(self, value: str):
+        self.element.send_keys(value)
+
+    def fill_slowly(self, value: str, delay: float = 0.3):
+        for key in value:
+            self.element.send_keys(key)
+            sleep(delay)
+
+
+class FileInputElement(Element):
+    def attach_file(self, path: str):
+        self.element.send_keys(get_file_path(path))
+
+
+class SelectElement(Element):
+    _select_element: Select | None = None
+    _options: list[Option] | None = None
+    _options_values: list[str | None] | None = None
+    _options_labels: list[str | None] | None = None
+    
+    @property
+    def select_element(self) -> Select:
+        if not self._select_element:
+            self._select_element = Select(self.element)
+        return self._select_element
+    
+    @property
+    def options_values(self) -> list[str | None]:
+        if self._options_values is None:
+            self._options_values = [
+                option.get_attribute("value")
+                for option in self.select_element.options
+            ]
+        return self._options_values
+    
+    @property
+    def options_labels(self) -> list[str | None]:
+        if self._options_labels is None:
+            self._options_labels = [
+                option.get_attribute("innerText")
+                for option in self.select_element.options
+            ]
+        return self._options_labels
+
+    @property
+    def options(self) -> list[Option]:
+        if self._options is None:
+            self._options = [
+                Option(option.get_attribute("value"), option.get_attribute("innerText"))
+                for option in self.select_element.options
+            ]
+        return self._options
+    
+    def select(
+        self, label: str | None = None, value: str | None = None
+    ):
+        if label:
+            self.select_element.select_by_visible_text(label)
+        elif value:
+            self.select_element.select_by_value(value)
+        else:
+            raise ValueError('You must provide at least "label" or "value"!')
+        
+    def has_option(self, label: str | None = None, value: str | None = None):
+        if label:
+            return label in self.options_labels
+        elif value:
+            return value in self.options_values
+        else:
+            raise ValueError('You must provide at least "label" or "value"!')
+        
+    def __contains__(self, key: Any) -> bool:
+        return self.has_option(label=key) or self.has_option(value=key)
+        
+
+class ListElement(Element):
+    _is_ordered: bool | None = None
+    _items_elements: list[WebElement] | None = None
+    _items: list[Item] | None = None
+    _items_ids: list[str | None] | None = None
+    _items_labels: list[str | None] | None = None
+
+    @property
+    def items_elements(self) -> list[WebElement]:
+        if self._items_elements is None:
+            self._items_elements = self.element.find_elements(By.XPATH, "./li")
+        return self._items_elements
+
+    @property
+    def is_ordered(self) -> bool:
+        if self._is_ordered is None:
+            self._is_ordered = (self.element.tag_name == 'ol')
+        return self._is_ordered
+    
+    @property
+    def items(self) -> list[Item]:
+        if self._items is None:
+            self._items = [
+                Item(item.get_attribute("id"), item.get_attribute("innerText"))
+                for item in self.items_elements
+            ]
+        return self._items
+    
+    @property
+    def items_ids(self) -> list[str | None]:
+        if not self._items_ids:
+            self._items_ids = [
+                item.get_attribute("ids")
+                for item in self.items_elements
+            ]
+        return self._items_ids
+    
+    @property
+    def items_labels(self) -> list[str | None]:
+        if self._items_labels is None:
+            self._items_labels = [
+                item.get_attribute("innerText")
+                for item in self.items_elements
+            ]
+        return self._items_labels
+    
+    def click_in_item(self, label: str | None = None, id: str | None = None):
+        if not (label or id):
+            raise ValueError('You must provide at least "label" or "id"!')
+
+        for item in self.items_elements:
+            if label and label == item.get_attribute("innerText"):
+                self.actions.click(item)
+                self.actions.perform()
+                return
+
+            if id and id == item.get_attribute("id"):
+                self.actions.click(item)
+                self.actions.perform()
+                return
+
+        raise ValueError("Item not found!")
+    
+    def has_item(self, label: str | None = None, id: str | None = None):
+        if label:
+            return label in self.items_labels
+        elif id:
+            return id in self.items_ids
+        else:
+            raise ValueError('You must provide at least "label" or "id"!')
+        
+    def __contains__(self, key: Any) -> bool:
+        return self.has_item(label=key) or self.has_item(id=key)
+
+
+class ButtonElement(Element):
+
+    def click(self):
+        self.actions.move_to_element(self.element)
+        self.actions.click(self.element)
+        self.actions.perform()
+
+    def double_click(self):
+        self.actions.move_to_element(self.element)
+        self.actions.double_click(self.element)
+        self.actions.perform()
+
+
+class FormElement(Element):
+    def submit(self, button: ButtonElement | None = None):
+        if not button:
+            self.element.submit()
+        else:
+            button.click()

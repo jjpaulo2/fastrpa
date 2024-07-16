@@ -1,14 +1,13 @@
-from time import sleep
-from selenium.webdriver import Remote, ChromeOptions, ActionChains
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import Remote, ChromeOptions
 from fastrpa.commons import (
-    get_element_text,
     get_browser_options,
-    wait_until_element_is_hidden,
-    wait_until_element_is_present,
-    VISIBILITY_TIMEOUT,
 )
-from fastrpa.elements.form import Form
+from fastrpa.settings import VISIBILITY_TIMEOUT
+from fastrpa.core.elements import Element
+
+from fastrpa.core.timer import Timer
+from fastrpa.core.keyboard import Keyboard
+from fastrpa.factories import ElementFactory
 from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
 
 
@@ -19,40 +18,42 @@ class Web:
         webdriver: WebDriver,
         visibility_timeout: int,
     ):
-        self.url = url
+        self._keyboard: Keyboard | None = None
+        self._timer: Timer | None = None
+        self.starter_url = url
         self.webdriver = webdriver
-        self.webdriver.get(url)
+        self.webdriver.get(self.starter_url)
+        self._element_factory = ElementFactory(self.webdriver)
         self.visibility_timeout = visibility_timeout
 
+    @property
+    def url(self) -> str:
+        return self.webdriver.current_url
+
+    @property
+    def keyboard(self) -> Keyboard:
+        if self._keyboard:
+            return self._keyboard
+        self._keyboard = Keyboard(self.webdriver)
+        return self._keyboard
+
+    @property
+    def timer(self) -> Timer:
+        if self._timer:
+            return self._timer
+        self._timer = Timer(self.webdriver)
+        return self._timer
+
     def reset(self):
-        self.webdriver.get(self.url)
+        self.webdriver.get(self.starter_url)
 
-    def form(self, xpath: str) -> Form:
-        return Form(xpath, self.webdriver, self.visibility_timeout)
-
-    def read(self, xpath: str) -> str | None:
-        return get_element_text(self.webdriver, xpath, self.visibility_timeout)
+    def element(self, xpath: str, wait: bool = True) -> Element:
+        if not wait:
+            return self._element_factory.get(xpath)
+        return self._element_factory.get_when_available(xpath, self.visibility_timeout)
 
     def has_content(self, value: str) -> bool:
         return value in self.webdriver.page_source
-
-    def wait_until_hide(self, xpath: str):
-        wait_until_element_is_hidden(self.webdriver, xpath)
-
-    def wait_until_present(self, xpath: str):
-        wait_until_element_is_present(self.webdriver, xpath)
-
-    def wait_seconds(self, seconds: int):
-        sleep(seconds)
-
-    def press_esc(self):
-        ActionChains(self.webdriver).send_keys(Keys.ESCAPE).perform()
-
-    def press_enter(self):
-        ActionChains(self.webdriver).send_keys(Keys.ENTER).perform()
-
-    def press_tab(self):
-        ActionChains(self.webdriver).send_keys(Keys.TAB).perform()
 
 
 class FastRPA:

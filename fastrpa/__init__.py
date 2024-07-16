@@ -1,5 +1,5 @@
 from fastrpa.app import FastRPA, Web
-from fastrpa.elements.form import Form
+from fastrpa.core.form import Form
 from fastrpa.exceptions import ElementNotFound
 
 
