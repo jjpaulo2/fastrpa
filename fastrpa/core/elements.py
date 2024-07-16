@@ -277,7 +277,7 @@ class TableElement(Element):
                 rows_content.append(
                     [
                         cell.get_attribute('innerText')
-                        for cell in element.find_elements(By.XPATH, './/td')
+                        for cell in element.find_elements(By.XPATH, './/td | .//th')
                     ]
                 )
             self._rows = rows_content
