@@ -14,11 +14,15 @@ class Screenshot:
 
     @property
     def max_width(self) -> int:
-        return self.webdriver.execute_script('return document.body.parentNode.scrollWidth')
-    
+        return self.webdriver.execute_script(
+            'return document.body.parentNode.scrollWidth'
+        )
+
     @property
     def max_height(self) -> int:
-        return self.webdriver.execute_script('return document.body.parentNode.scrollHeight')
+        return self.webdriver.execute_script(
+            'return document.body.parentNode.scrollHeight'
+        )
 
     def viewport(self, path: str | None = None):
         self.webdriver.save_screenshot(self._file_path(path))
@@ -29,8 +33,14 @@ class Screenshot:
 
         try:
             self.webdriver.set_window_size(self.max_width, self.max_height)
-            self.webdriver.find_element(By.XPATH, '//body').screenshot(self._file_path(path))
-        
+            self.webdriver.find_element(By.XPATH, '//body').screenshot(
+                self._file_path(path)
+            )
+
         finally:
-            self.webdriver.set_window_size(starter_size['width'], starter_size['height'])
-            self.webdriver.set_window_position(starter_position['x'], starter_position['y'])
+            self.webdriver.set_window_size(
+                starter_size['width'], starter_size['height']
+            )
+            self.webdriver.set_window_position(
+                starter_position['x'], starter_position['y']
+            )

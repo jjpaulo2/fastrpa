@@ -31,38 +31,20 @@ class Web:
         self,
         url: str,
         webdriver: WebDriver,
-        visibility_timeout: int,
+        visibility_timeout_seconds: int,
     ):
-        self._keyboard: Keyboard | None = None
-        self._timer: Timer | None = None
-        self._screenshot: Screenshot | None = None
         self.starter_url = url
         self.webdriver = webdriver
         self.webdriver.get(self.starter_url)
+        self.visibility_timeout_seconds = visibility_timeout_seconds
+        self.keyboard = Keyboard(self.webdriver)
+        self.timer = Timer(self.webdriver)
+        self.screenshot = Screenshot(self.webdriver)
         self._element_factory = ElementFactory(self.webdriver)
-        self.visibility_timeout = visibility_timeout
 
     @property
     def url(self) -> str:
         return self.webdriver.current_url
-
-    @property
-    def keyboard(self) -> Keyboard:
-        if self._keyboard is None:
-            self._keyboard = Keyboard(self.webdriver)
-        return self._keyboard
-
-    @property
-    def timer(self) -> Timer:
-        if self._timer is None:
-            self._timer = Timer(self.webdriver)    
-        return self._timer
-    
-    @property
-    def screenshot(self) -> Screenshot:
-        if self._screenshot is None:
-            self._screenshot = Screenshot(self.webdriver)
-        return self._screenshot
 
     def reset(self):
         self.webdriver.get(self.starter_url)
@@ -73,7 +55,9 @@ class Web:
     def element(self, xpath: str, wait: bool = True) -> Element | SpecificElement:
         if not wait:
             return self._element_factory.get(xpath)
-        return self._element_factory.get_when_available(xpath, self.visibility_timeout)
+        return self._element_factory.get_when_available(
+            xpath, self.visibility_timeout_seconds
+        )
 
     def _specific_element(
         self, xpath: str, class_name: Type[SpecificElement], wait: bool = True
@@ -113,36 +97,32 @@ class FastRPA:
         webdriver: WebDriver | None = None,
         options_class: BrowserOptionsClass = ChromeOptions,
         browser_arguments: list[str] | None = None,
-        visibility_timeout: int = VISIBILITY_TIMEOUT,
+        visibility_timeout_seconds: int = VISIBILITY_TIMEOUT,
     ):
         self._browser_options: BrowserOptions | None = None
         self._webdriver = webdriver
         self._options_class = options_class
-        self.visibility_timeout = visibility_timeout
+        self.visibility_timeout_seconds = visibility_timeout_seconds
 
         if browser_arguments:
             self.browser_arguments = browser_arguments
 
     @property
     def browser_options(self) -> BrowserOptions:
-        if self._browser_options:
-            return self._browser_options
-
-        self._browser_options = get_browser_options(
-            options=self.browser_arguments, options_class=self._options_class
-        )
+        if self._browser_options is None:
+            self._browser_options = get_browser_options(
+                options=self.browser_arguments, options_class=self._options_class
+            )
         return self._browser_options
 
     @property
     def webdriver(self) -> WebDriver:
-        if self._webdriver:
-            return self._webdriver
-
-        self._webdriver = Remote(options=self.browser_options)
+        if self._webdriver is None:
+            self._webdriver = Remote(options=self.browser_options)
         return self._webdriver
 
     def __del__(self):
         self.webdriver.quit()
 
     def browse(self, url: str) -> Web:
-        return Web(url, self.webdriver, self.visibility_timeout)
+        return Web(url, self.webdriver, self.visibility_timeout_seconds)

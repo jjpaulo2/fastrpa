@@ -15,6 +15,7 @@ def get_browser_options(
         instance.add_argument(opt)
     return instance
 
+
 def get_file_path(path: str) -> str:
     if os.path.isfile(path):
         return path
