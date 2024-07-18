@@ -3,6 +3,7 @@ from selenium.webdriver import Remote, ChromeOptions
 from fastrpa.commons import (
     get_browser_options,
 )
+from fastrpa.core.screenshot import Screenshot
 from fastrpa.exceptions import ElementNotCompatible
 from fastrpa.settings import VISIBILITY_TIMEOUT
 from fastrpa.core.elements import (
@@ -34,6 +35,7 @@ class Web:
     ):
         self._keyboard: Keyboard | None = None
         self._timer: Timer | None = None
+        self._screenshot: Screenshot | None = None
         self.starter_url = url
         self.webdriver = webdriver
         self.webdriver.get(self.starter_url)
@@ -46,17 +48,21 @@ class Web:
 
     @property
     def keyboard(self) -> Keyboard:
-        if self._keyboard:
-            return self._keyboard
-        self._keyboard = Keyboard(self.webdriver)
+        if self._keyboard is None:
+            self._keyboard = Keyboard(self.webdriver)
         return self._keyboard
 
     @property
     def timer(self) -> Timer:
-        if self._timer:
-            return self._timer
-        self._timer = Timer(self.webdriver)
+        if self._timer is None:
+            self._timer = Timer(self.webdriver)    
         return self._timer
+    
+    @property
+    def screenshot(self) -> Screenshot:
+        if self._screenshot is None:
+            self._screenshot = Screenshot(self.webdriver)
+        return self._screenshot
 
     def reset(self):
         self.webdriver.get(self.starter_url)

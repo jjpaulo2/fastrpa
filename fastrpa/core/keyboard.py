@@ -7,11 +7,11 @@ from fastrpa.types import WebDriver
 class Keyboard:
     def __init__(self, webdriver: WebDriver):
         self.webdriver = webdriver
+        self.actions = ActionChains(self.webdriver)
 
     def _press_key(self, key: str):
-        action = ActionChains(self.webdriver)
-        action.send_keys(key)
-        action.perform()
+        self.actions.send_keys(key)
+        self.actions.perform()
 
     def press_esc(self):
         self._press_key(Keys.ESCAPE)
