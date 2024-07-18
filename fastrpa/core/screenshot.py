@@ -15,13 +15,13 @@ class Screenshot:
     @property
     def max_width(self) -> int:
         return self.webdriver.execute_script(
-            'return document.body.parentNode.scrollWidth'
+            'return document.documentElement.scrollWidth'
         )
 
     @property
     def max_height(self) -> int:
         return self.webdriver.execute_script(
-            'return document.body.parentNode.scrollHeight'
+            'return document.documentElement.scrollHeight + (window.innerHeight * 0.2)'
         )
 
     def viewport(self, path: str | None = None):
