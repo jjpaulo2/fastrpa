@@ -2,11 +2,14 @@ from time import sleep
 from typing import Any
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
+from rich.table import Table
+from rich.console import Console
 
 from fastrpa.commons import get_file_path
 from fastrpa.dataclasses import Item, Option
-from fastrpa.types import WebDriver, WebElement
+from fastrpa.types import WebDriver
 
 
 class Element:
@@ -300,3 +303,10 @@ class TableElement(Element):
             for cell in self.element.find_elements('.//td')
         ]
         return value in cells_content
+
+    def print(self):
+        console = Console()
+        rich_table = Table(*self.headers)
+        for row in self.rows:
+            rich_table.add_row(*row)
+        console.print(rich_table)

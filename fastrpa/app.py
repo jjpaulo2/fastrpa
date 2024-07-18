@@ -1,14 +1,28 @@
+from typing import Type, TypeVar
 from selenium.webdriver import Remote, ChromeOptions
 from fastrpa.commons import (
     get_browser_options,
 )
+from fastrpa.exceptions import ElementNotCompatible
 from fastrpa.settings import VISIBILITY_TIMEOUT
-from fastrpa.core.elements import Element
+from fastrpa.core.elements import (
+    Element,
+    InputElement,
+    FileInputElement,
+    ButtonElement,
+    FormElement,
+    ListElement,
+    TableElement,
+    SelectElement,
+)
 
 from fastrpa.core.timer import Timer
 from fastrpa.core.keyboard import Keyboard
 from fastrpa.factories import ElementFactory
 from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
+
+
+SpecificElement = TypeVar('SpecificElement', bound=Element)
 
 
 class Web:
@@ -47,13 +61,42 @@ class Web:
     def reset(self):
         self.webdriver.get(self.starter_url)
 
-    def element(self, xpath: str, wait: bool = True) -> Element:
+    def has_content(self, value: str) -> bool:
+        return value in self.webdriver.page_source
+
+    def element(self, xpath: str, wait: bool = True) -> Element | SpecificElement:
         if not wait:
             return self._element_factory.get(xpath)
         return self._element_factory.get_when_available(xpath, self.visibility_timeout)
 
-    def has_content(self, value: str) -> bool:
-        return value in self.webdriver.page_source
+    def _specific_element(
+        self, xpath: str, class_name: Type[SpecificElement], wait: bool = True
+    ) -> SpecificElement:
+        element = self.element(xpath, wait)
+        if not isinstance(element, class_name):
+            raise ElementNotCompatible(xpath, class_name)
+        return element
+
+    def input(self, xpath: str, wait: bool = True) -> InputElement:
+        return self._specific_element(xpath, InputElement, wait)
+
+    def file_input(self, xpath: str, wait: bool = True) -> FileInputElement:
+        return self._specific_element(xpath, FileInputElement, wait)
+
+    def button(self, xpath: str, wait: bool = True) -> ButtonElement:
+        return self._specific_element(xpath, ButtonElement, wait)
+
+    def form(self, xpath: str, wait: bool = True) -> FormElement:
+        return self._specific_element(xpath, FormElement, wait)
+
+    def select(self, xpath: str, wait: bool = True) -> SelectElement:
+        return self._specific_element(xpath, SelectElement, wait)
+
+    def list(self, xpath: str, wait: bool = True) -> ListElement:
+        return self._specific_element(xpath, ListElement, wait)
+
+    def table(self, xpath: str, wait: bool = True) -> TableElement:
+        return self._specific_element(xpath, TableElement, wait)
 
 
 class FastRPA:

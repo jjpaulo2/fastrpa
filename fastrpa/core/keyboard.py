@@ -1,4 +1,7 @@
-from fastrpa.types import WebDriver, Keys, ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+
+from fastrpa.types import WebDriver
 
 
 class Keyboard:
