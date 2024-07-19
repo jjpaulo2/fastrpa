@@ -2,23 +2,28 @@
 
 A simple to use abstraction over Selenium.
 
-> [!WARNING]  
-> This is a beta project, and is still in development. Don't use it in production, because it can raise unknown errors.
+## How to use
 
-## Core concepts
+- [Configure Selenium integration](#configure-selenium-integration)
+- [The FastRPA instance](#the-fastrpa-instance)
+    - [Interacting with the current page](#interacting-with-the-current-page)
+        - [Pressing keys](#pressing-keys)
+        - [Waiting for events](#waiting-for-events)
+        - [Managing cookies](#managing-cookies)
+        - [Take screenshots and prints](#take-screenshots-and-prints)
+        - [Manage and navigate through opened tabs](#manage-and-navigate-through-opened-tabs)
+        - [Running javascript](#running-javascript)
+    - [Interacting with the page elements](#interacting-with-the-page-elements)
+        - [Inputs](#inputs)
+        - [File inputs](#file-inputs)
+        - [Selects](#selects)
+        - [Lists](#lists)
+        - [Buttons and links](#buttons-and-links)
+        - [Tables](#tables)
+        - [Medias](#medias)
 
-- Based on Selenium
-- XPath-oriented
-- Easy to use
 
-## Next steps
-
-- [x] Forms abstraction
-- [ ] Tables abstraction
-- [ ] Unit tests
-- [ ] Documentation 
-
-## Before use it
+### Configure Selenium integration
 
 FastRPA needs a webdriver to work. It can be local, or remote. It's recommended to always use remote sessions.
 
@@ -46,59 +51,185 @@ webdriver = Firefox(options)
 app = FastRPA(webdriver)
 ```
 
-## Examples of use
+### The FastRPA instance
 
-### Fill and submit a simple text form
+This is just a configuration object. You will need it just to start your web navegation.
 
 ```python
 from fastrpa import FastRPA
 
 app = FastRPA()
-
-form_page = app.browse('http://...')
-
-my_form = form_page.form('//form[@id="login"]')
-my_form.fill('//input[@id="username"]', 'user')
-my_form.fill('//input[@id="password"]', 'pass')
-
-# To just submit the form
-my_form.submit()
-
-# To submit by clicking in a button
-my_form.submit('//button[@id="submit"]')
-
+web = app.browse('https:...')
+type(web)
+<<< fastrpa.app.Web
 ```
 
-### Attach a file in a form
+### Interacting with the current page
+
+Once you have a `Web` object, you are able to browse on the web. The `Web` class is a abstraction of main browser and user functions.
+
+It includes, managing:
+
+- `keyboard`, to send key pressing events on the current page
+- `timer`, to wait for some events on the current page
+- `cookies`, to manage cookies on the current page
+- `screenshot`, to download screenshots and prints from the current page
+- `tabs`, to manage and navigate through the current opened tabs
+- `console`, to run javascript on the current page
+
+You can access these abstractions by calling it from the `Web` object.
 
 ```python
-# You can easily attach files from the web
-my_form.attach_file('//input[@id="photo"]', 'https://website.com/mypic.png')
+web.keyboard
+>>> <fastrpa.core.keyboard.Keyboard at 0x...>
 
-# Or just local files, if you prefer
-my_form.attach_file('//input[@id="photo"]', '/home/user/mypic.png')
+web.timer
+>>> <fastrpa.core.timer.Timer at 0x...>
+
+web.cookies
+>>> <fastrpa.core.cookies.Cookies at 0x...>
+
+web.screenshot
+>>> <fastrpa.core.screenshot.Screenshot at 0x...>
+
+web.tabs
+>>> <fastrpa.core.tabs.Tabs at 0x...>
+
+web.console
+>>> <fastrpa.core.console.Console at 0x...>
 ```
 
-### Read the available options in a select
+#### Pressing keys
+
+You can send simple pressing key events to the current page, by using the methods below.
+
+- `Web.keyboard.esc()`
+- `Web.keyboard.tab()`
+- `Web.keyboard.enter()`
+
+#### Waiting for events
+
+You can wait some time before or after execute some action with the automation. This method is just a simple proxy for `time.sleep`, to remove the need of more one import.
+
+- `Web.timer.wait_seconds(seconds)`
+
+You can also wait for element visibility. By default the timeout is 15 seconds, but you can also specify it.
 
 ```python
-my_form.get_select_options('//select[@id="occupation"]')
+app = FastRPA()
+web = app.browse('https:...')
 
-[
-    Option(value='1', label='Actor'),
-    Option(value='2', label='Developer'),
-    Option(value='3', label='Doctor'),
-    Option(value='4', label='Professor'),
-    ...
+# Wait a maximum of 15 seconds until a button is present
+web.timer.wait_until_present('//button[@id="myBtn"]')
+
+# Wait a maximum of custom seconds until a button is present
+web.timer.wait_until_present('//button[@id="myBtn"]', 30)
+
+# Wait a maximum of 15 seconds until a button is hide
+web.timer.wait_until_hide('//button[@id="myBtn"]')
+
+# Wait a maximum of custom seconds until a button is hide
+web.timer.wait_until_hide('//button[@id="myBtn"]', 30)
 ```
 
-### Select an option in a select
+#### Managing cookies
+
+Follow the examples below to manage cookies on the current domain.
 
 ```python
-# You can just select by the text label
-my_form.select_option('//select[@id="occupation"]', 'Developer')
+app = FastRPA()
+web = app.browse('https:...')
 
-# Or just by the value, if you prefer
-my_form.select_option('//select[@id="occupation"]', value='2')
+# Get the list of cookies on the current domain
+web.cookies.list
+>>> [Cookie(...), Cookie(...)]
 
+# Get the list of names from the cookies on the current domain
+web.cookies.list_names
+>>> ['JSESSIONID', '_ga', ...]
+
+# Check if a cookie exists on the current domain
+'my_cookie' in web.cookies
+>>> True
+
+# Check if a cookie stores some value
+web.cookies.check('my_cookie', 'value')
+>>> False
+
+# Get a cookie on the current domain
+web.cookies.get('my_cookie')
+>>> Cookie(name='...', value='...', domain='...', path='/', secure=True, http_only=True, same_site='Strict')
+
+# Try to get a cookie that does not exist the current domain
+web.cookies.get('my_cookie')
+>>> None
+
+# Add a new cookie on the current domain
+web.cookies.add('my_cookie', 'value', secure=False)
+>>> Cookie(name='my_cookie', value='value', domain='...', path='/', secure=False, http_only=True, same_site='Strict')
 ```
+
+#### Take screenshots and prints
+
+By default, all screenshot methods save the files in the current active directory.
+
+```python
+app = FastRPA()
+web = app.browse('https:...')
+
+# Take a screenshot just containing the current viewport size
+web.screenshot.viewport()
+
+# Take a screenshot just containing the current viewport size, and save the file in the specified path
+web.screenshot.viewport('/my/screenshot/path.png')
+
+# Take a screenshot containing the complete page
+web.screenshot.full_page()
+
+# Take a screenshot containing the complete page, and save the file in the specified path
+web.screenshot.full_page('/my/screenshot/path.png')
+```
+
+#### Manage and navigate through opened tabs
+
+Comming soon...
+
+#### Running javascript
+
+Comming soon...
+
+### Interacting with the page elements
+
+Need to write.
+
+#### Inputs
+
+Need to write.
+
+#### File inputs
+
+Need to write.
+
+#### Selects
+
+Need to write.
+
+#### Lists
+
+Need to write.
+
+#### Buttons and links
+
+Need to write.
+
+#### Forms
+
+Need to write.
+
+#### Tables
+
+Need to write.
+
+#### Medias
+
+Need to write.
