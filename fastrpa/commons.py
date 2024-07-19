@@ -25,7 +25,9 @@ def get_file_path(path: str) -> str:
         return path
 
     file_response = requests.get(path)
-    file_extension = mimetypes.guess_extension(file_response.headers['Content-Type'])
+    file_extension = mimetypes.guess_extension(
+        file_response.headers['Content-Type']
+    )
     file_hash = abs(hash(file_response.content))
     download_path = f'/tmp/{file_hash}{file_extension}'
 

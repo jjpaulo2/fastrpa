@@ -109,7 +109,8 @@ class SelectElement(Element):
     def options_values(self) -> list[str | None]:
         if self._options_values is None:
             self._options_values = [
-                option.get_attribute('value') for option in self.select_element.options
+                option.get_attribute('value')
+                for option in self.select_element.options
             ]
         return self._options_values
 
@@ -117,7 +118,8 @@ class SelectElement(Element):
     def options_labels(self) -> list[str | None]:
         if self._options_labels is None:
             self._options_labels = [
-                option.get_attribute('innerText') for option in self.select_element.options
+                option.get_attribute('innerText')
+                for option in self.select_element.options
             ]
         return self._options_labels
 
@@ -125,7 +127,10 @@ class SelectElement(Element):
     def options(self) -> list[Option]:
         if self._options is None:
             self._options = [
-                Option(option.get_attribute('value'), option.get_attribute('innerText'))
+                Option(
+                    option.get_attribute('value'),
+                    option.get_attribute('innerText'),
+                )
                 for option in self.select_element.options
             ]
         return self._options
@@ -180,13 +185,17 @@ class ListElement(Element):
     @property
     def items_ids(self) -> list[str | None]:
         if not self._items_ids:
-            self._items_ids = [item.get_attribute('ids') for item in self.items_elements]
+            self._items_ids = [
+                item.get_attribute('ids') for item in self.items_elements
+            ]
         return self._items_ids
 
     @property
     def items_labels(self) -> list[str | None]:
         if self._items_labels is None:
-            self._items_labels = [item.get_attribute('innerText') for item in self.items_elements]
+            self._items_labels = [
+                item.get_attribute('innerText') for item in self.items_elements
+            ]
         return self._items_labels
 
     def click_in_item(self, label: str | None = None, id: str | None = None):
@@ -286,13 +295,17 @@ class TableElement(Element):
                 rows_content.append(
                     [
                         cell.get_attribute('innerText')
-                        for cell in element.find_elements(By.XPATH, './/td | .//th')
+                        for cell in element.find_elements(
+                            By.XPATH, './/td | .//th'
+                        )
                     ]
                 )
             self._rows = rows_content
         return self._rows
 
-    def column_values(self, name: str | None = None, index: int | None = None) -> list[str | None]:
+    def column_values(
+        self, name: str | None = None, index: int | None = None
+    ) -> list[str | None]:
         if (not name) and (index is None):
             raise ValueError('You must provide at least "name" or "index"!')
 
@@ -303,7 +316,8 @@ class TableElement(Element):
 
     def has_content(self, value: str) -> bool:
         cells_content = [
-            cell.get_attribute('innerText') for cell in self.source.find_elements('.//td')
+            cell.get_attribute('innerText')
+            for cell in self.source.find_elements('.//td')
         ]
         return value in cells_content
 

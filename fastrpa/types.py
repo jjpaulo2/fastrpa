@@ -12,7 +12,9 @@ from selenium.webdriver import (
 
 WebDriver = Remote | Chrome | Safari | Firefox
 BrowserOptions = ChromeOptions | SafariOptions | FirefoxOptions
-BrowserOptionsClass = Type[ChromeOptions] | Type[SafariOptions] | Type[FirefoxOptions]
+BrowserOptionsClass = (
+    Type[ChromeOptions] | Type[SafariOptions] | Type[FirefoxOptions]
+)
 
 
 __all__ = (

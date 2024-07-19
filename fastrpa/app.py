@@ -1,4 +1,4 @@
-from typing import Type, TypeVar
+from typing import Type, TypeVar, Union
 from selenium.webdriver import Remote, ChromeOptions
 from fastrpa.commons import (
     get_browser_options,
@@ -26,6 +26,7 @@ from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
 
 
 SpecificElement = TypeVar('SpecificElement', bound=Element)
+GenericElement = Union[Element, SpecificElement]
 
 
 class Web:
@@ -55,19 +56,19 @@ class Web:
 
     def browse(self, url: str):
         self.webdriver.get(url)
-    
+
     def refresh(self):
         self.webdriver.refresh()
 
     def reset(self):
         self.webdriver.get(self.starter_url)
 
-    def element(self, xpath: str, wait: bool = True) -> Element | SpecificElement:
+    def element(self, xpath: str, wait: bool = True) -> GenericElement:
         if not wait:
             return self.factory.get(xpath)
         return self.factory.get_when_available(xpath, self.timeout_seconds)
 
-    def elements(self, xpath: str) -> list[Element | SpecificElement]:
+    def elements(self, xpath: str) -> list[GenericElement]:
         return self.factory.get_many(xpath)
 
     def _specific_element(
@@ -122,7 +123,8 @@ class FastRPA:
     def browser_options(self) -> BrowserOptions:
         if self._browser_options is None:
             self._browser_options = get_browser_options(
-                options=self.browser_arguments, options_class=self._options_class
+                options=self.browser_arguments,
+                options_class=self._options_class,
             )
         return self._browser_options
 
