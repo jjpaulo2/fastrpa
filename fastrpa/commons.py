@@ -1,10 +1,11 @@
+from urllib.parse import urlparse
 from selenium.webdriver import ChromeOptions
 
 import os
 import requests
 import mimetypes
 
-from fastrpa.types import BrowserOptions, BrowserOptionsClass
+from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
 
 
 def get_browser_options(
@@ -29,3 +30,7 @@ def get_file_path(path: str) -> str:
         file.write(file_response.content)
 
     return download_path
+
+
+def get_domain(webdriver: WebDriver) -> str:
+    return urlparse(webdriver.current_url).netloc

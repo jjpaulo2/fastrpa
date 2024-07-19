@@ -75,7 +75,9 @@ class ElementFactory:
         try:
             for selenium_element in self.webdriver.find_elements(By.XPATH, xpath):
                 element_class = self.element_class(selenium_element)
-                elements_to_return.append(element_class(selenium_element, self.webdriver))
+                elements_to_return.append(
+                    element_class(selenium_element, self.webdriver)
+                )
 
             return elements_to_return
 

@@ -2,6 +2,7 @@ from typing import Type, TypeVar
 from selenium.webdriver import Remote, ChromeOptions
 from fastrpa.commons import (
     get_browser_options,
+    get_domain,
 )
 from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
@@ -48,6 +49,10 @@ class Web:
     def url(self) -> str:
         return self.webdriver.current_url
 
+    @property
+    def domain(self) -> str:
+        return get_domain(self.webdriver)
+
     def reset(self):
         self.webdriver.get(self.starter_url)
 
@@ -57,10 +62,8 @@ class Web:
     def element(self, xpath: str, wait: bool = True) -> Element | SpecificElement:
         if not wait:
             return self.factory.get(xpath)
-        return self.factory.get_when_available(
-            xpath, self.visibility_timeout_seconds
-        )
-    
+        return self.factory.get_when_available(xpath, self.visibility_timeout_seconds)
+
     def elements(self, xpath: str) -> list[Element | SpecificElement]:
         return self.factory.get_many(xpath)
 

@@ -24,6 +24,9 @@ class Element:
         self.source = source
         self.webdriver = webdriver
 
+    def attribute(self, name: str) -> str | None:
+        return self.source.get_attribute(name)
+
     @property
     def actions(self) -> ActionChains:
         if self._actions is None:
@@ -39,13 +42,13 @@ class Element:
     @property
     def id(self) -> str | None:
         if self._id is None:
-            self._id = self.source.get_attribute('id')
+            self._id = self.attribute('id')
         return self._id
 
     @property
     def css_class(self) -> str | None:
         if self._css_class is None:
-            self._css_class = self.source.get_attribute('class')
+            self._css_class = self.attribute('class')
         return self._css_class
 
     @property
@@ -53,7 +56,7 @@ class Element:
         if self._text is None:
             if self.source.text:
                 self._text = self.source.text
-            elif value := self.source.get_attribute('value'):
+            elif value := self.attribute('value'):
                 self._text = value
             else:
                 self._text = None
@@ -71,7 +74,7 @@ class Element:
         self.actions.perform()
 
     def check(self, attribute: str, value: str) -> bool:
-        return self.source.get_attribute(attribute) == value
+        return self.attribute(attribute) == value
 
 
 class InputElement(Element):
@@ -222,6 +225,16 @@ class ListElement(Element):
 
 
 class ButtonElement(Element):
+    @property
+    def is_link(self) -> bool:
+        return self.tag == 'a'
+
+    @property
+    def reference(self) -> str | None:
+        if self.is_link:
+            return self.attribute('href')
+        return None
+
     def click(self):
         self.actions.move_to_element(self.source)
         self.actions.click(self.source)

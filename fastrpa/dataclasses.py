@@ -22,7 +22,7 @@ class Cookie:
     path: str = '/'
     secure: bool = False
     http_only: bool = True
-    same_site: Literal["Strict", "Lax", "None"] = "None"
+    same_site: Literal['Strict', 'Lax', 'None'] = 'None'
 
     @staticmethod
     def from_selenium(content: dict[str, Any]) -> 'Cookie':
@@ -35,7 +35,7 @@ class Cookie:
             http_only=content['httpOnly'],
             same_site=content['sameSite'],
         )
-    
+
     def to_selenium(self) -> dict[str, Any]:
         return {
             'name': self.name,
