@@ -69,12 +69,12 @@ Once you have a `Web` object, you are able to browse on the web. The `Web` class
 
 It includes, managing:
 
-- `keyboard`, to send key pressing events on the current page
-- `timer`, to wait for some events on the current page
-- `cookies`, to manage cookies on the current page
-- `screenshot`, to download screenshots and prints from the current page
-- `tabs`, to manage and navigate through the current opened tabs
-- `console`, to run javascript on the current page
+- [`keyboard`](#pressing-keys), to send key pressing events on the current page
+- [`timer`](#waiting-for-events), to wait for some events on the current page
+- [`cookies`](#managing-cookies), to manage cookies on the current page
+- [`screenshot`](#take-screenshots-and-prints), to download screenshots and prints from the current page
+- [`tabs`](#manage-and-navigate-through-opened-tabs), to manage and navigate through the current opened tabs
+- [`console`](#running-javascript), to run javascript on the current page
 
 You can access these abstractions by calling it from the `Web` object.
 
@@ -102,21 +102,32 @@ You can access these abstractions by calling it from the `Web` object.
 
 You can send simple pressing key events to the current page, by using the methods below.
 
-- `Web.keyboard.esc()`
-- `Web.keyboard.tab()`
-- `Web.keyboard.enter()`
+```python
+>>> app = FastRPA()
+>>> web = app.browse('https:...')
+
+# You can press the following keys
+>>> web.keyboad.esc()
+>>> web.keyboad.tab()
+>>> web.keyboad.enter()
+>>> web.keyboad.backspace()
+>>> web.keyboad.home()
+>>> web.keyboad.page_up()
+>>> web.keyboad.page_down()
+```
 
 ### Waiting for events
 
-You can wait some time before or after execute some action with the automation. This method is just a simple proxy for `time.sleep`, to remove the need of more one import.
-
-- `Web.timer.wait_seconds(seconds)`
+You can wait some time before or after execute some action with the automation. The method is just a simple proxy for `time.sleep`, to remove the need of more one import.
 
 You can also wait for element visibility. By default the timeout is 15 seconds, but you can also specify it.
 
 ```python
 >>> app = FastRPA()
 >>> web = app.browse('https:...')
+
+# Runs a time.sleep(15)
+>>> web.timer.wait_seconds(10)
 
 # Wait a maximum of 15 seconds until a button is present
 >>> web.timer.wait_until_present('//button[@id="myBtn"]')
@@ -133,7 +144,7 @@ You can also wait for element visibility. By default the timeout is 15 seconds, 
 
 ### Managing cookies
 
-Follow the examples below to manage cookies on the current domain.
+An abstraction to manage cookies on the current domain.
 
 ```python
 >>> app = FastRPA()
@@ -225,7 +236,7 @@ To start our interactions with page elements, we just need to obtain these with 
  <fastrpa.core.elements.Element at 0x...>]
 ```
 
-There is some abstractions that implements actions and rules for specific elements. There is listed below.
+There is some abstractions that implements actions and rules for specific elements. They is listed below.
 
 - `Element`, for any element
 - [`InputElement`](#inputs), for fillable inputs (`<input .../>`)
@@ -278,6 +289,8 @@ False
 
 ### Inputs
 
+Interactions with `input` and `textarea` tags.
+
 ```python
 # Gets the right element class for the xpath
 >>> my_input = web.element('//*[id="myInput"]')
@@ -304,6 +317,8 @@ fastrpa.core.elements.InputElement
 
 ### File inputs
 
+Interactions with `input` with attribute `type="file"`.
+
 ```python
 # Gets the right element class for the xpath
 >>> my_input = web.element('//*[id="myFileInput"]')
@@ -323,6 +338,8 @@ fastrpa.core.elements.FileInputElement
 ```
 
 ### Selects
+
+Interactions with `select` tag.
 
 ```python
 # Gets the right element class for the xpath
