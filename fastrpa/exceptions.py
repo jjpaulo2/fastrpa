@@ -17,3 +17,10 @@ class ElementNotCompatible(Exception):
 
     def __init__(self, xpath: str, class_name: type) -> None:
         super().__init__(self.message.format(xpath, class_name))
+
+
+class CookieNotAdded(Exception):
+    message = 'The cookie [{}] was not added!'
+
+    def __init__(self, cookie_name: str) -> None:
+        super().__init__(self.message.format(cookie_name))

@@ -3,6 +3,7 @@ from selenium.webdriver import Remote, ChromeOptions
 from fastrpa.commons import (
     get_browser_options,
 )
+from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
 from fastrpa.exceptions import ElementNotCompatible
 from fastrpa.settings import VISIBILITY_TIMEOUT
@@ -40,6 +41,7 @@ class Web:
         self.keyboard = Keyboard(self.webdriver)
         self.timer = Timer(self.webdriver)
         self.screenshot = Screenshot(self.webdriver)
+        self.cookies = Cookies(self.webdriver)
         self._element_factory = ElementFactory(self.webdriver)
 
     @property

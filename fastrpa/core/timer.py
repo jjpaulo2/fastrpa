@@ -18,7 +18,7 @@ class Timer:
 
     def wait_until_present(self, xpath: str, timeout_seconds: int = 15):
         WebDriverWait(self.webdriver, timeout_seconds).until(
-            expected_conditions.presence_of_element_located((By.XPATH, xpath))
+            expected_conditions.element_to_be_clickable((By.XPATH, xpath))
         )
 
     def wait_seconds(self, seconds: int):

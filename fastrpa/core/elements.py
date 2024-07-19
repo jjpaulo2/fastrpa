@@ -305,8 +305,7 @@ class TableElement(Element):
         return value in cells_content
 
     def print(self):
-        console = Console()
         rich_table = Table(*self.headers)
         for row in self.rows:
             rich_table.add_row(*row)
-        console.print(rich_table)
+        Console().print(rich_table)
