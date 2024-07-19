@@ -16,20 +16,14 @@ class Element:
     _css_class: str | None = None
     _text: str | None = None
     _is_visible: bool | None = None
-    _actions: ActionChains | None = None
 
     def __init__(self, source: WebElement, webdriver: WebDriver) -> None:
         self.source = source
         self.webdriver = webdriver
+        self.actions = ActionChains(self.webdriver)
 
     def attribute(self, name: str) -> str | None:
         return self.source.get_attribute(name)
-
-    @property
-    def actions(self) -> ActionChains:
-        if self._actions is None:
-            self._actions = ActionChains(self.webdriver)
-        return self._actions
 
     @property
     def tag(self) -> str:
@@ -94,23 +88,23 @@ class FileInputElement(Element):
 
 
 class SelectElement(Element):
-    _select_element: Select | None = None
+    _select_source: Select | None = None
     _options: list[Option] | None = None
     _options_values: list[str | None] | None = None
     _options_labels: list[str | None] | None = None
 
     @property
-    def select_element(self) -> Select:
-        if not self._select_element:
-            self._select_element = Select(self.source)
-        return self._select_element
+    def select_source(self) -> Select:
+        if not self._select_source:
+            self._select_source = Select(self.source)
+        return self._select_source
 
     @property
     def options_values(self) -> list[str | None]:
         if self._options_values is None:
             self._options_values = [
                 option.get_attribute('value')
-                for option in self.select_element.options
+                for option in self.select_source.options
             ]
         return self._options_values
 
@@ -119,7 +113,7 @@ class SelectElement(Element):
         if self._options_labels is None:
             self._options_labels = [
                 option.get_attribute('innerText')
-                for option in self.select_element.options
+                for option in self.select_source.options
             ]
         return self._options_labels
 
@@ -131,15 +125,15 @@ class SelectElement(Element):
                     option.get_attribute('value'),
                     option.get_attribute('innerText'),
                 )
-                for option in self.select_element.options
+                for option in self.select_source.options
             ]
         return self._options
 
     def select(self, label: str | None = None, value: str | None = None):
         if label:
-            self.select_element.select_by_visible_text(label)
+            self.select_source.select_by_visible_text(label)
         elif value:
-            self.select_element.select_by_value(value)
+            self.select_source.select_by_value(value)
         else:
             raise ValueError('You must provide at least "label" or "value"!')
 
