@@ -2,25 +2,25 @@
 
 A simple to use abstraction over Selenium.
 
-### How to use
+### Sumary
 
 - [Configure Selenium integration](#configure-selenium-integration)
 - [The FastRPA instance](#the-fastrpa-instance)
-    - [Interacting with the current page](#interacting-with-the-current-page)
-        - [Pressing keys](#pressing-keys)
-        - [Waiting for events](#waiting-for-events)
-        - [Managing cookies](#managing-cookies)
-        - [Take screenshots and prints](#take-screenshots-and-prints)
-        - [Manage and navigate through opened tabs](#manage-and-navigate-through-opened-tabs)
-        - [Running javascript](#running-javascript)
-    - [Interacting with the page elements](#interacting-with-the-page-elements)
-        - [Inputs](#inputs)
-        - [File inputs](#file-inputs)
-        - [Selects](#selects)
-        - [Lists](#lists)
-        - [Buttons and links](#buttons-and-links)
-        - [Tables](#tables)
-        - [Medias](#medias)
+- [Interacting with the current page](#interacting-with-the-current-page)
+    - [Pressing keys](#pressing-keys)
+    - [Waiting for events](#waiting-for-events)
+    - [Managing cookies](#managing-cookies)
+    - [Take screenshots and prints](#take-screenshots-and-prints)
+    - [Manage and navigate through opened tabs](#manage-and-navigate-through-opened-tabs)
+    - [Running javascript](#running-javascript)
+- [Interacting with the page elements](#interacting-with-the-page-elements)
+    - [Inputs](#inputs)
+    - [File inputs](#file-inputs)
+    - [Selects](#selects)
+    - [Lists](#lists)
+    - [Buttons and links](#buttons-and-links)
+    - [Tables](#tables)
+    - [Medias](#medias)
 
 
 ## Configure Selenium integration
