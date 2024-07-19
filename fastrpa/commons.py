@@ -1,5 +1,8 @@
+from typing import Iterable
 from urllib.parse import urlparse
 from selenium.webdriver import ChromeOptions
+from rich.table import Table
+from rich.console import Console
 
 import os
 import requests
@@ -34,3 +37,10 @@ def get_file_path(path: str) -> str:
 
 def get_domain(webdriver: WebDriver) -> str:
     return urlparse(webdriver.current_url).netloc
+
+
+def print_table(headers: Iterable[str], rows: Iterable[str]):
+    rich_table = Table(*headers)
+    for row in rows:
+        rich_table.add_row(*row)
+    Console().print(rich_table)

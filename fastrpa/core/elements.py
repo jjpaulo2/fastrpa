@@ -4,10 +4,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
-from rich.table import Table
-from rich.console import Console
 
-from fastrpa.commons import get_file_path
+from fastrpa.commons import get_file_path, print_table
 from fastrpa.dataclasses import Item, Option
 from fastrpa.types import WebDriver
 
@@ -318,7 +316,4 @@ class TableElement(Element):
         return value in cells_content
 
     def print(self):
-        rich_table = Table(*self.headers)
-        for row in self.rows:
-            rich_table.add_row(*row)
-        Console().print(rich_table)
+        print_table(self.headers, self.rows)
