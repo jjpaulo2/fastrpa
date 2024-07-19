@@ -190,6 +190,12 @@ web.screenshot.full_page()
 web.screenshot.full_page('/my/screenshot/path.png')
 ```
 
+You can see examples of both screenshot methods below.
+
+| Viewport screenshot | Full page screenshot |
+|-|-|
+| ![image](https://github.com/user-attachments/assets/ec5abfe0-5858-450a-a938-9fff58f89b86) | ![image](https://github.com/user-attachments/assets/606b73d7-52cb-4477-a328-89ba5b1563d1) |
+
 ### Manage and navigate through opened tabs
 
 Comming soon...
