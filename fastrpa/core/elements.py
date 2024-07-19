@@ -20,8 +20,8 @@ class Element:
     _is_visible: bool | None = None
     _actions: ActionChains | None = None
 
-    def __init__(self, element: WebElement, webdriver: WebDriver) -> None:
-        self.element = element
+    def __init__(self, source: WebElement, webdriver: WebDriver) -> None:
+        self.source = source
         self.webdriver = webdriver
 
     @property
@@ -33,27 +33,27 @@ class Element:
     @property
     def tag(self) -> str:
         if self._tag is None:
-            self._tag = self.element.tag_name
+            self._tag = self.source.tag_name
         return self._tag
 
     @property
     def id(self) -> str | None:
         if self._id is None:
-            self._id = self.element.get_attribute('id')
+            self._id = self.source.get_attribute('id')
         return self._id
 
     @property
     def css_class(self) -> str | None:
         if self._css_class is None:
-            self._css_class = self.element.get_attribute('class')
+            self._css_class = self.source.get_attribute('class')
         return self._css_class
 
     @property
     def text(self) -> str | None:
         if self._text is None:
-            if self.element.text:
-                self._text = self.element.text
-            elif value := self.element.get_attribute('value'):
+            if self.source.text:
+                self._text = self.source.text
+            elif value := self.source.get_attribute('value'):
                 self._text = value
             else:
                 self._text = None
@@ -62,7 +62,7 @@ class Element:
     @property
     def is_visible(self) -> bool:
         if self._is_visible is None:
-            self._is_visible = self.element.is_displayed()
+            self._is_visible = self.source.is_displayed()
         return self._is_visible
 
     def focus(self):
@@ -71,25 +71,25 @@ class Element:
         self.actions.perform()
 
     def check(self, attribute: str, value: str) -> bool:
-        return self.element.get_attribute(attribute) == value
+        return self.source.get_attribute(attribute) == value
 
 
 class InputElement(Element):
     def clear(self):
-        self.element.clear()
+        self.source.clear()
 
     def fill(self, value: str):
-        self.element.send_keys(value)
+        self.source.send_keys(value)
 
     def fill_slowly(self, value: str, delay: float = 0.3):
         for key in value:
-            self.element.send_keys(key)
+            self.source.send_keys(key)
             sleep(delay)
 
 
 class FileInputElement(Element):
     def attach_file(self, path: str):
-        self.element.send_keys(get_file_path(path))
+        self.source.send_keys(get_file_path(path))
 
 
 class SelectElement(Element):
@@ -159,13 +159,13 @@ class ListElement(Element):
     @property
     def items_elements(self) -> list[WebElement]:
         if self._items_elements is None:
-            self._items_elements = self.element.find_elements(By.XPATH, './/li')
+            self._items_elements = self.source.find_elements(By.XPATH, './/li')
         return self._items_elements
 
     @property
     def is_ordered(self) -> bool:
         if self._is_ordered is None:
-            self._is_ordered = self.element.tag_name == 'ol'
+            self._is_ordered = self.tag == 'ol'
         return self._is_ordered
 
     @property
@@ -236,7 +236,7 @@ class ButtonElement(Element):
 class FormElement(Element):
     def submit(self, button: ButtonElement | None = None):
         if not button:
-            self.element.submit()
+            self.source.submit()
         else:
             button.click()
 
@@ -250,7 +250,7 @@ class TableElement(Element):
     @property
     def headers_elements(self) -> list[WebElement]:
         if self._headers_elements is None:
-            first_row = self.element.find_element(By.XPATH, './/tr')
+            first_row = self.source.find_element(By.XPATH, './/tr')
             self._headers_elements = first_row.find_elements(By.XPATH, './/th')
         return self._headers_elements
 
@@ -266,7 +266,7 @@ class TableElement(Element):
     @property
     def rows_elements(self) -> list[WebElement]:
         if self._rows_elements is None:
-            rows = self.element.find_elements(By.XPATH, './/tr')
+            rows = self.source.find_elements(By.XPATH, './/tr')
             if self.headers:
                 del rows[0]
             self._rows_elements = rows
@@ -300,7 +300,7 @@ class TableElement(Element):
     def has_content(self, value: str) -> bool:
         cells_content = [
             cell.get_attribute('innerText')
-            for cell in self.element.find_elements('.//td')
+            for cell in self.source.find_elements('.//td')
         ]
         return value in cells_content
 
