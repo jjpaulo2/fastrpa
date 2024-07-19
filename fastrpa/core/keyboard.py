@@ -21,3 +21,15 @@ class Keyboard:
 
     def enter(self):
         self._press_key(Keys.ENTER)
+
+    def backspace(self):
+        self._press_key(Keys.BACKSPACE)
+
+    def home(self):
+        self._press_key(Keys.HOME)
+
+    def page_up(self):
+        self._press_key(Keys.PAGE_UP)
+
+    def page_down(self):
+        self._press_key(Keys.PAGE_DOWN)

@@ -7,7 +7,7 @@ from fastrpa.commons import (
 from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
 from fastrpa.exceptions import ElementNotCompatible
-from fastrpa.settings import VISIBILITY_TIMEOUT
+from fastrpa.settings import DEFAULT_TIMEOUT
 from fastrpa.core.elements import (
     Element,
     InputElement,
@@ -33,12 +33,12 @@ class Web:
         self,
         url: str,
         webdriver: WebDriver,
-        visibility_timeout_seconds: int,
+        timeout_seconds: int,
     ):
         self.starter_url = url
         self.webdriver = webdriver
         self.webdriver.get(self.starter_url)
-        self.visibility_timeout_seconds = visibility_timeout_seconds
+        self.timeout_seconds = timeout_seconds
         self.keyboard = Keyboard(self.webdriver)
         self.timer = Timer(self.webdriver)
         self.screenshot = Screenshot(self.webdriver)
@@ -53,16 +53,19 @@ class Web:
     def domain(self) -> str:
         return get_domain(self.webdriver)
 
+    def browse(self, url: str):
+        self.webdriver.get(url)
+    
+    def refresh(self):
+        self.webdriver.refresh()
+
     def reset(self):
         self.webdriver.get(self.starter_url)
-
-    def has_content(self, value: str) -> bool:
-        return value in self.webdriver.page_source
 
     def element(self, xpath: str, wait: bool = True) -> Element | SpecificElement:
         if not wait:
             return self.factory.get(xpath)
-        return self.factory.get_when_available(xpath, self.visibility_timeout_seconds)
+        return self.factory.get_when_available(xpath, self.timeout_seconds)
 
     def elements(self, xpath: str) -> list[Element | SpecificElement]:
         return self.factory.get_many(xpath)
@@ -105,12 +108,12 @@ class FastRPA:
         webdriver: WebDriver | None = None,
         options_class: BrowserOptionsClass = ChromeOptions,
         browser_arguments: list[str] | None = None,
-        visibility_timeout_seconds: int = VISIBILITY_TIMEOUT,
+        timeout_seconds: int = DEFAULT_TIMEOUT,
     ):
         self._browser_options: BrowserOptions | None = None
         self._webdriver = webdriver
         self._options_class = options_class
-        self.visibility_timeout_seconds = visibility_timeout_seconds
+        self.timeout_seconds = timeout_seconds
 
         if browser_arguments:
             self.browser_arguments = browser_arguments
@@ -133,4 +136,4 @@ class FastRPA:
         self.webdriver.quit()
 
     def browse(self, url: str) -> Web:
-        return Web(url, self.webdriver, self.visibility_timeout_seconds)
+        return Web(url, self.webdriver, self.timeout_seconds)

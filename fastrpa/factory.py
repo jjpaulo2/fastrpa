@@ -16,6 +16,7 @@ from fastrpa.core.elements import (
     TableElement,
 )
 from fastrpa.exceptions import ElementNotFound, ElementNotFoundAfterTime
+from fastrpa.settings import DEFAULT_TIMEOUT
 from fastrpa.types import WebDriver
 
 
@@ -30,9 +31,7 @@ class ElementFactory:
         if element.tag_name in ['ol', 'ul']:
             return ListElement
 
-        elif all(
-            [element.tag_name == 'input', element.get_attribute('type') == 'file']
-        ):
+        elif all([element.tag_name == 'input', element.get_attribute('type') == 'file']):
             return FileInputElement
 
         elif element.tag_name == 'input':
@@ -49,16 +48,16 @@ class ElementFactory:
 
         return Element
 
-    def get_when_available(self, xpath: str, timeout: int = 15) -> Element:
+    def get_when_available(self, xpath: str, timeout_seconds: int = DEFAULT_TIMEOUT) -> Element:
         try:
-            selenium_element = WebDriverWait(self.webdriver, timeout).until(
+            selenium_element = WebDriverWait(self.webdriver, timeout_seconds).until(
                 expected_conditions.presence_of_element_located((By.XPATH, xpath))
             )
             element_class = self.element_class(selenium_element)
             return element_class(selenium_element, self.webdriver)
 
         except TimeoutException:
-            raise ElementNotFoundAfterTime(xpath, timeout)
+            raise ElementNotFoundAfterTime(xpath, timeout_seconds)
 
     def get(self, xpath: str) -> Element:
         try:
@@ -75,9 +74,7 @@ class ElementFactory:
         try:
             for selenium_element in self.webdriver.find_elements(By.XPATH, xpath):
                 element_class = self.element_class(selenium_element)
-                elements_to_return.append(
-                    element_class(selenium_element, self.webdriver)
-                )
+                elements_to_return.append(element_class(selenium_element, self.webdriver))
 
             return elements_to_return
 
