@@ -1,5 +1,5 @@
 class ElementNotFound(Exception):
-    message = 'Element [{}] not found!'
+    message = 'No one element [{}] was found!'
 
     def __init__(self, xpath: str) -> None:
         super().__init__(self.message.format(xpath))

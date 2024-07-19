@@ -66,8 +66,8 @@ class Element:
         return self._is_visible
 
     def focus(self):
-        self.actions.scroll_to_element(self.element)
-        self.actions.move_to_element(self.element)
+        self.actions.scroll_to_element(self.source)
+        self.actions.move_to_element(self.source)
         self.actions.perform()
 
     def check(self, attribute: str, value: str) -> bool:
@@ -101,7 +101,7 @@ class SelectElement(Element):
     @property
     def select_element(self) -> Select:
         if not self._select_element:
-            self._select_element = Select(self.element)
+            self._select_element = Select(self.source)
         return self._select_element
 
     @property
@@ -223,13 +223,13 @@ class ListElement(Element):
 
 class ButtonElement(Element):
     def click(self):
-        self.actions.move_to_element(self.element)
-        self.actions.click(self.element)
+        self.actions.move_to_element(self.source)
+        self.actions.click(self.source)
         self.actions.perform()
 
     def double_click(self):
-        self.actions.move_to_element(self.element)
-        self.actions.double_click(self.element)
+        self.actions.move_to_element(self.source)
+        self.actions.double_click(self.source)
         self.actions.perform()
 
 

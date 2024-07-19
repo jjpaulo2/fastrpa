@@ -20,7 +20,7 @@ from fastrpa.core.elements import (
 
 from fastrpa.core.timer import Timer
 from fastrpa.core.keyboard import Keyboard
-from fastrpa.factories import ElementFactory
+from fastrpa.factory import ElementFactory
 from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
 
 
@@ -42,7 +42,7 @@ class Web:
         self.timer = Timer(self.webdriver)
         self.screenshot = Screenshot(self.webdriver)
         self.cookies = Cookies(self.webdriver)
-        self._element_factory = ElementFactory(self.webdriver)
+        self.factory = ElementFactory(self.webdriver)
 
     @property
     def url(self) -> str:
@@ -56,10 +56,13 @@ class Web:
 
     def element(self, xpath: str, wait: bool = True) -> Element | SpecificElement:
         if not wait:
-            return self._element_factory.get(xpath)
-        return self._element_factory.get_when_available(
+            return self.factory.get(xpath)
+        return self.factory.get_when_available(
             xpath, self.visibility_timeout_seconds
         )
+    
+    def elements(self, xpath: str) -> list[Element | SpecificElement]:
+        return self.factory.get_many(xpath)
 
     def _specific_element(
         self, xpath: str, class_name: Type[SpecificElement], wait: bool = True

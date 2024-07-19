@@ -68,3 +68,16 @@ class ElementFactory:
 
         except NoSuchElementException:
             raise ElementNotFound(xpath)
+
+    def get_many(self, xpath: str) -> list[Element]:
+        elements_to_return = []
+
+        try:
+            for selenium_element in self.webdriver.find_elements(By.XPATH, xpath):
+                element_class = self.element_class(selenium_element)
+                elements_to_return.append(element_class(selenium_element, self.webdriver))
+
+            return elements_to_return
+
+        except NoSuchElementException:
+            raise ElementNotFound(xpath)
