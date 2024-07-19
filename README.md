@@ -2,7 +2,7 @@
 
 A simple to use abstraction over Selenium.
 
-## How to use
+### How to use
 
 - [Configure Selenium integration](#configure-selenium-integration)
 - [The FastRPA instance](#the-fastrpa-instance)
@@ -23,7 +23,7 @@ A simple to use abstraction over Selenium.
         - [Medias](#medias)
 
 
-### Configure Selenium integration
+## Configure Selenium integration
 
 FastRPA needs a webdriver to work. It can be local, or remote. It's recommended to always use remote sessions.
 
@@ -51,7 +51,7 @@ webdriver = Firefox(options)
 app = FastRPA(webdriver)
 ```
 
-### The FastRPA instance
+## The FastRPA instance
 
 This is just a configuration object. You will need it just to start your web navegation.
 
@@ -64,7 +64,7 @@ type(web)
 <<< fastrpa.app.Web
 ```
 
-### Interacting with the current page
+## Interacting with the current page
 
 Once you have a `Web` object, you are able to browse on the web. The `Web` class is a abstraction of main browser and user functions.
 
@@ -99,7 +99,7 @@ web.console
 >>> <fastrpa.core.console.Console at 0x...>
 ```
 
-#### Pressing keys
+### Pressing keys
 
 You can send simple pressing key events to the current page, by using the methods below.
 
@@ -107,7 +107,7 @@ You can send simple pressing key events to the current page, by using the method
 - `Web.keyboard.tab()`
 - `Web.keyboard.enter()`
 
-#### Waiting for events
+### Waiting for events
 
 You can wait some time before or after execute some action with the automation. This method is just a simple proxy for `time.sleep`, to remove the need of more one import.
 
@@ -132,7 +132,7 @@ web.timer.wait_until_hide('//button[@id="myBtn"]')
 web.timer.wait_until_hide('//button[@id="myBtn"]', 30)
 ```
 
-#### Managing cookies
+### Managing cookies
 
 Follow the examples below to manage cookies on the current domain.
 
@@ -169,7 +169,7 @@ web.cookies.add('my_cookie', 'value', secure=False)
 >>> Cookie(name='my_cookie', value='value', domain='...', path='/', secure=False, http_only=True, same_site='Strict')
 ```
 
-#### Take screenshots and prints
+### Take screenshots and prints
 
 By default, all screenshot methods save the files in the current active directory.
 
@@ -190,46 +190,46 @@ web.screenshot.full_page()
 web.screenshot.full_page('/my/screenshot/path.png')
 ```
 
-#### Manage and navigate through opened tabs
+### Manage and navigate through opened tabs
 
 Comming soon...
 
-#### Running javascript
+### Running javascript
 
 Comming soon...
 
-### Interacting with the page elements
+## Interacting with the page elements
 
 Need to write.
 
-#### Inputs
+### Inputs
 
 Need to write.
 
-#### File inputs
+### File inputs
 
 Need to write.
 
-#### Selects
+### Selects
 
 Need to write.
 
-#### Lists
+### Lists
 
 Need to write.
 
-#### Buttons and links
+### Buttons and links
 
 Need to write.
 
-#### Forms
+### Forms
 
 Need to write.
 
-#### Tables
+### Tables
 
 Need to write.
 
-#### Medias
+### Medias
 
 Need to write.
