@@ -24,3 +24,10 @@ class CookieNotAdded(Exception):
 
     def __init__(self, cookie_name: str) -> None:
         super().__init__(self.message.format(cookie_name))
+
+
+class KeyDoesNotExists(Exception):
+    message = 'The key [{}] does not exists!'
+
+    def __init__(self, key: str) -> None:
+        super().__init__(self.message.format(key))
