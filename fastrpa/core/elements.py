@@ -13,7 +13,8 @@ from fastrpa.types import WebDriver
 class Element:
     _tag: str | None = None
     _id: str | None = None
-    _css_class: str | None = None
+    _css_class: list[str] | None = None
+    _css_inline: dict[str, str] | None = None
     _text: str | None = None
     _is_visible: bool | None = None
 
@@ -38,10 +39,22 @@ class Element:
         return self._id
 
     @property
-    def css_class(self) -> str | None:
+    def css_class(self) -> list[str] | None:
         if self._css_class is None:
-            self._css_class = self.attribute('class')
+            if classes := self.attribute('class'):
+                self._css_class = classes.split(' ')
         return self._css_class
+    
+    @property
+    def css_inline(self) -> dict[str, str] | None:
+        if self._css_inline is None:
+            if style := self.attribute('style'):
+                self._css_inline = {}
+                for css in style.strip().split(';'):
+                    if css:
+                        css_property, css_value = css.split(':')
+                        self._css_inline[css_property.strip()] = css_value.strip()
+        return self._css_inline
 
     @property
     def text(self) -> str | None:
@@ -150,16 +163,16 @@ class SelectElement(Element):
 
 class ListElement(Element):
     _is_ordered: bool | None = None
-    _items_elements: list[WebElement] | None = None
+    _items_sources: list[WebElement] | None = None
     _items: list[Item] | None = None
     _items_ids: list[str | None] | None = None
     _items_labels: list[str | None] | None = None
 
     @property
-    def items_elements(self) -> list[WebElement]:
-        if self._items_elements is None:
-            self._items_elements = self.source.find_elements(By.XPATH, './/li')
-        return self._items_elements
+    def items_sources(self) -> list[WebElement]:
+        if self._items_sources is None:
+            self._items_sources = self.source.find_elements(By.XPATH, './/li')
+        return self._items_sources
 
     @property
     def is_ordered(self) -> bool:
@@ -172,7 +185,7 @@ class ListElement(Element):
         if self._items is None:
             self._items = [
                 Item(item.get_attribute('id'), item.get_attribute('innerText'))
-                for item in self.items_elements
+                for item in self.items_sources
             ]
         return self._items
 
@@ -180,7 +193,7 @@ class ListElement(Element):
     def items_ids(self) -> list[str | None]:
         if not self._items_ids:
             self._items_ids = [
-                item.get_attribute('ids') for item in self.items_elements
+                item.get_attribute('ids') for item in self.items_sources
             ]
         return self._items_ids
 
@@ -188,7 +201,7 @@ class ListElement(Element):
     def items_labels(self) -> list[str | None]:
         if self._items_labels is None:
             self._items_labels = [
-                item.get_attribute('innerText') for item in self.items_elements
+                item.get_attribute('innerText') for item in self.items_sources
             ]
         return self._items_labels
 
@@ -196,7 +209,7 @@ class ListElement(Element):
         if not (label or id):
             raise ValueError('You must provide at least "label" or "id"!')
 
-        for item in self.items_elements:
+        for item in self.items_sources:
             if label and label == item.get_attribute('innerText'):
                 self.actions.click(item)
                 self.actions.perform()
@@ -252,40 +265,40 @@ class FormElement(Element):
 
 class TableElement(Element):
     _headers: list[str | None] | None = None
-    _headers_elements: list[WebElement] | None = None
+    _headers_sources: list[WebElement] | None = None
     _rows: list[list[str | None]] | None = None
-    _rows_elements: list[WebElement] | None = None
+    _rows_sources: list[WebElement] | None = None
 
     @property
-    def headers_elements(self) -> list[WebElement]:
-        if self._headers_elements is None:
+    def headers_sources(self) -> list[WebElement]:
+        if self._headers_sources is None:
             first_row = self.source.find_element(By.XPATH, './/tr')
-            self._headers_elements = first_row.find_elements(By.XPATH, './/th')
-        return self._headers_elements
+            self._headers_sources = first_row.find_elements(By.XPATH, './/th')
+        return self._headers_sources
 
     @property
     def headers(self) -> list[str | None]:
         if self._headers is None:
             self._headers = [
                 header.get_attribute('innerText') if header else None
-                for header in self.headers_elements
+                for header in self.headers_sources
             ]
         return self._headers
 
     @property
-    def rows_elements(self) -> list[WebElement]:
-        if self._rows_elements is None:
+    def rows_sources(self) -> list[WebElement]:
+        if self._rows_sources is None:
             rows = self.source.find_elements(By.XPATH, './/tr')
             if self.headers:
                 del rows[0]
-            self._rows_elements = rows
-        return self._rows_elements
+            self._rows_sources = rows
+        return self._rows_sources
 
     @property
     def rows(self) -> list[list[str | None]]:
         if self._rows is None:
             rows_content = []
-            for element in self.rows_elements:
+            for element in self.rows_sources:
                 rows_content.append(
                     [
                         cell.get_attribute('innerText')
