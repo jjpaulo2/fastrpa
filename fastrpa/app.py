@@ -4,6 +4,7 @@ from fastrpa.commons import (
     get_browser_options,
     get_domain,
 )
+from fastrpa.core.console import Console
 from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
 from fastrpa.exceptions import ElementNotCompatible
@@ -44,6 +45,7 @@ class Web:
         self.timer = Timer(self.webdriver)
         self.screenshot = Screenshot(self.webdriver)
         self.cookies = Cookies(self.webdriver)
+        self.console = Console(self.webdriver)
         self.factory = ElementFactory(self.webdriver)
 
     @property
