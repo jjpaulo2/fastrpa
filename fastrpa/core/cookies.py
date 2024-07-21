@@ -36,6 +36,9 @@ class Cookies:
         if added_cookie := self.webdriver.get_cookie(name):
             return Cookie.from_selenium(added_cookie)
         raise CookieNotAdded(name)
+    
+    def delete(self, name: str):
+        self.webdriver.delete_cookie(name)
 
     def check(self, name: str, value: str) -> bool:
         if cookie := self.get(name):
