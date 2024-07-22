@@ -45,10 +45,19 @@ class Keyboard:
             return self.keys_mapping[key_name]
         elif key in self.keys_mapping.values():
             return key
+        elif len(key) == 1:
+            return key
         raise KeyDoesNotExists(key)
 
     def press(self, key: str):
         self.actions.send_keys(self.key_code(key))
+        self.actions.perform()
+
+    def shortcut(self, *keys: str):
+        for key in keys:
+            self.actions.key_down(self.key_code(key))
+        for key in keys[::-1]:
+            self.actions.key_up(self.key_code(key))
         self.actions.perform()
 
     def __contains__(self, value: Any) -> bool:
