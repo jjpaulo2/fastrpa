@@ -13,10 +13,6 @@ from fastrpa.types import WebDriver
 class Element:
     _tag: str | None = None
     _id: str | None = None
-    _css_class: list[str] | None = None
-    _css_inline: dict[str, str] | None = None
-    _text: str | None = None
-    _is_visible: bool | None = None
 
     def __init__(self, source: WebElement, webdriver: WebDriver) -> None:
         self.source = source
@@ -40,38 +36,31 @@ class Element:
 
     @property
     def css_class(self) -> list[str] | None:
-        if self._css_class is None:
-            if classes := self.attribute('class'):
-                self._css_class = classes.split(' ')
-        return self._css_class
+        if classes := self.attribute('class'):
+            return classes.split(' ')
+        return []
     
     @property
-    def css_inline(self) -> dict[str, str] | None:
-        if self._css_inline is None:
-            if style := self.attribute('style'):
-                self._css_inline = {}
-                for css in style.strip().split(';'):
-                    if css:
-                        css_property, css_value = css.split(':')
-                        self._css_inline[css_property.strip()] = css_value.strip()
-        return self._css_inline
+    def css_inline(self) -> dict[str, str]:
+        to_return = {}
+        if style := self.attribute('style'):
+            for css in style.strip().split(';'):
+                if css:
+                    css_property, css_value = css.split(':')
+                    to_return[css_property.strip()] = css_value.strip()
+        return to_return
 
     @property
     def text(self) -> str | None:
-        if self._text is None:
-            if self.source.text:
-                self._text = self.source.text
-            elif value := self.attribute('value'):
-                self._text = value
-            else:
-                self._text = None
-        return self._text
+        if self.source.text:
+            return self.source.text
+        elif value := self.attribute('value'):
+            return value
+        return None
 
     @property
     def is_visible(self) -> bool:
-        if self._is_visible is None:
-            self._is_visible = self.source.is_displayed()
-        return self._is_visible
+        return self.source.is_displayed()
 
     def focus(self):
         self.actions.scroll_to_element(self.source)
@@ -102,9 +91,6 @@ class FileInputElement(Element):
 
 class SelectElement(Element):
     _select_source: Select | None = None
-    _options: list[Option] | None = None
-    _options_values: list[str | None] | None = None
-    _options_labels: list[str | None] | None = None
 
     @property
     def select_source(self) -> Select:
@@ -114,33 +100,27 @@ class SelectElement(Element):
 
     @property
     def options_values(self) -> list[str | None]:
-        if self._options_values is None:
-            self._options_values = [
-                option.get_attribute('value')
-                for option in self.select_source.options
-            ]
-        return self._options_values
+        return [
+            option.get_attribute('value')
+            for option in self.select_source.options
+        ]
 
     @property
     def options_labels(self) -> list[str | None]:
-        if self._options_labels is None:
-            self._options_labels = [
-                option.get_attribute('innerText')
-                for option in self.select_source.options
-            ]
-        return self._options_labels
+        return [
+            option.get_attribute('innerText')
+            for option in self.select_source.options
+        ]
 
     @property
     def options(self) -> list[Option]:
-        if self._options is None:
-            self._options = [
-                Option(
-                    option.get_attribute('value'),
-                    option.get_attribute('innerText'),
-                )
-                for option in self.select_source.options
-            ]
-        return self._options
+        return [
+            Option(
+                option.get_attribute('value'),
+                option.get_attribute('innerText'),
+            )
+            for option in self.select_source.options
+        ]
 
     def select(self, label: str | None = None, value: str | None = None):
         if label:
@@ -164,9 +144,6 @@ class SelectElement(Element):
 class ListElement(Element):
     _is_ordered: bool | None = None
     _items_sources: list[WebElement] | None = None
-    _items: list[Item] | None = None
-    _items_ids: list[str | None] | None = None
-    _items_labels: list[str | None] | None = None
 
     @property
     def items_sources(self) -> list[WebElement]:
@@ -182,28 +159,24 @@ class ListElement(Element):
 
     @property
     def items(self) -> list[Item]:
-        if self._items is None:
-            self._items = [
-                Item(item.get_attribute('id'), item.get_attribute('innerText'))
-                for item in self.items_sources
-            ]
-        return self._items
+        return [
+            Item(item.get_attribute('id'), item.get_attribute('innerText'))
+            for item in self.items_sources
+        ]
 
     @property
     def items_ids(self) -> list[str | None]:
-        if not self._items_ids:
-            self._items_ids = [
-                item.get_attribute('ids') for item in self.items_sources
-            ]
-        return self._items_ids
+        return [
+            item.get_attribute('ids')
+            for item in self.items_sources
+        ]
 
     @property
     def items_labels(self) -> list[str | None]:
-        if self._items_labels is None:
-            self._items_labels = [
-                item.get_attribute('innerText') for item in self.items_sources
-            ]
-        return self._items_labels
+        return [
+            item.get_attribute('innerText')
+            for item in self.items_sources
+        ]
 
     def click_in_item(self, label: str | None = None, id: str | None = None):
         if not (label or id):
@@ -234,9 +207,13 @@ class ListElement(Element):
 
 
 class ButtonElement(Element):
+    _is_link: bool | None = None
+
     @property
     def is_link(self) -> bool:
-        return self.tag == 'a'
+        if self._is_link is None:
+            self._is_link = (self.tag == 'a')
+        return self._is_link
 
     @property
     def reference(self) -> str | None:
@@ -264,9 +241,7 @@ class FormElement(Element):
 
 
 class TableElement(Element):
-    _headers: list[str | None] | None = None
     _headers_sources: list[WebElement] | None = None
-    _rows: list[list[str | None]] | None = None
     _rows_sources: list[WebElement] | None = None
 
     @property
@@ -278,12 +253,10 @@ class TableElement(Element):
 
     @property
     def headers(self) -> list[str | None]:
-        if self._headers is None:
-            self._headers = [
-                header.get_attribute('innerText') if header else None
-                for header in self.headers_sources
-            ]
-        return self._headers
+        return [
+            header.get_attribute('innerText') if header else None
+            for header in self.headers_sources
+        ]
 
     @property
     def rows_sources(self) -> list[WebElement]:
@@ -296,19 +269,17 @@ class TableElement(Element):
 
     @property
     def rows(self) -> list[list[str | None]]:
-        if self._rows is None:
-            rows_content = []
-            for element in self.rows_sources:
-                rows_content.append(
-                    [
-                        cell.get_attribute('innerText')
-                        for cell in element.find_elements(
-                            By.XPATH, './/td | .//th'
-                        )
-                    ]
-                )
-            self._rows = rows_content
-        return self._rows
+        rows_content = []
+        for element in self.rows_sources:
+            rows_content.append(
+                [
+                    cell.get_attribute('innerText')
+                    for cell in element.find_elements(
+                        By.XPATH, './/td | .//th'
+                    )
+                ]
+            )
+        return rows_content
 
     def column_values(
         self, name: str | None = None, index: int | None = None
