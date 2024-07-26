@@ -298,6 +298,9 @@ class TableElement(Element):
             for cell in self.source.find_elements('.//td')
         ]
         return value in cells_content
+    
+    def __contains__(self, value: Any) -> bool:
+        return self.has_content(value)
 
     def print(self):
         print_table(self.headers, self.rows)

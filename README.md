@@ -100,20 +100,32 @@ You can access these abstractions by calling it from the `Web` object.
 
 ### Pressing keys
 
-You can send simple pressing key events to the current page, by using the methods below.
+You can send keyboard events to the current page, by using the methods below.
 
 ```python
 >>> app = FastRPA()
 >>> web = app.browse('https:...')
 
-# You can press the following keys
->>> web.keyboad.esc()
->>> web.keyboad.tab()
->>> web.keyboad.enter()
->>> web.keyboad.backspace()
->>> web.keyboad.home()
->>> web.keyboad.page_up()
->>> web.keyboad.page_down()
+# To send a simple key press event
+>>> web.keyboad.press('control')
+>>> web.keyboad.press('escape')
+>>> web.keyboad.press('enter')
+
+# To send a keyboard shortcut event
+>>> web.keyboad.shortcut('control', 'a')
+>>> web.keyboad.shortcut('control', 'shift', 'c')
+
+# To see the available command keyboard keys
+>>> web.keyboad.keys
+['ADD',
+ 'ALT',
+ 'ARROW_DOWN',
+ 'ARROW_LEFT',
+ 'ARROW_RIGHT',
+ 'ARROW_UP',
+ 'BACKSPACE',
+ 'BACK_SPACE',
+ ...
 ```
 
 ### Waiting for events
@@ -177,6 +189,9 @@ None
 # Add a new cookie on the current domain
 >>> web.cookies.add('my_cookie', 'value', secure=False)
 Cookie(name='my_cookie', value='value', domain='...', path='/', secure=False, http_only=True, same_site='Strict')
+
+# Delete a cookie on the current domain
+>>> web.cookies.delete('my_cookie')
 ```
 
 ### Take screenshots and prints
@@ -187,22 +202,26 @@ By default, all screenshot methods save the files in the current active director
 >>> app = FastRPA()
 >>> web = app.browse('https:...')
 
-# Take a screenshot just containing the current viewport size
->>> web.screenshot.viewport()
+# Get a PNG bytes content from the current viewport size
+>>> web.screenshot.image
+b'\x89PNG\r\n\x1a\n\x00\x00...'
 
-# Take a screenshot just containing the current viewport size, and save the file in the specified path
->>> web.screenshot.viewport('/my/screenshot/path.png')
+# Save a PNG file from the current viewport size
+>>> web.screenshot.save_image()
+>>> web.screenshot.save_image('/my/screenshot/path.png')
 
-# Take a screenshot containing the complete page
->>> web.screenshot.full_page()
+# Get a PNG bytes content from the complete page
+>>> web.screenshot.full_page_image
+b'\x89PNG\r\n\x1a\n\x00\x00...'
 
-# Take a screenshot containing the complete page, and save the file in the specified path
->>> web.screenshot.full_page('/my/screenshot/path.png')
+# Save a PNG file from the complete page
+>>> web.screenshot.save_full_page()
+>>> web.screenshot.save_full_page('/my/screenshot/path.png')
 ```
 
 You can see examples of both screenshot methods below.
 
-| Viewport screenshot | Full page screenshot |
+| `web.screenshot.image` | `web.screenshot.full_page_image` |
 |-|-|
 | ![image](https://github.com/user-attachments/assets/ec5abfe0-5858-450a-a938-9fff58f89b86) | ![image](https://github.com/user-attachments/assets/606b73d7-52cb-4477-a328-89ba5b1563d1) |
 
@@ -212,7 +231,22 @@ Comming soon...
 
 ### Running javascript
 
-Comming soon...
+To run javascript on the current page, you can use the following methods.
+
+```python
+>>> app = FastRPA()
+>>> web = app.browse('https:...')
+
+# To just evaluate a simple expression
+>>> web.console.evaluate('2 + 2')
+4
+
+# To run complex and multi line scripts, use this
+>>> web.console.run(['button = document.getElementById("myButton")', 'button.click()'])
+
+# To run a script file, use this
+>>> web.console.run_script('/path/to/script.js')
+```
 
 ## Interacting with the page elements
 
@@ -265,7 +299,11 @@ fastrpa.core.elements.Element
 
 # Get the element's class
 >>> element.css_class
-'form form-styled'
+['form', 'form-styled']
+
+# Get the element's inline css
+>>> element.css_inline
+{'background-image': 'url("...")'}
 
 # Get the element's innerText or value
 >>> element.text
@@ -348,7 +386,7 @@ Interactions with `select` tag.
 fastrpa.core.elements.SelectElement
 
 # Try to get a SelectElement and raise an ElementNotCompatible exception if the element isn't an select input
->>> my_select = web.file_input('//*[id="mySelect"]')
+>>> my_select = web.select('//*[id="mySelect"]')
 >>> type(my_select)
 fastrpa.core.elements.SelectElement
 
@@ -386,19 +424,149 @@ False
 
 ### Lists
 
-Need to write.
+Interactions with `ol` and `ul` tags.
+
+```python
+# Gets the right element class for the xpath
+>>> my_list = web.element('//*[id="myList"]')
+>>> type(my_select)
+fastrpa.core.elements.ListElement
+
+# Try to get a ListElement and raise an ElementNotCompatible exception if the element isn't an select input
+>>> my_list = web.list('//*[id="myList"]')
+>>> type(my_select)
+fastrpa.core.elements.ListElement
+
+# Check if the list is ordered
+>>> my_list.is_ordered
+True
+
+# Get all items from the list
+>>> my_list.items
+[Item(id='1', label='Item 1'),
+ Item(id='2', label='Item 2')]
+
+# Get just the items ids
+>>> my_list.items_ids
+['1', '2']
+
+# Get just the items labels
+>>> my_list.items_labels
+['Item 1', 'Item 2']
+
+# Click in the item by label
+>>> my_list.click_in_item('Item 1')
+
+# Click in the item by id
+>>> my_list.click_in_item(id='1')
+
+# Check if an item exists, by label and value
+>>> 'Item 3' in my_list
+False
+
+# Check if an item exists, just by label
+>>> my_list.has_item('Option 3')
+False
+
+# Check if an item exists, just by id
+>>> my_list.has_item(id='3')
+False
+```
 
 ### Buttons and links
 
-Need to write.
+Interactions with `button` and `a` tags.
+
+```python
+# Gets the right element class for the xpath
+>>> my_button = web.element('//*[id="myButton"]')
+>>> type(my_select)
+fastrpa.core.elements.ButtonElement
+
+# Try to get a ButtonElement and raise an ElementNotCompatible exception if the element isn't an select input
+>>> my_button = web.button('//*[id="myButton"]')
+>>> type(my_select)
+fastrpa.core.elements.ButtonElement
+
+# Check if the button is a link
+>>> my_button.is_link
+True
+
+# Get the link reference
+>>> my_button.reference
+'https://www.mysite.com/page'
+
+# Click in the button
+>>> my_button.click()
+
+# Perform a double click in the button
+>>> my_button.double_click()
+```
 
 ### Forms
 
-Need to write.
+Interactions with `form` tag.
+
+```python
+# Gets the right element class for the xpath
+>>> my_form = web.element('//*[id="myForm"]')
+>>> type(my_select)
+fastrpa.core.elements.FormElement
+
+# Try to get a FormElement and raise an ElementNotCompatible exception if the element isn't an select input
+>>> my_form = web.button('//*[id="myForm"]')
+>>> type(my_select)
+fastrpa.core.elements.FormElement
+
+# Submit the form
+>>> my_form.submit()
+
+# Submit the form by clicking in a button
+>>> my_form_button = web.button('//*[id="formSubmit"]')
+>>> my_form.submit(my_form_button)
+```
 
 ### Tables
 
-Need to write.
+Interactions with `table` tag.
+
+```python
+# Gets the right element class for the xpath
+>>> my_table = web.element('//*[id="myTable"]')
+>>> type(my_select)
+fastrpa.core.elements.TableElement
+
+# Try to get a TableElement and raise an ElementNotCompatible exception if the element isn't an select input
+>>> my_table = web.button('//*[id="myTable"]')
+>>> type(my_select)
+fastrpa.core.elements.TableElement
+
+# Get the headers values
+>>> my_table.headers
+['Company', 'Contact', 'Country']
+
+# Get the rows values
+>>> my_table.rows
+[['Alfreds Futterkiste', 'Maria Anders', 'Germany'],
+ ['Centro comercial Moctezuma', 'Francisco Chang', 'Mexico'],
+ ...]
+
+# Get all values from one column, by column name
+>>> my_table.column_values('Company')
+['Alfreds Futterkiste',
+ 'Centro comercial Moctezuma',
+ ...]
+
+# Get all values from one column, by column index
+>>> my_table.column_values(index=0)
+['Alfreds Futterkiste',
+ 'Centro comercial Moctezuma',
+ ...]
+
+# Check if a value exists in one of the table cells
+>>> 'Cell content' in my_table
+False
+```
 
 ### Medias
 
