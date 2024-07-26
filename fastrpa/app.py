@@ -1,5 +1,10 @@
 from typing import Type, TypeVar, Union
 from selenium.webdriver import Remote, ChromeOptions
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    StaleElementReferenceException,
+)
 from fastrpa.commons import (
     get_browser_options,
     get_domain,
@@ -34,13 +39,10 @@ GenericElement = Union[Element, SpecificElement]
 class Web:
     def __init__(
         self,
-        url: str,
         webdriver: WebDriver,
         timeout_seconds: int,
     ):
-        self.starter_url = url
         self.webdriver = webdriver
-        self.webdriver.get(self.starter_url)
         self.timeout_seconds = timeout_seconds
         self.keyboard = Keyboard(self.webdriver)
         self.timer = Timer(self.webdriver)
@@ -57,7 +59,7 @@ class Web:
     @property
     def domain(self) -> str:
         return get_domain(self.webdriver)
-    
+
     @property
     def title(self) -> str:
         return self.webdriver.title
@@ -68,8 +70,15 @@ class Web:
     def refresh(self):
         self.webdriver.refresh()
 
-    def reset(self):
-        self.webdriver.get(self.starter_url)
+    def is_interactive(self, xpath: str) -> bool:
+        try:
+            if element := self.webdriver.find_element(By.XPATH, xpath):
+                return element.is_displayed()
+            return False
+        except NoSuchElementException:
+            return False
+        except StaleElementReferenceException:
+            return False
 
     def element(self, xpath: str, wait: bool = True) -> GenericElement:
         if not wait:
@@ -145,5 +154,5 @@ class FastRPA:
     def __del__(self):
         self.webdriver.quit()
 
-    def browse(self, url: str) -> Web:
-        return Web(url, self.webdriver, self.timeout_seconds)
+    def web(self) -> Web:
+        return Web(self.webdriver, self.timeout_seconds)

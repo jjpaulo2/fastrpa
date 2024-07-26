@@ -22,23 +22,23 @@ class Keyboard:
                 if not attr.startswith('_')
             }
         return self._keys_mapping
-    
+
     @property
     def keys(self) -> list[str]:
         if self._keys is None:
             self._keys = list(self.keys_mapping.keys())
         return self._keys
-    
+
     def key_name(self, name: str) -> str:
         return name.upper().replace(' ', '_')
-    
+
     def has_key(self, name: str | None = None, code: str | None = None) -> bool:
         if name:
             return self.key_name(name) in self.keys
         elif code:
             return code in self.keys_mapping.values()
         raise ValueError('You must provide at least "name" or "code"!')
-    
+
     def key_code(self, key: str) -> str:
         key_name = self.key_name(key)
         if key_name in self.keys:

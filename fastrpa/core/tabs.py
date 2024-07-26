@@ -3,18 +3,17 @@ from fastrpa.types import WebDriver
 
 
 class Tabs:
-
     def __init__(self, webdriver: WebDriver):
         self.webdriver = webdriver
-    
+
     @property
     def list(self) -> list[str]:
         return self.webdriver.window_handles
-    
+
     @property
     def current(self) -> str:
         return self.webdriver.current_window_handle
-    
+
     @property
     def current_index(self) -> int:
         return self.list.index(self.current)
@@ -22,7 +21,7 @@ class Tabs:
     @property
     def count(self) -> int:
         return len(self.list)
-    
+
     def new(self) -> str:
         self.webdriver.switch_to.new_window('tab')
         return self.list[-1]
@@ -39,7 +38,7 @@ class Tabs:
         current_tab_index = self.current_index
         if self.count >= 2:
             self.webdriver.close()
-            self.switch(index=current_tab_index-1)
+            self.switch(index=current_tab_index - 1)
         else:
             self.new()
             self.switch(index=current_tab_index)
@@ -48,7 +47,6 @@ class Tabs:
 
     def __len__(self) -> int:
         return self.count
-    
+
     def __contains__(self, value: Any) -> bool:
         return value in self.list
-    

@@ -3,6 +3,7 @@ from typing import Any
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 
 from fastrpa.commons import get_file_path, print_table
@@ -39,7 +40,7 @@ class Element:
         if classes := self.attribute('class'):
             return classes.split(' ')
         return []
-    
+
     @property
     def css_inline(self) -> dict[str, str]:
         to_return = {}
@@ -62,9 +63,22 @@ class Element:
     def is_visible(self) -> bool:
         return self.source.is_displayed()
 
+    @property
+    def is_stale(self) -> bool:
+        try:
+            self.is_visible
+            return False
+        except StaleElementReferenceException:
+            return True
+
     def focus(self):
         self.actions.scroll_to_element(self.source)
         self.actions.move_to_element(self.source)
+        self.actions.perform()
+
+    def click(self):
+        self.focus()
+        self.actions.click(self.source)
         self.actions.perform()
 
     def check(self, attribute: str, value: str) -> bool:
@@ -166,17 +180,11 @@ class ListElement(Element):
 
     @property
     def items_ids(self) -> list[str | None]:
-        return [
-            item.get_attribute('ids')
-            for item in self.items_sources
-        ]
+        return [item.get_attribute('ids') for item in self.items_sources]
 
     @property
     def items_labels(self) -> list[str | None]:
-        return [
-            item.get_attribute('innerText')
-            for item in self.items_sources
-        ]
+        return [item.get_attribute('innerText') for item in self.items_sources]
 
     def click_in_item(self, label: str | None = None, id: str | None = None):
         if not (label or id):
@@ -212,7 +220,7 @@ class ButtonElement(Element):
     @property
     def is_link(self) -> bool:
         if self._is_link is None:
-            self._is_link = (self.tag == 'a')
+            self._is_link = self.tag == 'a'
         return self._is_link
 
     @property
@@ -220,11 +228,6 @@ class ButtonElement(Element):
         if self.is_link:
             return self.attribute('href')
         return None
-
-    def click(self):
-        self.actions.move_to_element(self.source)
-        self.actions.click(self.source)
-        self.actions.perform()
 
     def double_click(self):
         self.actions.move_to_element(self.source)
@@ -302,9 +305,7 @@ class TableElement(Element):
             rows_content.append(
                 [
                     cell.get_attribute('innerText')
-                    for cell in element.find_elements(
-                        By.XPATH, './/td | .//th'
-                    )
+                    for cell in element.find_elements(By.XPATH, './/td | .//th')
                 ]
             )
         return rows_content
@@ -326,7 +327,7 @@ class TableElement(Element):
             for cell in self.source.find_elements('.//td')
         ]
         return value in cells_content
-    
+
     def __contains__(self, value: Any) -> bool:
         return self.has_content(value)
 
