@@ -335,7 +335,7 @@ Interactions with `input` and `textarea` tags.
 >>> type(my_input)
 fastrpa.core.elements.InputElement
 
-# Try to get an InputElement and raise an ElementNotCompatible exception if the element isn't an input
+# Try to get an InputElement
 >>> my_input = web.input('//*[id="myInput"]')
 >>> type(my_input)
 fastrpa.core.elements.InputElement
@@ -363,7 +363,7 @@ Interactions with `input` with attribute `type="file"`.
 >>> type(my_input)
 fastrpa.core.elements.FileInputElement
 
-# Try to get a FileInputElement and raise an ElementNotCompatible exception if the element isn't an file input
+# Try to get a FileInputElement
 >>> my_input = web.file_input('//*[id="myFileInput"]')
 >>> type(my_input)
 fastrpa.core.elements.FileInputElement
@@ -385,7 +385,7 @@ Interactions with `select` tag.
 >>> type(my_select)
 fastrpa.core.elements.SelectElement
 
-# Try to get a SelectElement and raise an ElementNotCompatible exception if the element isn't an select input
+# Try to get a SelectElement
 >>> my_select = web.select('//*[id="mySelect"]')
 >>> type(my_select)
 fastrpa.core.elements.SelectElement
@@ -432,7 +432,7 @@ Interactions with `ol` and `ul` tags.
 >>> type(my_select)
 fastrpa.core.elements.ListElement
 
-# Try to get a ListElement and raise an ElementNotCompatible exception if the element isn't an select input
+# Try to get a ListElement
 >>> my_list = web.list('//*[id="myList"]')
 >>> type(my_select)
 fastrpa.core.elements.ListElement
@@ -483,7 +483,7 @@ Interactions with `button` and `a` tags.
 >>> type(my_select)
 fastrpa.core.elements.ButtonElement
 
-# Try to get a ButtonElement and raise an ElementNotCompatible exception if the element isn't an select input
+# Try to get a ButtonElement
 >>> my_button = web.button('//*[id="myButton"]')
 >>> type(my_select)
 fastrpa.core.elements.ButtonElement
@@ -513,7 +513,7 @@ Interactions with `form` tag.
 >>> type(my_select)
 fastrpa.core.elements.FormElement
 
-# Try to get a FormElement and raise an ElementNotCompatible exception if the element isn't an select input
+# Try to get a FormElement
 >>> my_form = web.button('//*[id="myForm"]')
 >>> type(my_select)
 fastrpa.core.elements.FormElement
@@ -536,7 +536,7 @@ Interactions with `table` tag.
 >>> type(my_select)
 fastrpa.core.elements.TableElement
 
-# Try to get a TableElement and raise an ElementNotCompatible exception if the element isn't an select input
+# Try to get a TableElement
 >>> my_table = web.button('//*[id="myTable"]')
 >>> type(my_select)
 fastrpa.core.elements.TableElement
@@ -566,6 +566,19 @@ fastrpa.core.elements.TableElement
 # Check if a value exists in one of the table cells
 >>> 'Cell content' in my_table
 False
+
+# Print the table in console
+>>> my_table.print()
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
+┃ Company                      ┃ Contact          ┃ Country ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━┩
+│ Alfreds Futterkiste          │ Maria Anders     │ Germany │
+│ Centro comercial Moctezuma   │ Francisco Chang  │ Mexico  │
+│ Ernst Handel                 │ Roland Mendel    │ Austria │
+│ Island Trading               │ Helen Bennett    │ UK      │
+│ Laughing Bacchus Winecellars │ Yoshi Tannamuri  │ Canada  │
+│ Magazzini Alimentari Riuniti │ Giovanni Rovelli │ Italy   │
+└──────────────────────────────┴──────────────────┴─────────┘
 ```
 
 ### Medias
