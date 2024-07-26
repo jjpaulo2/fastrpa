@@ -7,6 +7,7 @@ from fastrpa.commons import (
 from fastrpa.core.console import Console
 from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
+from fastrpa.core.tabs import Tabs
 from fastrpa.exceptions import ElementNotCompatible
 from fastrpa.settings import DEFAULT_TIMEOUT
 from fastrpa.core.elements import (
@@ -46,6 +47,7 @@ class Web:
         self.screenshot = Screenshot(self.webdriver)
         self.cookies = Cookies(self.webdriver)
         self.console = Console(self.webdriver)
+        self.tabs = Tabs(self.webdriver)
         self.factory = ElementFactory(self.webdriver)
 
     @property
@@ -55,6 +57,10 @@ class Web:
     @property
     def domain(self) -> str:
         return get_domain(self.webdriver)
+    
+    @property
+    def title(self) -> str:
+        return self.webdriver.title
 
     def browse(self, url: str):
         self.webdriver.get(url)
