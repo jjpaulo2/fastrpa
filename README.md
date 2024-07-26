@@ -518,6 +518,18 @@ fastrpa.core.elements.FormElement
 >>> type(my_select)
 fastrpa.core.elements.FormElement
 
+# Get form method
+>>> my_form.method
+'POST'
+
+# Get form action
+>>> my_form.action
+'https://www.mysite.com/form'
+
+# Get form type
+>>> my_form.type
+'application/x-www-form-urlencoded'
+
 # Submit the form
 >>> my_form.submit()
 

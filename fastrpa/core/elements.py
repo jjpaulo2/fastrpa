@@ -233,6 +233,34 @@ class ButtonElement(Element):
 
 
 class FormElement(Element):
+    _method: str | None = None
+    _action: str | None = None
+    _type: str | None = None
+
+    @property
+    def method(self) -> str:
+        if not self._method:
+            if gotten_method := self.attribute('method'):
+                self._method = gotten_method.upper()
+            else:
+                self._method = 'GET'
+        return self._method
+
+    @property
+    def action(self) -> str | None:
+        if not self._action:
+            self._action = self.attribute('action')
+        return self._action
+
+    @property
+    def type(self) -> str:
+        if not self._type:
+            if gotten_type := self.attribute('enctype'):
+                self._type = gotten_type
+            else:
+                self._type = 'application/x-www-form-urlencoded'
+        return self._type
+
     def submit(self, button: ButtonElement | None = None):
         if not button:
             self.source.submit()
