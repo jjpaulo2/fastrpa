@@ -3,7 +3,6 @@ from typing import Any
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 
 from fastrpa.commons import get_file_path, print_table
@@ -12,28 +11,26 @@ from fastrpa.types import WebDriver
 
 
 class Element:
-    _tag: str | None = None
-    _id: str | None = None
 
-    def __init__(self, source: WebElement, webdriver: WebDriver) -> None:
-        self.source = source
+    def __init__(self, xpath: str, webdriver: WebDriver) -> None:
+        self.xpath = xpath
         self.webdriver = webdriver
         self.actions = ActionChains(self.webdriver)
+
+    @property
+    def source(self) -> WebElement:
+        return self.webdriver.find_element(By.XPATH, self.xpath)
 
     def attribute(self, name: str) -> str | None:
         return self.source.get_attribute(name)
 
     @property
     def tag(self) -> str:
-        if self._tag is None:
-            self._tag = self.source.tag_name
-        return self._tag
+        return self.source.tag_name
 
     @property
     def id(self) -> str | None:
-        if self._id is None:
-            self._id = self.attribute('id')
-        return self._id
+        return self.attribute('id')
 
     @property
     def css_class(self) -> list[str] | None:
@@ -62,14 +59,6 @@ class Element:
     @property
     def is_visible(self) -> bool:
         return self.source.is_displayed()
-
-    @property
-    def is_stale(self) -> bool:
-        try:
-            self.is_visible
-            return False
-        except StaleElementReferenceException:
-            return True
 
     def focus(self):
         self.actions.scroll_to_element(self.source)
@@ -156,7 +145,6 @@ class SelectElement(Element):
 
 
 class ListElement(Element):
-    _is_ordered: bool | None = None
     _items_sources: list[WebElement] | None = None
 
     @property
@@ -167,9 +155,7 @@ class ListElement(Element):
 
     @property
     def is_ordered(self) -> bool:
-        if self._is_ordered is None:
-            self._is_ordered = self.tag == 'ol'
-        return self._is_ordered
+        return self.tag == 'ol'
 
     @property
     def items(self) -> list[Item]:
@@ -215,13 +201,10 @@ class ListElement(Element):
 
 
 class ButtonElement(Element):
-    _is_link: bool | None = None
 
     @property
     def is_link(self) -> bool:
-        if self._is_link is None:
-            self._is_link = self.tag == 'a'
-        return self._is_link
+        return self.tag == 'a'
 
     @property
     def reference(self) -> str | None:
@@ -236,33 +219,22 @@ class ButtonElement(Element):
 
 
 class FormElement(Element):
-    _method: str | None = None
-    _action: str | None = None
-    _type: str | None = None
 
     @property
     def method(self) -> str:
-        if not self._method:
-            if gotten_method := self.attribute('method'):
-                self._method = gotten_method.upper()
-            else:
-                self._method = 'GET'
-        return self._method
+        if gotten_method := self.attribute('method'):
+            return gotten_method.upper()
+        return 'GET'
 
     @property
     def action(self) -> str | None:
-        if not self._action:
-            self._action = self.attribute('action')
-        return self._action
+        return self.attribute('action')
 
     @property
     def type(self) -> str:
-        if not self._type:
-            if gotten_type := self.attribute('enctype'):
-                self._type = gotten_type
-            else:
-                self._type = 'application/x-www-form-urlencoded'
-        return self._type
+        if gotten_type := self.attribute('enctype'):
+            return gotten_type
+        return 'application/x-www-form-urlencoded'
 
     def submit(self, button: ButtonElement | None = None):
         if not button:
