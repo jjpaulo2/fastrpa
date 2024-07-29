@@ -39,7 +39,7 @@ class ElementFactory:
         ):
             return FileInputElement
 
-        elif element.tag_name == 'input':
+        elif element.tag_name in ['input', 'textarea']:
             return InputElement
 
         elif element.tag_name == 'select':
@@ -61,7 +61,7 @@ class ElementFactory:
                 )
             )
             element_class = self.element_class(selenium_element)
-            return element_class(selenium_element, self.webdriver)
+            return element_class(xpath, self.webdriver)
 
         except TimeoutException:
             raise ElementNotFoundAfterTime(xpath, timeout)
@@ -70,7 +70,7 @@ class ElementFactory:
         try:
             selenium_element = self.webdriver.find_element(By.XPATH, xpath)
             element_class = self.element_class(selenium_element)
-            return element_class(selenium_element, self.webdriver)
+            return element_class(xpath, self.webdriver)
 
         except NoSuchElementException:
             raise ElementNotFound(xpath)
@@ -84,7 +84,7 @@ class ElementFactory:
             ):
                 element_class = self.element_class(selenium_element)
                 elements_to_return.append(
-                    element_class(selenium_element, self.webdriver)
+                    element_class(xpath, self.webdriver)
                 )
 
             return elements_to_return
