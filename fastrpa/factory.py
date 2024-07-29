@@ -1,4 +1,3 @@
-import time
 from typing import Type
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
