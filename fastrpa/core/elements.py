@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 
-from fastrpa.utils import get_file_path, print_table
+from fastrpa.utils import get_file_path, print_list, print_table
 from fastrpa.types import WebDriver, Item, Option
 
 
@@ -141,6 +141,10 @@ class SelectElement(Element):
     def __contains__(self, key: Any) -> bool:
         return self.has_option(label=key) or self.has_option(value=key)
 
+    def print(self):
+        identifier = f'[@id="{self.id}"]' if self.id else self.xpath
+        print_list(f'{identifier}', self.options_values, self.options_labels)
+
 
 class ListElement(Element):
     _items_sources: list[WebElement] | None = None
@@ -197,6 +201,10 @@ class ListElement(Element):
     def __contains__(self, key: Any) -> bool:
         return self.has_item(label=key) or self.has_item(id=key)
 
+    def print(self):
+        identifier = f'[@id="{self.id}"]' if self.id else self.xpath
+        print_list(identifier, self.items_ids, self.items_labels)
+
 
 class ButtonElement(Element):
     @property
@@ -232,11 +240,11 @@ class FormElement(Element):
             return gotten_type
         return 'application/x-www-form-urlencoded'
 
-    def submit(self, button: ButtonElement | None = None):
-        if not button:
+    def submit(self, button_xpath: str | None = None):
+        if not button_xpath:
             self.source.submit()
         else:
-            button.click()
+            ButtonElement(button_xpath, self.webdriver).click()
 
 
 class TableElement(Element):

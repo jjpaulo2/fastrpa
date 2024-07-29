@@ -2,6 +2,7 @@ from typing import Callable, Iterable
 from urllib.parse import urlparse
 from selenium.webdriver import ChromeOptions
 from selenium.common.exceptions import StaleElementReferenceException
+from rich.tree import Tree
 from rich.table import Table
 from rich.console import Console
 
@@ -47,6 +48,13 @@ def print_table(headers: Iterable[str], rows: Iterable[str]):
     for row in rows:
         rich_table.add_row(*row)
     Console().print(rich_table)
+
+
+def print_list(name: str, ids: list[str], values: list[str]):
+    rich_tree = Tree(name.replace('[', '\['))
+    for id, value in zip(ids, values):
+        rich_tree.add(f'[{id}] {value}')
+    Console().print(rich_tree)
 
 
 def ensure_element(func: Callable, max_attempts: int = 3):
