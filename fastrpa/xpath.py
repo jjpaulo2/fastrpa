@@ -7,7 +7,7 @@ def attribute_contains(
 def attribute_equals(
     element: str, attribute: str, value: str, child: str = ''
 ) -> str:
-    return f'//{element}[{attribute}, "{value}"]{child}'
+    return f'//{element}[{attribute}="{value}"]{child}'
 
 
 def id_contains(value: str, child: str = '') -> str:
