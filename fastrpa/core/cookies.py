@@ -1,9 +1,8 @@
 from typing import Any
 
-from fastrpa.commons import get_domain
+from fastrpa.utils import get_domain
 from fastrpa.exceptions import CookieNotAdded
-from fastrpa.types import WebDriver
-from fastrpa.dataclasses import Cookie
+from fastrpa.types import WebDriver, Cookie
 
 
 class Cookies:

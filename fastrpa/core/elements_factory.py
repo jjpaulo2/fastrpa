@@ -15,14 +15,14 @@ from fastrpa.core.elements import (
     SelectElement,
     TableElement,
 )
-from fastrpa.decorators import ensure_element
+from fastrpa.utils import ensure_element
 from fastrpa.exceptions import ElementNotFound, ElementNotFoundAfterTime
-from fastrpa.settings import TIMEOUT
 from fastrpa.types import WebDriver
 
 
-class ElementFactory:
-    def __init__(self, webdriver: WebDriver):
+class ElementsFactory:
+    def __init__(self, webdriver: WebDriver, timeout: int):
+        self.timeout = timeout
         self.webdriver = webdriver
 
     def element_class(self, element: WebElement) -> Type[Element]:
@@ -55,9 +55,11 @@ class ElementFactory:
         return Element
 
     @ensure_element
-    def get_when_available(self, xpath: str, timeout: int = TIMEOUT) -> Element:
+    def get_when_available(self, xpath: str) -> Element:
         try:
-            selenium_element = WebDriverWait(self.webdriver, timeout).until(
+            selenium_element = WebDriverWait(
+                self.webdriver, self.timeout
+            ).until(
                 expected_conditions.presence_of_element_located(
                     (By.XPATH, xpath)
                 )
@@ -66,7 +68,7 @@ class ElementFactory:
             return element_class(xpath, self.webdriver)
 
         except TimeoutException:
-            raise ElementNotFoundAfterTime(xpath, timeout)
+            raise ElementNotFoundAfterTime(xpath, self.timeout)
 
     @ensure_element
     def get(self, xpath: str) -> Element:

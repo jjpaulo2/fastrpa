@@ -1,6 +1,7 @@
-from typing import Iterable
+from typing import Callable, Iterable
 from urllib.parse import urlparse
 from selenium.webdriver import ChromeOptions
+from selenium.common.exceptions import StaleElementReferenceException
 from rich.table import Table
 from rich.console import Console
 
@@ -46,3 +47,15 @@ def print_table(headers: Iterable[str], rows: Iterable[str]):
     for row in rows:
         rich_table.add_row(*row)
     Console().print(rich_table)
+
+
+def ensure_element(func: Callable, max_attempts: int = 3):
+    def wrapper(*args, **kwargs):
+        attempt = 0
+        while attempt < max_attempts:
+            try:
+                return func(*args, **kwargs)
+            except StaleElementReferenceException:
+                attempt += 1
+
+    return wrapper

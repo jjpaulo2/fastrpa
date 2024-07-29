@@ -9,13 +9,6 @@ from fastrpa.core.elements import (
     FormElement,
     TableElement,
 )
-from fastrpa.xpath import (
-    id_contains,
-    class_contains,
-    name_contains,
-    text_contains,
-)
-from fastrpa.exceptions import ElementNotFound, ElementNotFoundAfterTime
 
 
 __all__ = (
@@ -29,10 +22,4 @@ __all__ = (
     'ButtonElement',
     'FormElement',
     'TableElement',
-    'id_contains',
-    'class_contains',
-    'name_contains',
-    'text_contains',
-    'ElementNotFound',
-    'ElementNotFoundAfterTime',
 )

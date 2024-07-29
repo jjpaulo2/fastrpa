@@ -5,7 +5,7 @@ from selenium.common.exceptions import (
     NoSuchElementException,
     StaleElementReferenceException,
 )
-from fastrpa.commons import (
+from fastrpa.utils import (
     get_browser_options,
     get_domain,
 )
@@ -14,7 +14,6 @@ from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
 from fastrpa.core.tabs import Tabs
 from fastrpa.exceptions import ElementNotCompatible
-from fastrpa.settings import TIMEOUT
 from fastrpa.core.elements import (
     Element,
     InputElement,
@@ -28,7 +27,7 @@ from fastrpa.core.elements import (
 
 from fastrpa.core.wait import Wait
 from fastrpa.core.keyboard import Keyboard
-from fastrpa.factory import ElementFactory
+from fastrpa.core.elements_factory import ElementsFactory
 from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
 
 
@@ -45,12 +44,12 @@ class Web:
         self.webdriver = webdriver
         self.timeout = timeout
         self.keyboard = Keyboard(self.webdriver)
-        self.wait = Wait(self.webdriver, timeout)
         self.screenshot = Screenshot(self.webdriver)
         self.cookies = Cookies(self.webdriver)
         self.console = Console(self.webdriver)
         self.tabs = Tabs(self.webdriver)
-        self.factory = ElementFactory(self.webdriver)
+        self.wait = Wait(self.webdriver, self.timeout)
+        self.factory = ElementsFactory(self.webdriver, self.timeout)
 
     @property
     def url(self) -> str:
@@ -83,7 +82,7 @@ class Web:
     def element(self, xpath: str, wait: bool = True) -> GenericElement:
         if not wait:
             return self.factory.get(xpath)
-        return self.factory.get_when_available(xpath, self.timeout)
+        return self.factory.get_when_available(xpath)
 
     def elements(self, xpath: str) -> list[GenericElement]:
         return self.factory.get_many(xpath)
@@ -126,7 +125,7 @@ class FastRPA:
         webdriver: WebDriver | None = None,
         options_class: BrowserOptionsClass = ChromeOptions,
         browser_arguments: list[str] | None = None,
-        timeout: int = TIMEOUT,
+        timeout: int = 15,
     ):
         self._browser_options: BrowserOptions | None = None
         self._webdriver = webdriver

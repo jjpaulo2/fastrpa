@@ -8,7 +8,7 @@ class ElementNotFound(Exception):
 class ElementNotFoundAfterTime(Exception):
     message = 'Element [{}] not found after {} seconds!'
 
-    def __init__(self, xpath: str, timeout: int):
+    def __init__(self, xpath: str, timeout: float):
         super().__init__(self.message.format(xpath, timeout))
 
 

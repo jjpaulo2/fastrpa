@@ -5,9 +5,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 
-from fastrpa.commons import get_file_path, print_table
-from fastrpa.dataclasses import Item, Option
-from fastrpa.types import WebDriver
+from fastrpa.utils import get_file_path, print_table
+from fastrpa.types import WebDriver, Item, Option
 
 
 class Element:
