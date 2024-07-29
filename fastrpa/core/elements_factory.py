@@ -10,13 +10,14 @@ from fastrpa.core.elements import (
     Element,
     FileInputElement,
     FormElement,
+    ImageElement,
     InputElement,
     ListElement,
     SelectElement,
     TableElement,
 )
 from fastrpa.utils import ensure_element
-from fastrpa.exceptions import ElementNotFound, ElementNotFoundAfterTime
+from fastrpa.exceptions import ElementNotFoundException, ElementTimeoutException
 from fastrpa.types import WebDriver
 
 
@@ -52,6 +53,9 @@ class ElementsFactory:
         elif element.tag_name == 'table':
             return TableElement
 
+        elif element.tag_name == 'img':
+            return ImageElement
+
         return Element
 
     @ensure_element
@@ -68,7 +72,7 @@ class ElementsFactory:
             return element_class(xpath, self.webdriver)
 
         except TimeoutException:
-            raise ElementNotFoundAfterTime(xpath, self.timeout)
+            raise ElementTimeoutException(xpath, self.timeout)
 
     @ensure_element
     def get(self, xpath: str) -> Element:
@@ -78,7 +82,7 @@ class ElementsFactory:
             return element_class(xpath, self.webdriver)
 
         except NoSuchElementException:
-            raise ElementNotFound(xpath)
+            raise ElementNotFoundException(xpath)
 
     @ensure_element
     def get_many(self, xpath: str) -> list[Element]:
@@ -94,4 +98,4 @@ class ElementsFactory:
             return elements_to_return
 
         except NoSuchElementException:
-            raise ElementNotFound(xpath)
+            raise ElementNotFoundException(xpath)

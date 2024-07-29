@@ -1,7 +1,7 @@
 from typing import Any
 
 from fastrpa.utils import get_domain
-from fastrpa.exceptions import CookieNotAdded
+from fastrpa.exceptions import CookieNotAddedException
 from fastrpa.types import WebDriver, Cookie
 
 
@@ -34,7 +34,7 @@ class Cookies:
         self.webdriver.add_cookie(cookie.to_selenium())
         if added_cookie := self.webdriver.get_cookie(name):
             return Cookie.from_selenium(added_cookie)
-        raise CookieNotAdded(name)
+        raise CookieNotAddedException(name)
 
     def delete(self, name: str):
         self.webdriver.delete_cookie(name)

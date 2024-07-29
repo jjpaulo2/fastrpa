@@ -2,13 +2,9 @@ from typing import Callable, Iterable
 from urllib.parse import urlparse
 from selenium.webdriver import ChromeOptions
 from selenium.common.exceptions import StaleElementReferenceException
-from rich.tree import Tree
-from rich.table import Table
-from rich.console import Console
-
-import os
-import requests
-import mimetypes
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.common.by import By
+from requests import Session
 
 from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
 
@@ -22,39 +18,59 @@ def get_browser_options(
     return instance
 
 
-def get_file_path(path: str) -> str:
-    if os.path.isfile(path):
-        return path
-
-    file_response = requests.get(path)
-    file_extension = mimetypes.guess_extension(
-        file_response.headers['Content-Type']
-    )
-    file_hash = abs(hash(file_response.content))
-    download_path = f'/tmp/{file_hash}{file_extension}'
-
-    with open(download_path, 'wb') as file:
-        file.write(file_response.content)
-
-    return download_path
+def get_session(webdriver: WebDriver) -> Session:
+    obj = Session()
+    for cookie in webdriver.get_cookies():
+        obj.cookies.set(
+            name=cookie['name'],
+            value=cookie['value'],
+            domain=cookie['domain'],
+            path=cookie['path'],
+            secure=cookie['secure'],
+        )
+    return obj
 
 
 def get_domain(webdriver: WebDriver) -> str:
     return urlparse(webdriver.current_url).netloc
 
 
+def find_element(browsable: WebDriver | WebElement, xpath: str) -> WebElement:
+    return browsable.find_element(By.XPATH, xpath)
+
+
+def find_elements(
+    browsable: WebDriver | WebElement, xpath: str
+) -> list[WebElement]:
+    return browsable.find_elements(By.XPATH, xpath)
+
+
 def print_table(headers: Iterable[str], rows: Iterable[str]):
-    rich_table = Table(*headers)
-    for row in rows:
-        rich_table.add_row(*row)
-    Console().print(rich_table)
+    try:
+        from rich.table import Table
+        from rich.console import Console
+
+        rich_table = Table(*headers)
+        for row in rows:
+            rich_table.add_row(*row)
+        Console().print(rich_table)
+
+    except ImportError:
+        raise EnvironmentError('You need to install rich to print tables.')
 
 
-def print_list(name: str, ids: list[str], values: list[str]):
-    rich_tree = Tree(name.replace('[', '\['))
-    for id, value in zip(ids, values):
-        rich_tree.add(f'[{id}] {value}')
-    Console().print(rich_tree)
+def print_list(name: str, values_dict: dict[str | None, str | None]):
+    try:
+        from rich.tree import Tree
+        from rich.console import Console
+
+        rich_tree = Tree(name.replace('[', '\['))
+        for id, value in values_dict.items():
+            rich_tree.add(f'[{id}] {value}')
+        Console().print(rich_tree)
+
+    except ImportError:
+        raise EnvironmentError('You need to install rich to print lists.')
 
 
 def ensure_element(func: Callable, max_attempts: int = 3):

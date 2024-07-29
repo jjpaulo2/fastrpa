@@ -1,23 +1,31 @@
 from time import sleep
 from typing import Any
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.common.by import By
 
-from fastrpa.utils import get_file_path, print_list, print_table
-from fastrpa.types import WebDriver, Item, Option
+from fastrpa.core.file import File
+from fastrpa.exceptions import FileNotDownloadableException, FormException
+from fastrpa.utils import (
+    find_element,
+    find_elements,
+    print_list,
+    print_table,
+)
+from fastrpa.types import WebDriver
 
 
 class Element:
     def __init__(self, xpath: str, webdriver: WebDriver) -> None:
         self.xpath = xpath
         self.webdriver = webdriver
+        self.file = File(self.webdriver)
         self.actions = ActionChains(self.webdriver)
 
     @property
     def source(self) -> WebElement:
-        return self.webdriver.find_element(By.XPATH, self.xpath)
+        return find_element(self.webdriver, self.xpath)
 
     def attribute(self, name: str) -> str | None:
         return self.source.get_attribute(name)
@@ -87,17 +95,13 @@ class InputElement(Element):
 
 class FileInputElement(Element):
     def attach_file(self, path: str):
-        self.source.send_keys(get_file_path(path))
+        self.source.send_keys(self.file.get_path(path))
 
 
 class SelectElement(Element):
-    _select_source: Select | None = None
-
     @property
     def select_source(self) -> Select:
-        if not self._select_source:
-            self._select_source = Select(self.source)
-        return self._select_source
+        return Select(self.source)
 
     @property
     def options_values(self) -> list[str | None]:
@@ -114,14 +118,17 @@ class SelectElement(Element):
         ]
 
     @property
-    def options(self) -> list[Option]:
-        return [
-            Option(
-                option.get_attribute('value'),
-                option.get_attribute('innerText'),
-            )
+    def options(self) -> dict[str | None, str | None]:
+        return {
+            option.get_attribute('value'): option.get_attribute('innerText')
             for option in self.select_source.options
-        ]
+        }
+
+    @property
+    def current(self) -> tuple[str | None, str | None]:
+        if value_id := self.attribute('value'):
+            return value_id, self.options[value_id]
+        return None, None
 
     def select(self, label: str | None = None, value: str | None = None):
         if label:
@@ -143,28 +150,24 @@ class SelectElement(Element):
 
     def print(self):
         identifier = f'[@id="{self.id}"]' if self.id else self.xpath
-        print_list(f'{identifier}', self.options_values, self.options_labels)
+        print_list(f'{identifier}', self.options)
 
 
 class ListElement(Element):
-    _items_sources: list[WebElement] | None = None
-
     @property
     def items_sources(self) -> list[WebElement]:
-        if self._items_sources is None:
-            self._items_sources = self.source.find_elements(By.XPATH, './/li')
-        return self._items_sources
+        return find_elements(self.webdriver, './/li')
 
     @property
     def is_ordered(self) -> bool:
         return self.tag == 'ol'
 
     @property
-    def items(self) -> list[Item]:
-        return [
-            Item(item.get_attribute('id'), item.get_attribute('innerText'))
+    def items(self) -> dict[str | None, str | None]:
+        return {
+            item.get_attribute('id'): item.get_attribute('innerText')
             for item in self.items_sources
-        ]
+        }
 
     @property
     def items_ids(self) -> list[str | None]:
@@ -203,7 +206,7 @@ class ListElement(Element):
 
     def print(self):
         identifier = f'[@id="{self.id}"]' if self.id else self.xpath
-        print_list(identifier, self.items_ids, self.items_labels)
+        print_list(identifier, self.items)
 
 
 class ButtonElement(Element):
@@ -224,6 +227,25 @@ class ButtonElement(Element):
 
 
 class FormElement(Element):
+    _success_redirect_url: str | None = None
+    _success_elements_to_find: list[str] = []
+    _success_text_to_find: list[str] = []
+
+    def _check_success_conditions(self):
+        if self._success_redirect_url is not None:
+            if self.webdriver.current_url != self._success_redirect_url:
+                raise FormException('redirect_url', self._success_redirect_url)
+
+        for element in self._success_elements_to_find:
+            try:
+                find_element(self.webdriver, element)
+            except NoSuchElementException:
+                raise FormException('elements_to_find', element)
+
+        for text in self._success_text_to_find:
+            if text not in self.webdriver.page_source:
+                raise FormException('text_to_find', text)
+
     @property
     def method(self) -> str:
         if gotten_method := self.attribute('method'):
@@ -240,23 +262,30 @@ class FormElement(Element):
             return gotten_type
         return 'application/x-www-form-urlencoded'
 
+    def set_success_condition(
+        self,
+        redirect_url: str | None = None,
+        elements_to_find: list[str] = [],
+        text_to_find: list[str] = [],
+    ):
+        self._success_redirect_url = redirect_url
+        self._success_elements_to_find = elements_to_find
+        self._success_text_to_find = text_to_find
+
     def submit(self, button_xpath: str | None = None):
         if not button_xpath:
             self.source.submit()
         else:
-            ButtonElement(button_xpath, self.webdriver).click()
+            button = ButtonElement(button_xpath, self.webdriver)
+            button.click()
+        self._check_success_conditions()
 
 
 class TableElement(Element):
-    _headers_sources: list[WebElement] | None = None
-    _rows_sources: list[WebElement] | None = None
-
     @property
     def headers_sources(self) -> list[WebElement]:
-        if self._headers_sources is None:
-            first_row = self.source.find_element(By.XPATH, './/tr')
-            self._headers_sources = first_row.find_elements(By.XPATH, './/th')
-        return self._headers_sources
+        first_row = find_element(self.source, './/tr')
+        return find_elements(first_row, './/th')
 
     @property
     def headers(self) -> list[str | None]:
@@ -267,12 +296,10 @@ class TableElement(Element):
 
     @property
     def rows_sources(self) -> list[WebElement]:
-        if self._rows_sources is None:
-            rows = self.source.find_elements(By.XPATH, './/tr')
-            if self.headers:
-                del rows[0]
-            self._rows_sources = rows
-        return self._rows_sources
+        rows = find_elements(self.source, './/tr')
+        if self.headers:
+            del rows[0]
+        return rows
 
     @property
     def rows(self) -> list[list[str | None]]:
@@ -281,7 +308,7 @@ class TableElement(Element):
             rows_content.append(
                 [
                     cell.get_attribute('innerText')
-                    for cell in element.find_elements(By.XPATH, './/td | .//th')
+                    for cell in find_elements(element, './/td | .//th')
                 ]
             )
         return rows_content
@@ -309,3 +336,21 @@ class TableElement(Element):
 
     def print(self):
         print_table(self.headers, self.rows)
+
+
+class ImageElement(Element):
+    @property
+    def text(self) -> str | None:
+        return self.attribute('alt')
+
+    @property
+    def reference(self) -> str | None:
+        return self.attribute('src')
+
+    def save(self, path: str | None = None):
+        if not self.reference:
+            raise FileNotDownloadableException(self.reference, self.xpath)
+        if path is not None:
+            self.file.download_file(self.reference, path)
+        else:
+            self.file.download_file_to_cwd(self.reference)

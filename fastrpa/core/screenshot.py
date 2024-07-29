@@ -1,6 +1,6 @@
 from datetime import datetime
 from selenium.webdriver.common.by import By
-from fastrpa.exceptions import ScreenshotNotTaken
+from fastrpa.exceptions import ScreenshotNotTakenException
 from fastrpa.types import WebDriver
 
 
@@ -72,7 +72,9 @@ class Screenshot:
     def save_image(self, path: str | None = None):
         success = self.webdriver.save_screenshot(self._file_path(path))
         if not success:
-            raise ScreenshotNotTaken('image', self.webdriver.current_url)
+            raise ScreenshotNotTakenException(
+                'image', self.webdriver.current_url
+            )
 
     def save_full_page_image(self, path: str | None = None):
         starter_size = self.webdriver.get_window_size()
@@ -85,7 +87,9 @@ class Screenshot:
             success = element.screenshot(self._file_path(path))
 
             if not success:
-                raise ScreenshotNotTaken('image', self.webdriver.current_url)
+                raise ScreenshotNotTakenException(
+                    'image', self.webdriver.current_url
+                )
 
         finally:
             self._restore_window(

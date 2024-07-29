@@ -19,18 +19,6 @@ BrowserOptionsClass = (
 
 
 @dataclass
-class Option:
-    value: str | None
-    label: str | None
-
-
-@dataclass
-class Item:
-    id: str | None
-    label: str | None
-
-
-@dataclass
 class Cookie:
     name: str
     value: str
@@ -61,4 +49,13 @@ class Cookie:
             'secure': self.secure,
             'httpOnly': self.http_only,
             'sameSite': self.same_site,
+        }
+
+    def to_requests(self) -> dict[str, Any]:
+        return {
+            'name': self.name,
+            'value': self.value,
+            'domain': self.domain,
+            'path': self.path,
+            'secure': self.secure,
         }

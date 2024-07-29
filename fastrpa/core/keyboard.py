@@ -2,7 +2,7 @@ from typing import Any
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
-from fastrpa.exceptions import KeyDoesNotExists
+from fastrpa.exceptions import KeyDoesNotExistsException
 from fastrpa.types import WebDriver
 
 
@@ -47,7 +47,7 @@ class Keyboard:
             return key
         elif len(key) == 1:
             return key
-        raise KeyDoesNotExists(key)
+        raise KeyDoesNotExistsException(key)
 
     def press(self, key: str):
         self.actions.send_keys(self.key_code(key))

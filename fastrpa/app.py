@@ -1,4 +1,5 @@
 from typing import Type, TypeVar, Union
+from requests import Session
 from selenium.webdriver import Remote, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
@@ -6,16 +7,19 @@ from selenium.common.exceptions import (
     StaleElementReferenceException,
 )
 from fastrpa.utils import (
+    find_element,
     get_browser_options,
     get_domain,
+    get_session,
 )
 from fastrpa.core.console import Console
 from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
 from fastrpa.core.tabs import Tabs
-from fastrpa.exceptions import ElementNotCompatible
+from fastrpa.exceptions import ElementNotCompatibleException
 from fastrpa.core.elements import (
     Element,
+    ImageElement,
     InputElement,
     FileInputElement,
     ButtonElement,
@@ -63,6 +67,10 @@ class Web:
     def title(self) -> str:
         return self.webdriver.title
 
+    @property
+    def session(self) -> Session:
+        return get_session(self.webdriver)
+
     def browse(self, url: str):
         self.webdriver.get(url)
 
@@ -79,6 +87,14 @@ class Web:
         except StaleElementReferenceException:
             return False
 
+    def read(self, xpath: str) -> str | None:
+        try:
+            if element := find_element(self.webdriver, xpath):
+                return element.text if element.text else None
+            return None
+        except NoSuchElementException:
+            return None
+
     def element(self, xpath: str, wait: bool = True) -> GenericElement:
         if not wait:
             return self.factory.get(xpath)
@@ -92,7 +108,7 @@ class Web:
     ) -> SpecificElement:
         element = self.element(xpath, wait)
         if not isinstance(element, class_name):
-            raise ElementNotCompatible(xpath, class_name)
+            raise ElementNotCompatibleException(xpath, class_name)
         return element
 
     def input(self, xpath: str, wait: bool = True) -> InputElement:
@@ -115,6 +131,9 @@ class Web:
 
     def table(self, xpath: str, wait: bool = True) -> TableElement:
         return self._specific_element(xpath, TableElement, wait)
+
+    def image(self, xpath: str, wait: bool = True) -> ImageElement:
+        return self._specific_element(xpath, ImageElement, wait)
 
 
 class FastRPA:

@@ -10,13 +10,13 @@ python = "^3.11"
 selenium = "^4.22.0"
 requests = "^2.32.3"
 types-requests = "^2.32.0.20240622"
-rich = "^13.7.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.5.1"
 mypy = "^1.10.1"
 pytest = "^8.3.2"
 pytest-randomly = "^3.15.0"
+rich = "^13.7.1"
 
 [build-system]
 requires = ["poetry-core"]
