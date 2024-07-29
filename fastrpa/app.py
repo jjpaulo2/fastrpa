@@ -14,7 +14,7 @@ from fastrpa.core.cookies import Cookies
 from fastrpa.core.screenshot import Screenshot
 from fastrpa.core.tabs import Tabs
 from fastrpa.exceptions import ElementNotCompatible
-from fastrpa.settings import DEFAULT_TIMEOUT
+from fastrpa.settings import TIMEOUT
 from fastrpa.core.elements import (
     Element,
     InputElement,
@@ -26,7 +26,7 @@ from fastrpa.core.elements import (
     SelectElement,
 )
 
-from fastrpa.core.timer import Timer
+from fastrpa.core.wait import Wait
 from fastrpa.core.keyboard import Keyboard
 from fastrpa.factory import ElementFactory
 from fastrpa.types import BrowserOptions, BrowserOptionsClass, WebDriver
@@ -40,12 +40,12 @@ class Web:
     def __init__(
         self,
         webdriver: WebDriver,
-        timeout_seconds: int,
+        timeout: int,
     ):
         self.webdriver = webdriver
-        self.timeout_seconds = timeout_seconds
+        self.timeout = timeout
         self.keyboard = Keyboard(self.webdriver)
-        self.timer = Timer(self.webdriver)
+        self.wait = Wait(self.webdriver, timeout)
         self.screenshot = Screenshot(self.webdriver)
         self.cookies = Cookies(self.webdriver)
         self.console = Console(self.webdriver)
@@ -83,7 +83,7 @@ class Web:
     def element(self, xpath: str, wait: bool = True) -> GenericElement:
         if not wait:
             return self.factory.get(xpath)
-        return self.factory.get_when_available(xpath, self.timeout_seconds)
+        return self.factory.get_when_available(xpath, self.timeout)
 
     def elements(self, xpath: str) -> list[GenericElement]:
         return self.factory.get_many(xpath)
@@ -126,12 +126,12 @@ class FastRPA:
         webdriver: WebDriver | None = None,
         options_class: BrowserOptionsClass = ChromeOptions,
         browser_arguments: list[str] | None = None,
-        timeout_seconds: int = DEFAULT_TIMEOUT,
+        timeout: int = TIMEOUT,
     ):
         self._browser_options: BrowserOptions | None = None
         self._webdriver = webdriver
         self._options_class = options_class
-        self.timeout_seconds = timeout_seconds
+        self.timeout = timeout
 
         if browser_arguments:
             self.browser_arguments = browser_arguments
@@ -155,4 +155,4 @@ class FastRPA:
         self.webdriver.quit()
 
     def web(self) -> Web:
-        return Web(self.webdriver, self.timeout_seconds)
+        return Web(self.webdriver, self.timeout)
