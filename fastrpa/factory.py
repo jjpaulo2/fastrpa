@@ -1,3 +1,4 @@
+import time
 from typing import Type
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -15,6 +16,7 @@ from fastrpa.core.elements import (
     SelectElement,
     TableElement,
 )
+from fastrpa.decorators import ensure_element
 from fastrpa.exceptions import ElementNotFound, ElementNotFoundAfterTime
 from fastrpa.settings import TIMEOUT
 from fastrpa.types import WebDriver
@@ -53,6 +55,7 @@ class ElementFactory:
 
         return Element
 
+    @ensure_element
     def get_when_available(self, xpath: str, timeout: int = TIMEOUT) -> Element:
         try:
             selenium_element = WebDriverWait(self.webdriver, timeout).until(
@@ -66,6 +69,7 @@ class ElementFactory:
         except TimeoutException:
             raise ElementNotFoundAfterTime(xpath, timeout)
 
+    @ensure_element
     def get(self, xpath: str) -> Element:
         try:
             selenium_element = self.webdriver.find_element(By.XPATH, xpath)
@@ -75,6 +79,7 @@ class ElementFactory:
         except NoSuchElementException:
             raise ElementNotFound(xpath)
 
+    @ensure_element
     def get_many(self, xpath: str) -> list[Element]:
         elements_to_return = []
 
@@ -83,9 +88,7 @@ class ElementFactory:
                 By.XPATH, xpath
             ):
                 element_class = self.element_class(selenium_element)
-                elements_to_return.append(
-                    element_class(xpath, self.webdriver)
-                )
+                elements_to_return.append(element_class(xpath, self.webdriver))
 
             return elements_to_return
 

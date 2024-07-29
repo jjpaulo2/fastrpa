@@ -19,7 +19,7 @@ class Wait:
 
     def source(self, timeout: float | None = None) -> WebDriverWait:
         return WebDriverWait(self.webdriver, self.get_timeout(timeout))
-    
+
     def seconds(self, seconds: float):
         sleep(seconds)
 
@@ -53,20 +53,22 @@ class Wait:
             EC.invisibility_of_element_located((By.XPATH, xpath))
         )
 
-    def contains_text(self, xpath: str, text: str, timeout: float | None = None):
+    def contains_text(
+        self, xpath: str, text: str, timeout: float | None = None
+    ):
         self.source(self.get_timeout(timeout)).until(
             EC.text_to_be_present_in_element((By.XPATH, xpath), text)
         )
 
-    def not_contains_text(self, xpath: str, text: str, timeout: float | None = None):
+    def not_contains_text(
+        self, xpath: str, text: str, timeout: float | None = None
+    ):
         self.source(self.get_timeout(timeout)).until_not(
             EC.text_to_be_present_in_element((By.XPATH, xpath), text)
         )
-    
+
     def url_contains(self, sub_url: str, timeout: float | None = None):
-        self.source(self.get_timeout(timeout)).until(
-            EC.url_contains(sub_url)
-        )
+        self.source(self.get_timeout(timeout)).until(EC.url_contains(sub_url))
 
     def not_url_contains(self, sub_url: str, timeout: float | None = None):
         self.source(self.get_timeout(timeout)).until_not(

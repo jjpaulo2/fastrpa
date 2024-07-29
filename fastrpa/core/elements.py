@@ -11,7 +11,6 @@ from fastrpa.types import WebDriver
 
 
 class Element:
-
     def __init__(self, xpath: str, webdriver: WebDriver) -> None:
         self.xpath = xpath
         self.webdriver = webdriver
@@ -201,7 +200,6 @@ class ListElement(Element):
 
 
 class ButtonElement(Element):
-
     @property
     def is_link(self) -> bool:
         return self.tag == 'a'
@@ -219,7 +217,6 @@ class ButtonElement(Element):
 
 
 class FormElement(Element):
-
     @property
     def method(self) -> str:
         if gotten_method := self.attribute('method'):
