@@ -172,5 +172,8 @@ class FastRPA:
     def __del__(self):
         self.webdriver.quit()
 
-    def web(self) -> Web:
-        return Web(self.webdriver, self.timeout)
+    def web(self, url: str | None = None) -> Web:
+        obj = Web(self.webdriver, self.timeout)
+        if url is not None:
+            obj.browse(url)
+        return obj

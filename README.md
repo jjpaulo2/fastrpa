@@ -20,7 +20,7 @@ A simple to use abstraction over Selenium.
     - [Lists](#lists)
     - [Buttons and links](#buttons-and-links)
     - [Tables](#tables)
-    - [Medias](#medias)
+    - [Images](#images)
 
 
 ## Configure Selenium integration
@@ -67,10 +67,39 @@ fastrpa.app.Web
 
 Once you have a `Web` object, you are able to browse on the web. The `Web` class is a abstraction of main browser and user functions.
 
-It includes, managing:
+```python
+# The current URL from the browser
+>>> web.url
+'https://www.site.com/mypage'
+
+# The domain from the current URL
+>>> web.domain
+'www.site.com'
+
+# The title from the current page
+>>> web.title
+'My website'
+
+# Navigate to an URL
+>>> web.browse('https://www.site.com/another_page')
+
+# Refresh the current page
+>>> web.refresh()
+
+# Check if an element is interactive on the screen
+>>> web.is_interactive('//*[@id="myElement"]')
+False
+
+# Get the from text content from an element
+>>> web.read('//*[@id="myElement"]')
+'Any text'
+
+```
+
+You can also, manage the following items:
 
 - [`keyboard`](#pressing-keys), to send key pressing events on the current page
-- [`timer`](#waiting-for-events), to wait for some events on the current page
+- [`wait`](#waiting-for-events), to wait for some events on the current page
 - [`cookies`](#managing-cookies), to manage cookies on the current page
 - [`screenshot`](#take-screenshots-and-prints), to download screenshots and prints from the current page
 - [`tabs`](#manage-and-navigate-through-opened-tabs), to manage and navigate through the current opened tabs
@@ -82,8 +111,8 @@ You can access these abstractions by calling it from the `Web` object.
 >>> web.keyboard
 <fastrpa.core.keyboard.Keyboard at 0x...>
 
->>> web.timer
-<fastrpa.core.timer.Timer at 0x...>
+>>> web.wait
+<fastrpa.core.wait.Wait at 0x...>
 
 >>> web.cookies
 <fastrpa.core.cookies.Cookies at 0x...>
@@ -306,17 +335,43 @@ To start our interactions with page elements, we just need to obtain these with 
  <fastrpa.core.elements.Element at 0x...>]
 ```
 
+By default, FastRPA always waits until the element is interactable. The default timeout is 15 seconds, and it is configurable by the FastRPA constructor. In case of timeout, you will receive a `ElementTimeoutException`.
+
+```python
+>>> app = FastRPA(timeout=60)
+>>> web = app.browse('https:...')
+
+# If after the timeout, the element isn't avaliable
+>>> web.elements('//*[@id="my_div"]')
+ElementTimeoutException: Element [//*[@id="my_div"]] not found after 60 seconds!
+```
+
+If you don't want to wait, just send a wait=False parameter to the element method.
+
+```python
+>>> app = FastRPA(timeout=60)
+>>> web = app.browse('https:...')
+
+# Get an element without waiting
+>>> web.elements('//*[@id="my_div"]', wait=False)
+<fastrpa.core.elements.Element at 0x...>
+
+# Try to get a element that is not on the page
+>>> web.elements('//*[@id="my_div"]', wait=False)
+ElementNotFoundException: No one element [//*[@id="my_div"]] was found!
+```
+
 There is some abstractions that implements actions and rules for specific elements. They is listed below.
 
 - `Element`, for any element
-- [`InputElement`](#inputs), for fillable inputs (`<input .../>`)
-- [`FileInputElement`](#file-inputs), for file inputs (`<input type="file" .../>`)
-- [`SelectElement`](#selects), for selects (`<select .../>`)
-- [`ListElement`](#lists), for ordered and unordered lists (`<ol .../>`, `<ul .../>`)
-- [`ButtonElement`](#buttons-and-links), for buttons and links (`<button .../>`, `<a .../>`)
-- [`FormElement`](#forms), for forms (`<form .../>`)
-- [`TableElement`](#tables), for tables (`<table .../>`)
-- [`MediaElement`](#medias), for any media like images and videos
+- [`InputElement`](#inputs), for fillable inputs (`input`)
+- [`FileInputElement`](#file-inputs), for file inputs (`input type="file"`)
+- [`SelectElement`](#selects), for selects (`select`)
+- [`ListElement`](#lists), for ordered and unordered lists (`ol`, `ul`)
+- [`ButtonElement`](#buttons-and-links), for buttons and links (`button`, `a`)
+- [`FormElement`](#forms), for forms (`form`)
+- [`TableElement`](#tables), for tables (`table`)
+- [`ImageElement`](#images), for any media like images and videos (`img`)
 
 To interact with generical `Element` instances, you can use the properties and methods below.
 
@@ -428,8 +483,8 @@ fastrpa.core.elements.SelectElement
 
 # Get all options from the select
 >>> my_select.options
-[Option(value='1', label='Option 1'),
- Option(value='2', label='Option 2')]
+{'1': 'Option 1',
+ '2': 'Option 2'}
 
 # Get just the options values
 >>> my_select.options_values
@@ -445,6 +500,10 @@ fastrpa.core.elements.SelectElement
 # Select the option by value
 >>> my_select.select(value='1')
 
+# Get the current value from the select
+>>> my_select.current
+('1', 'Option 1')
+
 # Check if an option exists, by label and value
 >>> 'Option 3' in my_select
 False
@@ -456,6 +515,14 @@ False
 # Check if an option exists, just by value
 >>> my_select.has_option(value='3')
 False
+
+# Print the options of the select
+>>> my_select.print()
+[@id="mySelect"]
+├── [1] Option 1
+├── [2] Option 2
+├── [3] Option 3
+└── [4] Option 4
 ```
 
 ### Lists
@@ -479,8 +546,8 @@ True
 
 # Get all items from the list
 >>> my_list.items
-[Item(id='1', label='Item 1'),
- Item(id='2', label='Item 2')]
+{'1': 'Item 1',
+ '2': 'Item 2'}
 
 # Get just the items ids
 >>> my_list.items_ids
@@ -507,6 +574,14 @@ False
 # Check if an item exists, just by id
 >>> my_list.has_item(id='3')
 False
+
+# Print the items of the list
+>>> my_list.print()
+[@id="myList"]
+├── [1] Item 1
+├── [2] Item 2
+├── [3] Item 3
+└── [4] Item 4
 ```
 
 ### Buttons and links
@@ -574,6 +649,29 @@ fastrpa.core.elements.FormElement
 >>> my_form.submit(my_form_button)
 ```
 
+Forms also accept success conditions to ensure your form was properly filled. If any condition fail, the form raises a `FormException`.
+
+```python
+# Set success by redireto to any url
+>>> my_form.set_success_condition(redirect_url='https:://.../success_page.html')
+
+# Set success by any element on the page
+>>> my_form.set_success_condition(elements_to_find=['//div[@id="success_message"]'])
+
+# Set success by any text on the page
+>>> my_form.set_success_condition(text_to_find=['Success!'])
+
+# Set success by all available conditions
+>>> my_form.set_success_condition(redirect_url='https:://.../success_page.html', elements_to_find=['//div[@id="success_message"]'], text_to_find=['Success!'])
+
+# Submit a form successfully
+>>> my_form.submit()
+
+# Fails a form submission
+>>> my_form.submit()
+FormException: The form submission got an error! Condition [redirect_url, https://...] not satisfied!
+```
+
 ### Tables
 
 Interactions with `table` tag.
@@ -629,6 +727,32 @@ False
 └──────────────────────────────┴──────────────────┴─────────┘
 ```
 
-### Medias
+### Images
 
-Need to write.
+Interactions with `img` tag.
+
+```python
+# Gets the right element class for the xpath
+>>> my_image = web.element('//*[id="myImage"]')
+>>> type(my_select)
+fastrpa.core.elements.TableElement
+
+# Try to get a ImageElement
+>>> my_image = web.image('//*[id="myImage"]')
+>>> type(my_select)
+fastrpa.core.elements.ImageElement
+
+# Get the image path from src attribute
+>>> my_image.reference
+'https://mysite.com/resources/image.png'
+
+# Get the alternative text from alt attribute
+>>> my_image.text
+'An website image'
+
+# Save the image on the current workdir
+>>> my_image.save()
+
+# Save the image on a custom path
+>>> my_image.save('/my/path/image.png')
+```
