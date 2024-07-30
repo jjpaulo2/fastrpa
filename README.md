@@ -343,6 +343,8 @@ By default, FastRPA always waits until the element is interactable. The default 
 
 # If after the timeout, the element isn't avaliable
 >>> web.elements('//*[@id="my_div"]')
+Traceback (most recent call last):
+    ...
 ElementTimeoutException: Element [//*[@id="my_div"]] not found after 60 seconds!
 ```
 
@@ -669,7 +671,10 @@ Forms also accept success conditions to ensure your form was properly filled. If
 
 # Fails a form submission
 >>> my_form.submit()
-FormException: The form submission got an error! Condition [redirect_url, https://...] not satisfied!
+Traceback (most recent call last):
+    ...
+FormException: The form submission got an error!
+Condition [redirect_url, https://...] not satisfied!
 ```
 
 ### Tables
