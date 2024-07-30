@@ -664,7 +664,10 @@ Forms also accept success conditions to ensure your form was properly filled. If
 >>> my_form.set_success_condition(text_to_find=['Success!'])
 
 # Set success by all available conditions
->>> my_form.set_success_condition(redirect_url='https:://.../success_page.html', elements_to_find=['//div[@id="success_message"]'], text_to_find=['Success!'])
+>>> my_form.set_success_condition(
+    redirect_url='https:://.../success_page.html',
+    elements_to_find=['//div[@id="success_message"]'],
+    text_to_find=['Success!'])
 
 # Submit a form successfully
 >>> my_form.submit()
@@ -673,8 +676,7 @@ Forms also accept success conditions to ensure your form was properly filled. If
 >>> my_form.submit()
 Traceback (most recent call last):
     ...
-FormException: The form submission got an error!
-Condition [redirect_url, https://...] not satisfied!
+FormException: The form submission got an error! Condition [redirect_url, https://...] not satisfied!
 ```
 
 ### Tables
