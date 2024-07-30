@@ -742,7 +742,7 @@ Interactions with `img` tag.
 # Gets the right element class for the xpath
 >>> my_image = web.element('//*[id="myImage"]')
 >>> type(my_select)
-fastrpa.core.elements.TableElement
+fastrpa.core.elements.ImageElement
 
 # Try to get a ImageElement
 >>> my_image = web.image('//*[id="myImage"]')
