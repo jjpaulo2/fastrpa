@@ -1,0 +1,31 @@
+site_name: FastRPA
+repo_name: jjpaulo2/fastrpa
+repo_url: https://github.com/jjpaulo2/fastrpa
+
+theme:
+  name: material
+  features:
+    - search.suggest
+
+nav:
+  - Introduction: index.md
+  - Selenium integration: selenium.md
+  - Browse interactions: 
+    - Overview: interactions/index.md
+    - Keyboard: interactions/keyboard.md
+    - Wait: interactions/wait.md
+    - Cookies: interactions/cookies.md
+    - Screenshot: interactions/screenshot.md
+    - Tabs: interactions/tabs.md
+    - Console: interactions/console.md
+  - Web elements:
+    - Overview: elements/index.md
+    - Inputs: elements/inputs.md
+    - File inputs: elements/file-inputs.md
+    - Selects: elements/selects.md
+    - Lists: elements/lists.md
+    - Buttons: elements/buttons.md
+    - Forms: elements/forms.md
+    - Tables: elements/tables.md
+    - Images: elements/images.md
+  - Low-level API: low-level.md
