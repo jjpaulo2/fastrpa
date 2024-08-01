@@ -35,3 +35,78 @@ type(web)
 ```python title="Output"
 fastrpa.app.Web
 ```
+
+## The Web objects
+
+Once you have a `Web` object, you are able to browse on the web. The `Web` class is a abstraction of main browser and user functions.
+
+### Get the current URL from the browser
+
+```python linenums="1"
+web.url
+```
+
+```python title="Output"
+'https://www.site.com/mypage'
+```
+
+### Get the domain from the current URL
+
+```python linenums="1"
+web.domain
+```
+
+```python title="Output"
+'www.site.com'
+```
+
+### Get the title from the current page
+
+```python linenums="1"
+web.title
+```
+
+```python title="Output"
+'My website'
+```
+
+### Navigate to an URL
+
+```python linenums="1"
+web.browse('https://www.site.com/another_page')
+```
+
+### Refresh the current page
+
+```python linenums="1"
+web.refresh()
+```
+
+### Check if an element is interactive on the screen
+
+```python linenums="1"
+web.is_interactive('//*[@id="myElement"]')
+```
+
+```python title="Output"
+False
+```
+
+### Get the from text content from an element
+
+```python linenums="1"
+web.read('//*[@id="myElement"]')
+```
+
+```python title="Output"
+'Any text'
+
+```
+
+## Next steps
+
+- [Configure the selenium integration](./selenium.md)
+- [Running interactions with the current page](./interactions/index.md)
+- [Manipulating elements](./elements/index.md)
+- [Get xpaths in a easier way](./low-level.md)
+- [Use the selenium/requests API directly](./low-level.md)

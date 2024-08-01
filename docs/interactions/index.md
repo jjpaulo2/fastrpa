@@ -1,33 +1,4 @@
-Once you have a `Web` object, you are able to browse on the web. The `Web` class is a abstraction of main browser and user functions.
-
-```python linenums="1"
-# The current URL from the browser
-web.url
-'https://www.site.com/mypage'
-
-# The domain from the current URL
-web.domain
-'www.site.com'
-
-# The title from the current page
-web.title
-'My website'
-
-# Navigate to an URL
-web.browse('https://www.site.com/another_page')
-
-# Refresh the current page
-web.refresh()
-
-# Check if an element is interactive on the screen
-web.is_interactive('//*[@id="myElement"]')
-False
-
-# Get the from text content from an element
-web.read('//*[@id="myElement"]')
-'Any text'
-
-```
+# Interactions
 
 You can also, manage the following items:
 

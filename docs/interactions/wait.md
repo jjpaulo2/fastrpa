@@ -1,23 +1,107 @@
-You can wait some time before or after execute some action with the automation. The method is just a simple proxy for `time.sleep`, to remove the need of more one import.
+You can wait some time before or after execute some action with the automation.
 
-You can also wait for element visibility. By default the timeout is 15 seconds, but you can also specify it.
+## Accessing the object
 
 ```python linenums="1"
-app = FastRPA()
+app = FastRPA(timeout=60)
 web = app.browse('https:...')
+type(web.wait)
+```
 
-# Runs a time.sleep(15)
-web.timer.wait_seconds(10)
+```python title="Output"
+fastrpa.core.wait.Wait
+```
 
-# Wait a maximum of 15 seconds until a button is present
-web.timer.wait_until_present('//button[@id="myBtn"]')
+## Shortcuts
 
-# Wait a maximum of custom seconds until a button is present
-web.timer.wait_until_present('//button[@id="myBtn"]', 30)
+### Wait some seconds
 
-# Wait a maximum of 15 seconds until a button is hide
-web.timer.wait_until_hide('//button[@id="myBtn"]')
+The method is just a simple proxy for `time.sleep`, to remove the need of one more import.
 
-# Wait a maximum of custom seconds until a button is hide
-web.timer.wait_until_hide('//button[@id="myBtn"]', 30)
+```python linenums="1"
+web.wait.seconds(10)
+```
+
+## Reference
+
+!!!info
+    By default, all methods get the default **timeout** from **FastRPA** instance. Every methods listed below, accepts an last parameter called **timeout** to specify a custom value.
+
+### Wait until element is present
+
+```python linenums="1"
+web.wait.is_present('//button[@id="myBtn"]')
+```
+
+To specify a custom `timeout`, you can do this in every method below.
+
+```python linenums="1"
+web.wait.is_present('//button[@id="myBtn"]', 60)
+web.wait.is_present('//button[@id="myBtn"]', timeout=60)
+```
+
+### Wait until element **not** is present
+
+```python linenums="1"
+web.wait.not_is_present('//button[@id="myBtn"]')
+```
+
+### Wait until element is clickable
+
+```python linenums="1"
+web.wait.is_clickable('//button[@id="myBtn"]')
+```
+
+### Wait until element **not** is clickable
+
+```python linenums="1"
+web.wait.not_is_clickable('//button[@id="myBtn"]')
+```
+
+### Wait until element is hidden
+
+```python linenums="1"
+web.wait.is_hidden('//button[@id="myBtn"]')
+```
+
+### Wait until element **not** is hidden
+
+```python linenums="1"
+web.wait.not_is_hidden('//button[@id="myBtn"]')
+```
+
+### Wait until element contains text
+
+```python linenums="1"
+web.wait.contains_text('//button[@id="myBtn"]', 'any text')
+```
+
+### Wait until element **not** contains text
+
+```python linenums="1"
+web.wait.not_contains_text('//button[@id="myBtn"]', 'any text')
+```
+
+### Wait until URL contains some text
+
+```python linenums="1"
+web.wait.url_contains('mysite.com/mypath')
+```
+
+### Wait until URL **not** contains some text
+
+```python linenums="1"
+web.wait.not_url_contains('mysite.com/mypath')
+```
+
+### Wait until title contains some text
+
+```python linenums="1"
+web.wait.title_contains('my page')
+```
+
+### Wait until title **not** contains some text
+
+```python linenums="1"
+web.wait.not_title_contains('my page')
 ```
