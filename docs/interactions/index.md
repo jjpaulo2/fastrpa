@@ -1,6 +1,6 @@
 # Interactions
 
-You can also, manage the following items:
+You can manage easier the following items:
 
 - [`keyboard`](./keyboard.md), to send key pressing events on the current page
 - [`wait`](./wait.md), to wait for some events on the current page
