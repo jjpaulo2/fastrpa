@@ -1,11 +1,11 @@
 # FastRPA
 
-[![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
 ![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
-![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)
+[![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
+[![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)](https://pypi.org/project/fastrpa/)
+[![Sponsor](https://img.shields.io/badge/Sponsor-FastRPA-deeppink)](https://github.com/sponsors/jjpaulo2)
 
 A simple to use abstraction over Selenium.
-
 
 ## Installation
 
@@ -30,5 +30,8 @@ from fastrpa import FastRPA
 app = FastRPA()
 web = app.browse('https:...')
 type(web)
+```
+
+```python title="Output"
 fastrpa.app.Web
 ```
