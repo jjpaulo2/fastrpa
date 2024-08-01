@@ -1,5 +1,9 @@
 # FastRPA
 
+[![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
+![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
+![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)
+
 A simple to use abstraction over Selenium.
 
 

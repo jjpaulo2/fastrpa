@@ -2,6 +2,7 @@ import os
 
 from mimetypes import guess_extension
 from requests import Response
+from tempfile import mkstemp
 
 from fastrpa.types import WebDriver
 from fastrpa.utils import get_session
@@ -23,14 +24,13 @@ class File:
 
     def download_file(self, url: str, path: str | None = None) -> str:
         response = get_session(self.webdriver).get(url)
-        extension = self.get_extension(response)
-        f_hash = self.get_hash(response)
+        file_suffix = self.get_hash(response) + self.get_extension(response)
 
         if path is None:
-            path = '/tmp/' + f_hash + extension
+            _, path = mkstemp(file_suffix)
 
         elif '.' not in path:
-            path = os.path.join(path, f_hash + extension)
+            path = os.path.join(path, file_suffix)
 
         with open(path, 'wb') as file:
             file.write(response.content)

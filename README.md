@@ -1,5 +1,9 @@
 # FastRPA
 
+[![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
+![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
+![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)
+
 A simple to use abstraction over Selenium.
 
 ### Installation
@@ -43,3 +47,4 @@ poetry install --with dev
 | `poetry run task lint` | Format and lint the code |
 | `poetry run task security` | Check security issues on the code |
 | `poetry run task check` | Check code issues |
+| `poetry run task docs` | Check code issues |

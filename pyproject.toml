@@ -63,6 +63,7 @@ tests = { cmd = "pytest", help = "Runs all unit tests" }
 lint = { cmd = "ruff format && ruff check --fix", help = "Format and lint the code" }
 security = { cmd = "bandit -c pyproject.toml -r fastrpa", help = "Check security issues on the code" }
 check = { cmd = "pytest && ruff format --check && ruff check && mypy .", help = "Check code issues" }
+docs = { cmd = "mkdocs serve", help = "Run mkdocs website" }
 
 [tool.mypy]
 exclude = [
