@@ -1,19 +1,33 @@
 Interactions with `input` with attribute `type="file"`.
 
+## Reading the element
+
+### Getting the right element class for the xpath
+
 ```python
-# Gets the right element class for the xpath
 >>> my_input = web.element('//*[id="myFileInput"]')
 >>> type(my_input)
 fastrpa.core.elements.FileInputElement
+```
 
-# Try to get a FileInputElement
+### Try to get a `FileInputElement`
+
+```python
 >>> my_input = web.file_input('//*[id="myFileInput"]')
 >>> type(my_input)
 fastrpa.core.elements.FileInputElement
+```
 
-# Attach a local file
+## Reference
+
+### Attach a local file
+
+```python
 >>> my_input.attach_file('/home/user/picture.png')
+```
 
-# Attach a file from the web
+### Attach a file from the web
+
+```python
 >>> my_input.attach_file('https://website.com/picture.png')
 ```

@@ -1,27 +1,41 @@
 Interactions with `button` and `a` tags.
 
+## Reading the element
+
+### Getting the right element class for the xpath
+
 ```python
-# Gets the right element class for the xpath
 >>> my_button = web.element('//*[id="myButton"]')
 >>> type(my_select)
 fastrpa.core.elements.ButtonElement
+```
 
-# Try to get a ButtonElement
+### Try to get a `ButtonElement`
+
+```python
 >>> my_button = web.button('//*[id="myButton"]')
 >>> type(my_select)
 fastrpa.core.elements.ButtonElement
+```
 
-# Check if the button is a link
+## Reference
+
+### Check if the button is a link
+
+```python
 >>> my_button.is_link
 True
+```
 
-# Get the link reference
+### Get the link reference
+
+```python
 >>> my_button.reference
 'https://www.mysite.com/page'
+```
 
-# Click in the button
->>> my_button.click()
+### Perform a double click in the button
 
-# Perform a double click in the button
+```python
 >>> my_button.double_click()
 ```
