@@ -10,8 +10,11 @@ To start our interactions with page elements, we just need to obtain these with 
 
 ### Get just one element or the first found
 
-```python
->>> web.element('//*[@id="my_div"]')
+```python linenums="1"
+web.element('//*[@id="my_div"]')
+```
+
+```python title="Output"
 <fastrpa.core.elements.Element at 0x...>
 ```
 
@@ -19,12 +22,15 @@ To start our interactions with page elements, we just need to obtain these with 
 
 By default, FastRPA always waits until the element is interactable. The default timeout is 15 seconds, and it is configurable by the FastRPA constructor. In case of timeout, you will receive a `ElementTimeoutException`.
 
-```python
->>> app = FastRPA(timeout=60)
->>> web = app.browse('https:...')
+```python linenums="1"
+app = FastRPA(timeout=60)
+web = app.browse('https:...')
 
 # If after the timeout, the element isn't avaliable
->>> web.element('//*[@id="my_div"]')
+web.element('//*[@id="my_div"]')
+```
+
+```python title="Output"
 Traceback (most recent call last):
     ...
 ElementTimeoutException: Element [//*[@id="my_div"]] not found after 60 seconds!
@@ -34,16 +40,21 @@ ElementTimeoutException: Element [//*[@id="my_div"]] not found after 60 seconds!
 
 If you don't want to wait, just send a `wait=False` parameter to the element method.
 
-```python
->>> app = FastRPA(timeout=60)
->>> web = app.browse('https:...')
+```python linenums="1"
+web.elements('//*[@id="my_div"]', wait=False)
+```
 
-# Get an element without waiting
->>> web.elements('//*[@id="my_div"]', wait=False)
+```python title="Output"
 <fastrpa.core.elements.Element at 0x...>
+```
 
-# Try to get a element that is not on the page
->>> web.elements('//*[@id="my_div"]', wait=False)
+If you try to get an element that is not in the page, you will get an `ElementNotFoundException`.
+
+```python linenums="1"
+web.elements('//*[@id="my_div"]', wait=False)
+```
+
+```python title="Output"
 Traceback (most recent call last):
     ...
 ElementNotFoundException: No one element [//*[@id="my_div"]] was found!
@@ -51,16 +62,22 @@ ElementNotFoundException: No one element [//*[@id="my_div"]] was found!
 
 ### Get all elements found
 
-```python
->>> web.elements('//*[@id="my_div"]')
+```python linenums="1"
+web.elements('//*[@id="my_div"]')
+```
+
+```python title="Output"
 [<fastrpa.core.elements.Element at 0x...>,
  <fastrpa.core.elements.Element at 0x...>]
 ```
 
 In the case of trying to get many elements, the framework will now run a wait strategy.
 
-```python
->>> web.elements('//*[@id="my_inexistent_div"]')
+```python linenums="1"
+web.elements('//*[@id="my_inexistent_div"]')
+```
+
+```python title="Output"
 Traceback (most recent call last):
     ...
 ElementNotFoundException: No one element [//*[@id="my_div"]] was found!
@@ -88,70 +105,97 @@ To interact with generical `Element` instances, you can use the properties and m
 
 ### Get the element
 
-```python
->>> element = web.element('//*[id="myElement"]')
->>> type(element)
+```python linenums="1"
+element = web.element('//*[id="myElement"]')
+type(element)
+```
+
+```python title="Output"
 fastrpa.core.elements.Element
 ```
 
 ### Get the tag
 
-```python
->>> element.tag
+```python linenums="1"
+element.tag
+```
+
+```python title="Output"
 'div'
 ```
 
 ### Get the id
 
-```python
->>> element.id
+```python linenums="1"
+element.id
+```
+
+```python title="Output"
 'searchform'
 ```
 
 ### Get the classes
 
-```python
->>> element.css_class
+```python linenums="1"
+element.css_class
+```
+
+```python title="Output"
 ['form', 'form-styled']
 ```
 
 ### Get the inline css
 
-```python
->>> element.css_inline
+```python linenums="1"
+element.css_inline
+```
+
+```python title="Output"
 {'background-image': 'url("...")'}
 ```
 
 ### Get the text or value
 
-```python
->>> element.text
+```python linenums="1"
+element.text
+```
+
+```python title="Output"
 'Fazer login'
 ```
 
 ### Returns if the element is visible for the user
 
-```python
->>> element.is_visible
+```python linenums="1"
+element.is_visible
+```
+
+```python title="Output"
 True
 ```
 
 ### Returns the value for any element attribute, or None if doesn't exists
 
-```python
->>> element.attribute('data-property')
+```python linenums="1"
+element.attribute('data-property')
+```
+
+```python title="Output"
 'any value'
 ```
 
 ### Check if some attribute has some value
 
-```python
->>> element.check('attribute', 'value')
+```python linenums="1"
+element.check('attribute', 'value')
+```
+
+```python title="Output"
 False
 ```
 
 ### Scroll and move the cursor to the element
 
-```python
->>> element.focus()
+```python linenums="1"
+element.focus()
 ```

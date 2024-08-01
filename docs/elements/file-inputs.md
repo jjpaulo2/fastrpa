@@ -4,17 +4,23 @@ Interactions with `input` with attribute `type="file"`.
 
 ### Getting the right element class for the xpath
 
-```python
->>> my_input = web.element('//*[id="myFileInput"]')
->>> type(my_input)
+```python linenums="1"
+my_input = web.element('//*[id="myFileInput"]')
+type(my_input)
+```
+
+```python title="Output"
 fastrpa.core.elements.FileInputElement
 ```
 
 ### Try to get a `FileInputElement`
 
-```python
->>> my_input = web.file_input('//*[id="myFileInput"]')
->>> type(my_input)
+```python linenums="1"
+my_input = web.file_input('//*[id="myFileInput"]')
+type(my_input)
+```
+
+```python title="Output"
 fastrpa.core.elements.FileInputElement
 ```
 
@@ -22,12 +28,12 @@ fastrpa.core.elements.FileInputElement
 
 ### Attach a local file
 
-```python
->>> my_input.attach_file('/home/user/picture.png')
+```python linenums="1"
+my_input.attach_file('/home/user/picture.png')
 ```
 
 ### Attach a file from the web
 
-```python
->>> my_input.attach_file('https://website.com/picture.png')
+```python linenums="1"
+my_input.attach_file('https://website.com/picture.png')
 ```

@@ -6,6 +6,7 @@ theme:
   name: material
   features:
     - search.suggest
+    - content.code.copy
 
 nav:
   - Introduction: index.md
@@ -29,3 +30,12 @@ nav:
     - Tables: elements/tables.md
     - Images: elements/images.md
   - Low-level API: low-level.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

@@ -25,10 +25,10 @@ pip install fastrpa[debug]
 
 The FastRPA object, will prepare everything you need to start browse on the web. You can pass Selenium configurations to it. See [here](./selenium.md) how to do it.
 
-```python
->>> from fastrpa import FastRPA
->>> app = FastRPA()
->>> web = app.browse('https:...')
->>> type(web)
+```python linenums="1"
+from fastrpa import FastRPA
+app = FastRPA()
+web = app.browse('https:...')
+type(web)
 fastrpa.app.Web
 ```

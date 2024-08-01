@@ -4,17 +4,23 @@ Interactions with `table` tag.
 
 ### Getting the right element class for the xpath
 
-```python
->>> my_table = web.element('//*[id="myTable"]')
->>> type(my_select)
+```python linenums="1"
+my_table = web.element('//*[id="myTable"]')
+type(my_select)
+```
+
+```python title="Output"
 fastrpa.core.elements.TableElement
 ```
 
 ### Try to get a `TableElement`
 
-```python
->>> my_table = web.button('//*[id="myTable"]')
->>> type(my_select)
+```python linenums="1"
+my_table = web.button('//*[id="myTable"]')
+type(my_select)
+```
+
+```python title="Output"
 fastrpa.core.elements.TableElement
 ```
 
@@ -22,15 +28,21 @@ fastrpa.core.elements.TableElement
 
 ### Get the headers values
 
-```python
->>> my_table.headers
+```python linenums="1"
+my_table.headers
+```
+
+```python title="Output"
 ['Company', 'Contact', 'Country']
 ```
 
 ### Get the rows values
 
-```python
->>> my_table.rows
+```python linenums="1"
+my_table.rows
+```
+
+```python title="Output"
 [['Alfreds Futterkiste', 'Maria Anders', 'Germany'],
  ['Centro comercial Moctezuma', 'Francisco Chang', 'Mexico'],
  ...]
@@ -38,8 +50,11 @@ fastrpa.core.elements.TableElement
 
 ### Get all values from one column, by column name
 
-```python
->>> my_table.column_values('Company')
+```python linenums="1"
+my_table.column_values('Company')
+```
+
+```python title="Output"
 ['Alfreds Futterkiste',
  'Centro comercial Moctezuma',
  ...]
@@ -47,8 +62,11 @@ fastrpa.core.elements.TableElement
 
 ### Get all values from one column, by column index
 
-```python
->>> my_table.column_values(index=0)
+```python linenums="1"
+my_table.column_values(index=0)
+```
+
+```python title="Output"
 ['Alfreds Futterkiste',
  'Centro comercial Moctezuma',
  ...]
@@ -56,8 +74,11 @@ fastrpa.core.elements.TableElement
 
 ### Check if a value exists in one of the table cells
 
-```python
->>> 'Cell content' in my_table
+```python linenums="1"
+'Cell content' in my_table
+```
+
+```python title="Output"
 False
 ```
 
@@ -65,8 +86,11 @@ False
 
 > To use this method, you need to install the **\[debug\]** extras, as [shown here](../index.md#installation).
 
-```python
->>> my_table.print()
+```python linenums="1"
+my_table.print()
+```
+
+```python title="Output"
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
 ┃ Company                      ┃ Contact          ┃ Country ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━┩

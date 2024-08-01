@@ -4,17 +4,23 @@ Interactions with `input` and `textarea` tags.
 
 ### Getting the right element class for the xpath
 
-```python
->>> my_input = web.element('//*[id="myInput"]')
->>> type(my_input)
+```python linenums="1"
+my_input = web.element('//*[id="myInput"]')
+type(my_input)
+```
+
+```python title="Output"
 fastrpa.core.elements.InputElement
 ```
 
 ### Try to get an `InputElement`
 
-```python
->>> my_input = web.input('//*[id="myInput"]')
->>> type(my_input)
+```python linenums="1"
+my_input = web.input('//*[id="myInput"]')
+type(my_input)
+```
+
+```python title="Output"
 fastrpa.core.elements.InputElement
 ```
 
@@ -22,21 +28,21 @@ fastrpa.core.elements.InputElement
 
 ### Clear the element value
 
-```python
->>> my_input.clear()
+```python linenums="1"
+my_input.clear()
 ```
 
 ### Fill the input box with some value
 
-```python
->>> my_input.fill('my input')
+```python linenums="1"
+my_input.fill('my input')
 ```
 
 ### Fill the input box, key by key
 
-```python
->>> my_input.fill_slowly('my input')
+```python linenums="1"
+my_input.fill_slowly('my input')
 
 # Fill the input box, key by key, waiting 3 seconds between every key send
->>> my_input.fill_slowly('my input', 3)
+my_input.fill_slowly('my input', 3)
 ```
