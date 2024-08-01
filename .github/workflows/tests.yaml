@@ -1,0 +1,42 @@
+name: Tests
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  tests:
+
+    strategy:
+      matrix:
+        python_version: ['3.9', '3.10', '3.11', '3.12']
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Check code issues
+        run: poetry run task check
+
+      - name: Check security issues
+        run: poetry run task security
+
+      - name: Unit tests
+        run: poetry run task tests
+
+      - name: Build the project
+        run: poetry build
