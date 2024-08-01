@@ -28,7 +28,7 @@ classifiers = [
 "Bug Tracker" = "https://github.com/jjpaulo2/fastrpa/issues"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 selenium = "^4.22.0"
 requests = "^2.32.3"
 types-requests = "^2.32.0.20240622"
