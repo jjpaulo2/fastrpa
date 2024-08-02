@@ -1,0 +1,46 @@
+name: Publish documentation
+on: 
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mkdocs:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: github-pages
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build the docs site
+        run: poetry run mkdocs build
+
+      - name: Upload site artifactory
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

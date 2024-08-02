@@ -4,6 +4,21 @@ repo_url: https://github.com/jjpaulo2/fastrpa
 
 theme:
   name: material
+  icon:
+    logo: fontawesome/solid/window-restore
+  palette:
+    - scheme: default
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - search.suggest
     - content.code.copy
@@ -41,3 +56,5 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
+  - pymdownx.tasklist:
+      custom_checkbox: true

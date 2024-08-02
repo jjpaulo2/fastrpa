@@ -7,6 +7,11 @@
 
 A simple to use abstraction over Selenium.
 
+- [x] **Easy to use**: complex interactions are abstracted to intuitive methods.
+- [x] **Clean imports**: remove the necessity of import many packages and objects. Every automation features are accessible by methods of one main object.
+- [x] **Typed**: type hints grant the code readability, and turn possible to navigate through the methods with any Intellisense tool.
+- [x] **Selenium safe**: the core are developed following the Selenium best-practices.
+
 ## Installation
 
 To perform a basic installation, just run:
