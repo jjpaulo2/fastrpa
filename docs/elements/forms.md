@@ -1,5 +1,5 @@
 ---
-description: Interactions with <form> tag.
+description: Interactions with form tag.
 ---
 
 Interactions with `form` tag.

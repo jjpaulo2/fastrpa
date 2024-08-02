@@ -1,5 +1,5 @@
 ---
-description: Interactions with <input> tag with attribute [@type="file"].
+description: Interactions with input tag with attribute [@type="file"].
 ---
 
 Interactions with `input` with attribute `type="file"`.

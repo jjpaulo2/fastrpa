@@ -1,5 +1,5 @@
 ---
-description: Interactions with <img> tag.
+description: Interactions with img tag.
 ---
 
 Interactions with `img` tag.

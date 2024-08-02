@@ -1,5 +1,5 @@
 ---
-description: Interactions with <button> and <a> tag.
+description: Interactions with button and a tags.
 ---
 
 Interactions with `button` and `a` tags.

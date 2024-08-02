@@ -1,5 +1,5 @@
 ---
-description: Interactions with <select> tag.
+description: Interactions with select tag.
 ---
 
 Interactions with `select` tag.

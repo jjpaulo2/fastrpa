@@ -1,5 +1,5 @@
 ---
-description: Interactions with <table> tag.
+description: Interactions with table tag.
 ---
 
 Interactions with `table` tag.

@@ -25,6 +25,9 @@ fastrpa.core.keyboard.Keyboard
 
 ```python linenums="1"
 web.keyboad.keys
+```
+
+```python title="Output"
 ['ADD',
  'ALT',
  'ARROW_DOWN',

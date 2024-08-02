@@ -1,5 +1,5 @@
 ---
-description: Interactions with <input> and <textarea> tags.
+description: Interactions with input and textarea tags.
 ---
 
 Interactions with `input` and `textarea` tags.
