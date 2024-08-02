@@ -110,7 +110,7 @@ web.is_interactive('//*[@id="myElement"]')
 False
 ```
 
-### Get the from text content from an element
+### Get the text content from an element
 
 ```python linenums="1"
 web.read('//*[@id="myElement"]')
