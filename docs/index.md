@@ -40,12 +40,18 @@ The FastRPA object, will prepare everything you need to start browse on the web.
 ```python linenums="1"
 from fastrpa import FastRPA
 app = FastRPA()
-web = app.browse('https:...')
+web = app.web()
 type(web)
 ```
 
 ```python title="Output"
 fastrpa.app.Web
+```
+
+You can also instanciate a Web object and browse to an starter URL.
+
+```python linenums="1"
+web = app.web('https://...')
 ```
 
 ## The Web objects
