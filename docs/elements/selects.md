@@ -116,7 +116,7 @@ False
 ### Print the options of the select
 
 !!! warning "Extra needed!"
-    To use this method, you need to install the **debug** extras, as [shown here](../index.md#installation), with the command `pip install fastrpa[debug]`.
+    To use this method, you need to install the **debug** extras, as [shown here](../index.md#installation), with the command `pip install "fastrpa[debug]"`.
 
 ```python linenums="1"
 my_select.print()

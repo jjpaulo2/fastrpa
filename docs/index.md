@@ -30,7 +30,7 @@ pip install fastrpa
 To install also, packages to help you to debug your application, install with **debug** extras:
 
 ```
-pip install fastrpa[debug]
+pip install "fastrpa[debug]"
 ```
 
 ## Your first instance
