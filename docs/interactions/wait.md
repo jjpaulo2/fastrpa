@@ -1,3 +1,7 @@
+---
+description: Learn how to easily wait for some events.
+---
+
 You can wait some time before or after execute some action with the automation.
 
 ## Accessing the object

@@ -1,3 +1,7 @@
+---
+description: Interactions with <table> tag.
+---
+
 Interactions with `table` tag.
 
 ## Reading the element

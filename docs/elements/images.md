@@ -1,3 +1,7 @@
+---
+description: Interactions with <img> tag.
+---
+
 Interactions with `img` tag.
 
 ## Reading the element

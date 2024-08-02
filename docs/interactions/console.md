@@ -1,3 +1,7 @@
+---
+description: Learn how to easily run javascript on the current page.
+---
+
 To run javascript on the current page, you can use the following methods.
 
 ## Accessing the object

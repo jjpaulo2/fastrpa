@@ -1,3 +1,7 @@
+---
+description: Interactions with <select> tag.
+---
+
 Interactions with `select` tag.
 
 ## Reading the element

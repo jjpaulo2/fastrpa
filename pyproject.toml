@@ -45,7 +45,7 @@ pytest-randomly = "^3.15.0"
 taskipy = "^1.13.0"
 bandit = "^1.7.9"
 mkdocs = "^1.6.0"
-mkdocs-material = "^9.5.30"
+mkdocs-material = {extras = ["imaging"], version = "^9.5.30"}
 
 [build-system]
 requires = ["poetry-core"]

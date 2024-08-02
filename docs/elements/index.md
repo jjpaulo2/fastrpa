@@ -1,3 +1,8 @@
+---
+title: Elements
+description: Learn how to easily interact with page elements.
+---
+
 # Elements
 
 !!! info "FastRPA is xpath-oriented!"

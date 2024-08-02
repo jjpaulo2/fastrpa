@@ -1,3 +1,7 @@
+---
+description: Interactions with <input> and <textarea> tags.
+---
+
 Interactions with `input` and `textarea` tags.
 
 ## Reading the element

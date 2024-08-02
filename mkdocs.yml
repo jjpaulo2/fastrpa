@@ -1,6 +1,8 @@
 site_name: FastRPA
 repo_name: jjpaulo2/fastrpa
 repo_url: https://github.com/jjpaulo2/fastrpa
+site_description: Official documentation from FastRPA. A simple to use abstraction over Selenium.
+site_url: https://jjpaulo2.github.io/fastrpa/
 
 theme:
   name: material
@@ -26,8 +28,8 @@ theme:
 nav:
   - Introduction: index.md
   - Selenium integration: selenium.md
-  - Browse interactions: 
-    - Overview: interactions/index.md
+  - Browse interactions:
+    - Introduction: interactions/index.md
     - Keyboard: interactions/keyboard.md
     - Wait: interactions/wait.md
     - Cookies: interactions/cookies.md
@@ -35,7 +37,7 @@ nav:
     - Tabs: interactions/tabs.md
     - Console: interactions/console.md
   - Web elements:
-    - Overview: elements/index.md
+    - Introduction: elements/index.md
     - Inputs: elements/inputs.md
     - File inputs: elements/file-inputs.md
     - Selects: elements/selects.md
@@ -58,3 +60,6 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.tasklist:
       custom_checkbox: true
+
+plugins:
+  - social

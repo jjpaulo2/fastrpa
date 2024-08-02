@@ -1,3 +1,7 @@
+---
+description: Learn how to easily send keyboard events to the current page.
+---
+
 You can send keyboard events to the current page, by using the methods below.
 
 ## Accessing the object

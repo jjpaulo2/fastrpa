@@ -1,3 +1,7 @@
+---
+description: Interactions with <button> and <a> tag.
+---
+
 Interactions with `button` and `a` tags.
 
 ## Reading the element

@@ -1,3 +1,7 @@
+---
+description: Learn how to easily take screenshots from the current page.
+---
+
 By default, all screenshot methods save the files in the current active directory.
 
 ## Accessing the object

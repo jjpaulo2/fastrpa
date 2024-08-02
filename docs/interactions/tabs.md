@@ -1,3 +1,7 @@
+---
+description: Learn how to easily manage and navigate through tabs on the browser.
+---
+
 To manage and navigate through browse tabs, use the following methods.
 
 ## Accessing the object

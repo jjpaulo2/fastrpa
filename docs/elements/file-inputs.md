@@ -1,3 +1,7 @@
+---
+description: Interactions with <input> tag with attribute [@type="file"].
+---
+
 Interactions with `input` with attribute `type="file"`.
 
 ## Reading the element

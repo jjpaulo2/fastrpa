@@ -1,3 +1,7 @@
+---
+description: Learn how to easily manage cookies on the current domain.
+---
+
 An abstraction to manage cookies on the current domain.
 
 ## Accessing the object

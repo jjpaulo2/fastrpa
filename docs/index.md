@@ -1,3 +1,8 @@
+---
+title: Documentation
+description: Official documentation from FastRPA. A simple to use abstraction over Selenium.
+---
+
 # FastRPA
 
 ![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
@@ -22,7 +27,7 @@ To perform a basic installation, just run:
 pip install fastrpa
 ```
 
-To install also, packages to help you to debug your application, install with **\[debug\]** extras:
+To install also, packages to help you to debug your application, install with **debug** extras:
 
 ```
 pip install fastrpa[debug]
