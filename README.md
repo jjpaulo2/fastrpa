@@ -2,6 +2,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
 [![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
+[![Documentation](https://github.com/jjpaulo2/fastrpa/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/docs.yaml)
+[![Publish](https://github.com/jjpaulo2/fastrpa/actions/workflows/publish.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/publish.yaml)
 [![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)](https://pypi.org/project/fastrpa/)
 [![Sponsor](https://img.shields.io/badge/Sponsor-FastRPA-deeppink)](https://github.com/sponsors/jjpaulo2)
 
@@ -23,7 +25,7 @@ pip install fastrpa[debug]
 
 ### How to use
 
-For details, read the [documentation](./docs/index.md).
+For details, read the [documentation](https://jjpaulo2.github.io/fastrpa).
 
 ## For development
 
@@ -48,4 +50,4 @@ poetry install --with dev
 | `poetry run task lint` | Format and lint the code |
 | `poetry run task security` | Check security issues on the code |
 | `poetry run task check` | Check code issues |
-| `poetry run task docs` | Check code issues |
+| `poetry run task docs` | Serve the docs server |

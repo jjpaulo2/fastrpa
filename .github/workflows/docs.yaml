@@ -1,4 +1,5 @@
-name: Publish documentation
+name: Documentation
+
 on: 
   push:
     branches:
@@ -13,7 +14,10 @@ jobs:
 
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    environment: github-pages
+
+    environment:
+      name: github-pages
+      url: https://jjpaulo2.github.io/fastrpa/
 
     permissions:
       pages: write

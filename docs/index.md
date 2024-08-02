@@ -2,6 +2,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
 [![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
+[![Documentation](https://github.com/jjpaulo2/fastrpa/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/docs.yaml)
+[![Publish](https://github.com/jjpaulo2/fastrpa/actions/workflows/publish.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/publish.yaml)
 [![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)](https://pypi.org/project/fastrpa/)
 [![Sponsor](https://img.shields.io/badge/Sponsor-FastRPA-deeppink)](https://github.com/sponsors/jjpaulo2)
 
@@ -10,7 +12,7 @@ A simple to use abstraction over Selenium.
 - [x] **Easy to use**: complex interactions are abstracted to intuitive methods.
 - [x] **Clean imports**: remove the necessity of import many packages and objects. Every automation features are accessible by methods of one main object.
 - [x] **Typed**: type hints grant the code readability, and turn possible to navigate through the methods with any Intellisense tool.
-- [x] **Selenium safe**: the core are developed following the Selenium best-practices.
+- [x] **Selenium safe**: the core was developed following the Selenium best-practices. You can focus on business rules.
 
 ## Installation
 
