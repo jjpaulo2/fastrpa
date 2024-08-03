@@ -153,6 +153,85 @@ class SelectElement(Element):
         print_list(f'{identifier}', self.options)
 
 
+class RadioInputElement(Element):
+    @property
+    def radio_sources(self) -> list[WebElement]:
+        name = self.attribute('name')
+        xpath = f'//input[@type="radio"][@name="{name}"][not(@disabled)]'
+        return find_elements(self.webdriver, xpath)
+
+    @property
+    def options_values(self) -> list[str]:
+        return [
+            value
+            for element in self.radio_sources
+            if (value := element.get_attribute('value'))
+        ]
+
+    @property
+    def options_labels(self) -> list[str]:
+        return [
+            find_element(self.webdriver, xpath).text
+            for element in self.radio_sources
+            if (xpath := f'//label[@for="{element.get_attribute("id")}"]')
+        ]
+    
+    @property
+    def options(self) -> dict[str, str]:
+        return {
+            value: label
+            for value, label in zip(self.options_values, self.options_labels)
+        }
+    
+    def select(self, label: str | None = None, value: str | None = None):
+        if label:
+            index = self.options_labels.index(label)
+            element = self.radio_sources[index]
+            self.actions.move_to_element(element)
+            self.actions.click(element)
+            self.actions.perform()
+            
+        elif value:
+            index = self.options_values.index(value)
+            element = self.radio_sources[index]
+            self.actions.move_to_element(element)
+            self.actions.click(element)
+            self.actions.perform()
+        else:
+            raise ValueError('You must provide at least "label" or "value"!')
+
+    def has_option(self, label: str | None = None, value: str | None = None):
+        if label:
+            return label in self.options_labels
+        elif value:
+            return value in self.options_values
+        raise ValueError('You must provide at least "label" or "value"!')
+
+    def __contains__(self, key: Any) -> bool:
+        return self.has_option(label=key) or self.has_option(value=key)
+
+    def print(self):
+        identifier = f'[@id="{self.id}"]' if self.id else self.xpath
+        print_list(f'{identifier}', self.options)
+
+
+class CheckboxElement(Element):
+
+    @property
+    def is_checked(self) -> bool:
+        return self.source.is_selected()
+    
+    def check(self):
+        if not self.is_checked:
+            self.click()
+
+    def uncheck(self):
+        if self.is_checked:
+            self.click()
+
+    def switch(self):
+        self.click()
+
 class ListElement(Element):
     @property
     def items_sources(self) -> list[WebElement]:

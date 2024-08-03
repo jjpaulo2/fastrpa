@@ -66,7 +66,7 @@ def print_list(name: str, values_dict: dict[str | None, str | None]):
 
         rich_tree = Tree(name.replace('[', '\['))
         for id, value in values_dict.items():
-            rich_tree.add(f'[{id}] {value}')
+            rich_tree.add(f'\[{id}] {value}')
         Console().print(rich_tree)
 
     except ImportError:

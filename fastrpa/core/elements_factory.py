@@ -7,12 +7,14 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from fastrpa.core.elements import (
     ButtonElement,
+    CheckboxElement,
     Element,
     FileInputElement,
     FormElement,
     ImageElement,
     InputElement,
     ListElement,
+    RadioInputElement,
     SelectElement,
     TableElement,
 )
@@ -40,6 +42,22 @@ class ElementsFactory:
             ]
         ):
             return FileInputElement
+        
+        elif all(
+            [
+                element.tag_name == 'input',
+                element.get_attribute('type') == 'radio',
+            ]
+        ):
+            return RadioInputElement
+        
+        elif all(
+            [
+                element.tag_name == 'input',
+                element.get_attribute('type') == 'checkbox',
+            ]
+        ):
+            return CheckboxElement
 
         elif element.tag_name in ['input', 'textarea']:
             return InputElement

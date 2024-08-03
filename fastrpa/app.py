@@ -18,6 +18,7 @@ from fastrpa.core.screenshot import Screenshot
 from fastrpa.core.tabs import Tabs
 from fastrpa.exceptions import ElementNotCompatibleException
 from fastrpa.core.elements import (
+    CheckboxElement,
     Element,
     ImageElement,
     InputElement,
@@ -25,6 +26,7 @@ from fastrpa.core.elements import (
     ButtonElement,
     FormElement,
     ListElement,
+    RadioInputElement,
     TableElement,
     SelectElement,
 )
@@ -117,14 +119,20 @@ class Web:
     def file_input(self, xpath: str, wait: bool = True) -> FileInputElement:
         return self._specific_element(xpath, FileInputElement, wait)
 
+    def radio_input(self, xpath: str, wait: bool = True) -> RadioInputElement:
+        return self._specific_element(xpath, RadioInputElement, wait)
+    
+    def checkbox(self, xpath: str, wait: bool = True) -> CheckboxElement:
+        return self._specific_element(xpath, CheckboxElement, wait)
+    
+    def select(self, xpath: str, wait: bool = True) -> SelectElement:
+        return self._specific_element(xpath, SelectElement, wait)
+    
     def button(self, xpath: str, wait: bool = True) -> ButtonElement:
         return self._specific_element(xpath, ButtonElement, wait)
 
     def form(self, xpath: str, wait: bool = True) -> FormElement:
         return self._specific_element(xpath, FormElement, wait)
-
-    def select(self, xpath: str, wait: bool = True) -> SelectElement:
-        return self._specific_element(xpath, SelectElement, wait)
 
     def list(self, xpath: str, wait: bool = True) -> ListElement:
         return self._specific_element(xpath, ListElement, wait)
