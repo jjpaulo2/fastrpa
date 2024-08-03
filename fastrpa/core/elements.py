@@ -175,14 +175,14 @@ class RadioInputElement(Element):
             for element in self.radio_sources
             if (xpath := f'//label[@for="{element.get_attribute("id")}"]')
         ]
-    
+
     @property
     def options(self) -> dict[str, str]:
         return {
             value: label
             for value, label in zip(self.options_values, self.options_labels)
         }
-    
+
     def select(self, label: str | None = None, value: str | None = None):
         if label:
             index = self.options_labels.index(label)
@@ -190,7 +190,7 @@ class RadioInputElement(Element):
             self.actions.move_to_element(element)
             self.actions.click(element)
             self.actions.perform()
-            
+
         elif value:
             index = self.options_values.index(value)
             element = self.radio_sources[index]
@@ -216,11 +216,10 @@ class RadioInputElement(Element):
 
 
 class CheckboxElement(Element):
-
     @property
     def is_checked(self) -> bool:
         return self.source.is_selected()
-    
+
     def check(self):
         if not self.is_checked:
             self.click()
@@ -231,6 +230,7 @@ class CheckboxElement(Element):
 
     def switch(self):
         self.click()
+
 
 class ListElement(Element):
     @property

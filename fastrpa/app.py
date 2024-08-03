@@ -121,13 +121,13 @@ class Web:
 
     def radio_input(self, xpath: str, wait: bool = True) -> RadioInputElement:
         return self._specific_element(xpath, RadioInputElement, wait)
-    
+
     def checkbox(self, xpath: str, wait: bool = True) -> CheckboxElement:
         return self._specific_element(xpath, CheckboxElement, wait)
-    
+
     def select(self, xpath: str, wait: bool = True) -> SelectElement:
         return self._specific_element(xpath, SelectElement, wait)
-    
+
     def button(self, xpath: str, wait: bool = True) -> ButtonElement:
         return self._specific_element(xpath, ButtonElement, wait)
 

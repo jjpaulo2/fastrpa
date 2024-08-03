@@ -42,7 +42,7 @@ class ElementsFactory:
             ]
         ):
             return FileInputElement
-        
+
         elif all(
             [
                 element.tag_name == 'input',
@@ -50,7 +50,7 @@ class ElementsFactory:
             ]
         ):
             return RadioInputElement
-        
+
         elif all(
             [
                 element.tag_name == 'input',
