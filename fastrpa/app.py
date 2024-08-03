@@ -68,7 +68,7 @@ class Web:
     @property
     def title(self) -> str:
         return self.webdriver.title
-    
+
     @property
     def html(self) -> str:
         return self.webdriver.page_source
