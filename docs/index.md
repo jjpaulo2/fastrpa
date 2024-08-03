@@ -88,6 +88,16 @@ web.title
 'My website'
 ```
 
+### Get the HTML source-code from the current page
+
+```python linenums="1"
+web.html
+```
+
+```python title="Output"
+'<html lang="en"><head>\n    <meta charset="utf-8">...'
+```
+
 ### Navigate to an URL
 
 ```python linenums="1"
