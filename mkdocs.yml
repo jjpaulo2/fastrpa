@@ -40,6 +40,8 @@ nav:
     - Introduction: elements/index.md
     - Inputs: elements/inputs.md
     - File inputs: elements/file-inputs.md
+    - Radio inputs: elements/radio-inputs.md
+    - Checkboxes: elements/checkboxes.md
     - Selects: elements/selects.md
     - Lists: elements/lists.md
     - Buttons: elements/buttons.md
