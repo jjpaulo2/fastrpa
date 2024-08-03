@@ -30,7 +30,7 @@ fastrpa.core.elements.CheckboxElement
 
 ## Reference
 
-### Get if is checked
+### Get if it's checked
 
 ```python linenums="1"
 my_check.is_checked
@@ -40,17 +40,17 @@ my_check.is_checked
 False
 ```
 
-### Mark as checked
+### Set as checked
 
-Only marks the checkbox as checked/active.
+Only set the checkbox as checked/active.
 
 ```python linenums="1"
 my_radio.check()
 ```
 
-### Mark as unchecked
+### Set as unchecked
 
-Only marks the checkbox as unchecked/inactive.
+Only set the checkbox as unchecked/inactive.
 
 ```python linenums="1"
 my_radio.uncheck()

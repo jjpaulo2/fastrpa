@@ -32,7 +32,7 @@ fastrpa.core.elements.RadioInputElement
 
 ### Get all radio options
 
-Given one radio element, you can query by another options for that same input `@name` attribute. This method will returns a dict with radio values and it's respective label text associated.
+Given one radio element, you can query by another options with same `@name` attribute. This method will returns a dict with radio values and it's respective label text associated.
 
 ```python linenums="1"
 my_radio.options

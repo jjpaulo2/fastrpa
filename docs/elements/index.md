@@ -99,6 +99,8 @@ There is some abstractions that implements actions and rules for specific elemen
 | [`Element`](#element-reference) | any element |
 | [`InputElement`](./inputs.md) | `input`, `textarea` |
 | [`FileInputElement`](./file-inputs.md) | `input type="file"` |
+| [`RadioInputElement`](./radio-inputs.md) | `input type="radio"` |
+| [`CheckboxElement`](./checkboxes.md) | `input type="checkbox"` |
 | [`SelectElement`](./selects.md) | `select` |
 | [`ListElement`](./lists.md) | `ol`, `ul` |
 | [`ButtonElement`](./buttons.md) | `button`, `a` |
