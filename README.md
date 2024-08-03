@@ -1,204 +1,53 @@
 # FastRPA
 
+![Python](https://img.shields.io/badge/Python-3.10_%7C_3.11_%7C_3.12-green)
+[![Tests](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/tests.yaml)
+[![Documentation](https://github.com/jjpaulo2/fastrpa/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/docs.yaml)
+[![Publish](https://github.com/jjpaulo2/fastrpa/actions/workflows/publish.yaml/badge.svg?branch=main)](https://github.com/jjpaulo2/fastrpa/actions/workflows/publish.yaml)
+[![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)](https://pypi.org/project/fastrpa/)
+[![Sponsor](https://img.shields.io/badge/Sponsor-FastRPA-deeppink)](https://github.com/sponsors/jjpaulo2)
+
 A simple to use abstraction over Selenium.
 
-> [!WARNING]  
-> This is a beta project, and is still in development. Don't use it in production, because it can raise unknown errors.
+### Installation
 
-## Core concepts
+To perform a basic installation, just run:
 
-- Based on Selenium
-- XPath-oriented
-- Easy to use
+```
+pip install fastrpa
+```
 
-## Next steps
+To install also, packages to help you to debug your application, install with **\[debug\]** extras:
 
-- [x] Forms abstraction
-- [ ] Tables abstraction
-- [ ] Unit tests
-- [ ] Documentation 
-- [ ] Asyncio support 
+```
+pip install "fastrpa[debug]"
+```
 
-## Before use it
+### How to use
 
-FastRPA needs a webdriver to work. It can be local, or remote. It's recommended to always use remote sessions.
+For details, read the [documentation](https://jjpaulo2.github.io/fastrpa).
 
-You can run a remote session of Chromium webdriver using docker, as below.
+## For development
+
+Make sure you have poetry installed and upgraded.
 
 ```shell
-# For x86 machines
-docker run --name selenium -d -p 4444:4444 -p 7900:7900 selenium/standalone-chromium:latest
-
-# For ARM machines
-docker run --name selenium -d -p 4444:4444 -p 7900:7900 seleniarm/standalone-chromium:latest
+pip install --upgrade pip poetry
 ```
 
-By default, FastRPA always connect to `http://localhost:4444`. If you want to change it, just create your own Selenium instance.
+### Install dependencies
 
-```python
-from fastrpa import FastRPA
-from selenium.webdriver import Firefox, FirefoxOptions
-
-options = FirefoxOptions()
-options.add_argument(...)
-options.add_argument(...)
-
-webdriver = Firefox(options)
-app = FastRPA(webdriver)
+```shell
+poetry install --with dev
 ```
 
-## Examples of use
+### Project commands
 
-### Fill and submit a simple text form
-
-```python
-from fastrpa import FastRPA
-
-app = FastRPA()
-
-my_page = app.browse('http://...')
-
-my_form = form_page.form('//form[@id="login"]')
-my_form.fill('//input[@id="username"]', 'user')
-my_form.fill('//input[@id="password"]', 'pass')
-
-# To just submit the form
-my_form.submit()
-
-# To submit by clicking in a button
-my_form.submit('//button[@id="submit"]')
-
-```
-
-### Attach a file in a form
-
-```python
-my_page = app.browse('http://...')
-my_form = form_page.form('//form[@id="login"]')
-
-# You can easily attach files from the web
-my_form.attach_file('//input[@id="photo"]', 'https://website.com/mypic.png')
-
-# Or just local files, if you prefer
-my_form.attach_file('//input[@id="photo"]', '/home/user/mypic.png')
-```
-
-### Read the available options in a select
-
-```python
-my_page = app.browse('http://...')
-my_form = form_page.form('//form[@id="login"]')
-
-my_form.get_select_options('//select[@id="occupation"]')
-<<< [
-    Option(value='1', label='Actor'),
-    Option(value='2', label='Developer'),
-    Option(value='3', label='Doctor'),
-    Option(value='4', label='Professor'),
-    ...
-```
-
-### Select an option in a select
-
-```python
-my_page = app.browse('http://...')
-my_form = form_page.form('//form[@id="login"]')
-
-# You can just select by the text label
-my_form.select_option('//select[@id="occupation"]', 'Developer')
-
-# Or just by the value, if you prefer
-my_form.select_option('//select[@id="occupation"]', value='2')
-
-```
-
-### Read the available options in a list
-
-```python
-my_page = app.browse('http://...')
-my_form = form_page.form('//form[@id="login"]')
-
-my_form.get_list_items('//ul[@id="occupations"]')
-<<< [
-    Item(id='1', label='Actor'),
-    Item(id='2', label='Developer'),
-    Item(id='3', label='Doctor'),
-    Item(id='4', label='Professor'),
-    ...
-```
-
-### Click in a list item
-
-```python
-my_page = app.browse('http://...')
-my_form = form_page.form('//form[@id="login"]')
-
-# You can just click by the text label
-my_form.select_list_item('//ul[@id="occupations"]', 'Developer')
-
-# Or just by the item id, if you prefer
-my_form.select_list_item('//ul[@id="occupations"]', id='2')
-```
-
-### Perform some action just when the element is visible
-
-```python
-my_page = app.browse('http://...')
-my_form = form_page.form('//form[@id="login"]')
-
-while not my_form.is_visible('//div[@id="someElement"]'):
-    form_page.wait_seconds(1)
-
-else:
-    my_form.fill('//input[@id="username"]', 'user')
-    my_form.fill('//input[@id="password"]', 'pass')
-    my_form.submit()
-```
-
-### Wait until some element is visible
-
-```python
-my_page = app.browse('http://...')
-
-my_page.wait_until_present('//div[@id="someElement"]')
-```
-
-### Wait until some element is hidden
-
-```python
-my_page = app.browse('http://...')
-
-my_page.wait_until_hide('//div[@id="someElement"]')
-```
-
-### Press action buttons on the screen
-
-```python
-my_page = app.browse('http://...')
-
-my_page.press_esc()
-my_page.press_enter()
-my_page.press_tab()
-```
-
-### Get the text content of an element
-
-```python
-my_page = app.browse('http://...')
-
-my_page.read('//div[@id="someElement"]')
-<<< 'some text'
-```
-
-### Check if the page has some text
-
-```python
-my_page = app.browse('http://...')
-
-if my_page.has_content('my_username'):
-    print('Login successfully!')
-
-else:
-    error = my_page.read('//div[@id="errorMessage"]')
-    print(f'Error on login! {error}')
-```
+| Command | Description |
+|-|-|
+| `poetry build` | Build the project |
+| `poetry run task tests` | Runs all unit tests |
+| `poetry run task lint` | Format and lint the code |
+| `poetry run task security` | Check security issues on the code |
+| `poetry run task check` | Check code issues |
+| `poetry run task docs` | Serve the docs server |

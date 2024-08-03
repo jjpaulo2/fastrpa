@@ -1,11 +1,29 @@
 from fastrpa.app import FastRPA, Web
-from fastrpa.elements.form import Form
-from fastrpa.exceptions import ElementNotFound
+from fastrpa.core.elements import (
+    Element,
+    InputElement,
+    FileInputElement,
+    RadioInputElement,
+    CheckboxElement,
+    SelectElement,
+    ListElement,
+    ButtonElement,
+    FormElement,
+    TableElement,
+)
 
 
 __all__ = (
-    "FastRPA",
-    "Web",
-    "Form",
-    "ElementNotFound",
+    'FastRPA',
+    'Web',
+    'Element',
+    'InputElement',
+    'FileInputElement',
+    'RadioInputElement',
+    'CheckboxElement',
+    'SelectElement',
+    'ListElement',
+    'ButtonElement',
+    'FormElement',
+    'TableElement',
 )

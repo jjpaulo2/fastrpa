@@ -1,0 +1,67 @@
+site_name: FastRPA
+repo_name: jjpaulo2/fastrpa
+repo_url: https://github.com/jjpaulo2/fastrpa
+site_description: Official documentation from FastRPA. A simple to use abstraction over Selenium.
+site_url: https://jjpaulo2.github.io/fastrpa/
+
+theme:
+  name: material
+  icon:
+    logo: fontawesome/solid/window-restore
+  palette:
+    - scheme: default
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - search.suggest
+    - content.code.copy
+
+nav:
+  - Introduction: index.md
+  - Selenium integration: selenium.md
+  - Browse interactions:
+    - Introduction: interactions/index.md
+    - Keyboard: interactions/keyboard.md
+    - Wait: interactions/wait.md
+    - Cookies: interactions/cookies.md
+    - Screenshot: interactions/screenshot.md
+    - Tabs: interactions/tabs.md
+    - Console: interactions/console.md
+  - Web elements:
+    - Introduction: elements/index.md
+    - Inputs: elements/inputs.md
+    - File inputs: elements/file-inputs.md
+    - Radio inputs: elements/radio-inputs.md
+    - Checkboxes: elements/checkboxes.md
+    - Selects: elements/selects.md
+    - Lists: elements/lists.md
+    - Buttons: elements/buttons.md
+    - Forms: elements/forms.md
+    - Tables: elements/tables.md
+    - Images: elements/images.md
+  - XPath tools: xpath-tools.md
+  - Low-level API: low-level.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - social
