@@ -1,10 +1,10 @@
 ---
-description: Learn how to easily send keyboard events to the current page.
+description: Aprenda a enviar facilmente eventos de teclado para a página atual.
 ---
 
-You can send keyboard events to the current page, by using the methods below.
+Você pode enviar eventos de teclado para a página atual usando os métodos abaixo.
 
-## Accessing the object
+## Acessando o objeto
 
 ```python linenums="1"
 app = FastRPA()
@@ -12,22 +12,22 @@ web = app.browse('https:...')
 type(web.keyboard)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.keyboard.Keyboard
 ```
 
-## Reference
+## Referência
 
-!!! info 
-    All keyboard methods are case insensitive.
+!!! info
+    Todos os métodos de teclado são insensíveis a maiúsculas e minúsculas.
 
-### Get the available command keys
+### Obter as teclas de comando disponíveis
 
 ```python linenums="1"
-web.keyboad.keys
+web.keyboard.keys
 ```
 
-```python title="Output"
+```python title="Saída"
 ['ADD',
  'ALT',
  'ARROW_DOWN',
@@ -39,17 +39,17 @@ web.keyboad.keys
  ...
 ```
 
-### Simple key press event
+### Evento de pressionar tecla simples
 
 ```python linenums="1"
-web.keyboad.press('control')
-web.keyboad.press('escape')
-web.keyboad.press('enter')
+web.keyboard.press('control')
+web.keyboard.press('escape')
+web.keyboard.press('enter')
 ```
 
-### Keyboard shortcut event
+### Evento de atalho de teclado
 
 ```python linenums="1"
-web.keyboad.shortcut('control', 'a')
-web.keyboad.shortcut('control', 'shift', 'c')
+web.keyboard.shortcut('control', 'a')
+web.keyboard.shortcut('control', 'shift', 'c')
 ```

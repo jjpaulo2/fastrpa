@@ -1,10 +1,10 @@
 ---
-description: Learn how to easily run javascript on the current page.
+description: Aprenda a executar JavaScript facilmente na página atual.
 ---
 
-To run javascript on the current page, you can use the following methods.
+Para executar JavaScript na página atual, você pode usar os seguintes métodos.
 
-## Accessing the object
+## Acessando o objeto
 
 ```python linenums="1"
 app = FastRPA()
@@ -12,23 +12,23 @@ web = app.browse('https:...')
 type(web.console)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.console.Console
 ```
 
-## Reference
+## Referência
 
-### Evaluate a simple expression
+### Avaliar uma expressão simples
 
 ```python linenums="1"
 web.console.evaluate('2 + 2')
 ```
 
-```python title="Output"
+```python title="Saída"
 4
 ```
 
-### Run multi line scripts
+### Executar scripts de várias linhas
 
 ```python linenums="1"
 web.console.run([
@@ -37,8 +37,8 @@ web.console.run([
 ])
 ```
 
-### Run a javascript file
+### Executar um arquivo JavaScript
 
 ```python linenums="1"
-web.console.run_script('/path/to/script.js')
+web.console.run_script('/caminho/para/script.js')
 ```

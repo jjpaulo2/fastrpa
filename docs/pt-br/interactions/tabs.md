@@ -1,10 +1,10 @@
 ---
-description: Learn how to easily manage and navigate through tabs on the browser.
+description: Aprenda a gerenciar e navegar facilmente pelas abas do navegador.
 ---
 
-To manage and navigate through browse tabs, use the following methods.
+Para gerenciar e navegar pelas abas do navegador, use os seguintes métodos.
 
-## Accessing the object
+## Acessando o objeto
 
 ```python linenums="1"
 app = FastRPA()
@@ -12,76 +12,76 @@ web = app.browse('https:...')
 type(web.tabs)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.tabs.Tabs
 ```
 
-## Reference
+## Referência
 
-### Get opened tabs
+### Obter abas abertas
 
 ```python linenums="1"
 web.tabs.list
 ```
 
-```python title="Output"
+```python title="Saída"
 ['AD9B396BF70C366D8A1FDE5450699D41', ...]
 ```
 
-### Get current tab
+### Obter a aba atual
 
 ```python linenums="1"
 web.tabs.current
 ```
 
-```python title="Output"
+```python title="Saída"
 'AD9B396BF70C366D8A1FDE5450699D41'
 ```
 
-### Get current tab index
+### Obter o índice da aba atual
 
 ```python linenums="1"
 web.tabs.current_index
 ```
 
-```python title="Output"
+```python title="Saída"
 0
 ```
 
-### Get the opened tabs count
+### Obter a contagem de abas abertas
 
 ```python linenums="1"
 len(web.tabs)
 ```
 
-```python title="Output"
+```python title="Saída"
 5
 ```
 
-### Open a new tab
+### Abrir uma nova aba
 
-This method also switch to the new tab and returns the new tab id.
+Este método também muda para a nova aba e retorna o id da nova aba.
 
 ```python linenums="1"
 web.tabs.new()
 ```
 
-```python title="Output"
+```python title="Saída"
 'AD9B396BF70C366D8A1FDE5450699D41'
 ```
 
-### Close the current tab
+### Fechar a aba atual
 
 ```python linenums="1"
 web.tabs.close()
 ```
 
-### Check if a tab is opened
+### Verificar se uma aba está aberta
 
 ```python linenums="1"
 'AD9B396BF70C366D8A1FDE5450699D41' in web.tabs
 ```
 
-```python title="Output"
+```python title="Saída"
 True
 ```

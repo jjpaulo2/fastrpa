@@ -1,10 +1,10 @@
 ---
-description: Learn how to easily take screenshots from the current page.
+description: Aprenda a capturar facilmente capturas de tela da página atual.
 ---
 
-By default, all screenshot methods save the files in the current active directory.
+Por padrão, todos os métodos de captura de tela salvam os arquivos no diretório ativo atual.
 
-## Accessing the object
+## Acessando o objeto
 
 ```python linenums="1"
 app = FastRPA()
@@ -12,62 +12,62 @@ web = app.browse('https:...')
 type(web.screenshot)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.screenshot.Screenshot
 ```
 
-## Reference
+## Referência
 
-### Get a PNG bytes content from the current viewport size
+### Obter o conteúdo em bytes de uma imagem PNG do tamanho da viewport atual
 
 ```python linenums="1"
 web.screenshot.image
 ```
 
-```python title="Output"
+```python title="Saída"
 b'\x89PNG\r\n\x1a\n\x00\x00...'
 ```
 
-### Save a PNG file from the current viewport size
+### Salvar um arquivo PNG do tamanho da viewport atual
 
-To just save on the current workdir.
+Para salvar no diretório de trabalho atual.
 
 ```python linenums="1"
 web.screenshot.save_image()
 ```
 
-Or, if needed, specify the path.
+Ou, se necessário, especifique o caminho.
 
 ```python linenums="1"
-web.screenshot.save_image('/my/screenshot/path.png')
+web.screenshot.save_image('/meu/caminho/screenshot.png')
 ```
 
-!!! info "Viewport screenshot example"
-    ![image](../media/web.screenshot.image.png)
+!!! info "Exemplo de captura de tela da viewport"
+    ![imagem](../media/web.screenshot.image.png)
 
-### Get a PNG bytes content from the complete page
+### Obter o conteúdo em bytes de uma imagem PNG da página completa
 
 ```python linenums="1"
 web.screenshot.full_page_image
 ```
 
-```python title="Output"
+```python title="Saída"
 b'\x89PNG\r\n\x1a\n\x00\x00...'
 ```
 
-### Save a PNG file from the complete page
+### Salvar um arquivo PNG da página completa
 
-To just save on the current workdir.
+Para salvar no diretório de trabalho atual.
 
 ```python linenums="1"
 web.screenshot.save_full_page()
 ```
 
-Or, if needed, specify the path.
+Ou, se necessário, especifique o caminho.
 
 ```python linenums="1"
-web.screenshot.save_full_page('/my/screenshot/path.png')
+web.screenshot.save_full_page('/meu/caminho/screenshot.png')
 ```
 
-!!! info "Full page screenshot example"
-    ![image](../media/web.screenshot.full_page_image.png)
+!!! info "Exemplo de captura de tela da página completa"
+    ![imagem](../media/web.screenshot.full_page_image.png)

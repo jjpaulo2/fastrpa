@@ -1,17 +1,17 @@
 ---
-title: Browser interactions
-description: Learn how to easily interact with the browser.
+title: Interações com o Navegador
+description: Aprenda a interagir facilmente com o navegador.
 ---
 
-# Browser interactions
+# Interações com o Navegador
 
-You can manage easier the following items:
+Você pode gerenciar mais facilmente os seguintes itens:
 
-- [`keyboard`](./keyboard.md), to send key pressing events on the current page
-- [`wait`](./wait.md), to wait for some events on the current page
-- [`cookies`](./cookies.md), to manage cookies on the current page
-- [`screenshot`](./screenshot.md), to download screenshots and prints from the current page
-- [`tabs`](./tabs.md), to manage and navigate through the current opened tabs
-- [`console`](./console.md), to run javascript on the current page
+- [`keyboard`](./keyboard.md), para enviar eventos de pressionamento de tecla na página atual
+- [`wait`](./wait.md), para aguardar alguns eventos na página atual
+- [`cookies`](./cookies.md), para gerenciar cookies na página atual
+- [`screenshot`](./screenshot.md), para capturar e baixar capturas de tela da página atual
+- [`tabs`](./tabs.md), para gerenciar e navegar pelas abas abertas
+- [`console`](./console.md), para executar JavaScript na página atual
 
-You can access these abstractions by calling it from the `Web` object.
+Você pode acessar essas abstrações chamando-as a partir do objeto `Web`.

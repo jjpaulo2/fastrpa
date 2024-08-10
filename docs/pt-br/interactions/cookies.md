@@ -1,10 +1,10 @@
 ---
-description: Learn how to easily manage cookies on the current domain.
+description: Aprenda a gerenciar facilmente cookies no domínio atual.
 ---
 
-An abstraction to manage cookies on the current domain.
+Uma abstração para gerenciar cookies no domínio atual.
 
-## Accessing the object
+## Acessando o objeto
 
 ```python linenums="1"
 app = FastRPA()
@@ -12,83 +12,83 @@ web = app.browse('https:...')
 type(web.cookies)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.cookies.Cookies
 ```
 
-## Reference
+## Referência
 
-### Get the list of cookies on the current domain
+### Obter a lista de cookies no domínio atual
 
 ```python linenums="1"
 web.cookies.list
 ```
 
-```python title="Output"
+```python title="Saída"
 [Cookie(...), Cookie(...)]
 ```
 
-### Get the list of names from the cookies on the current domain
+### Obter a lista de nomes dos cookies no domínio atual
 
 ```python linenums="1"
 web.cookies.list_names
 ```
 
-```python title="Output"
+```python title="Saída"
 ['JSESSIONID', '_ga', ...]
 ```
 
-### Check if a cookie exists on the current domain
+### Verificar se um cookie existe no domínio atual
 
 ```python linenums="1"
 'my_cookie' in web.cookies
 ```
 
-```python title="Output"
+```python title="Saída"
 True
 ```
 
-### Check if a cookie stores some value
+### Verificar se um cookie armazena um determinado valor
 
 ```python linenums="1"
 web.cookies.check('my_cookie', 'value')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Get a cookie on the current domain
+### Obter um cookie no domínio atual
 
 ```python linenums="1"
 web.cookies.get('my_cookie')
 ```
 
-```python title="Output"
+```python title="Saída"
 Cookie(name='...', value='...', domain='...', path='/', secure=True, http_only=True, same_site='Strict')
 ```
 
-### Get a cookie that does not exist the current domain
+### Obter um cookie que não existe no domínio atual
 
 ```python linenums="1"
 web.cookies.get('my_cookie')
 ```
 
-```python title="Output"
+```python title="Saída"
 None
 ```
 
-### Add a new cookie on the current domain
+### Adicionar um novo cookie no domínio atual
 
 ```python linenums="1"
 web.cookies.add('my_cookie', 'value')
 ```
 
-```python title="Output"
+```python title="Saída"
 Cookie(name='my_cookie', value='value', domain='...', path='/', secure=False, http_only=True, same_site='Strict')
 ```
 
-### Delete a cookie on the current domain
+### Excluir um cookie no domínio atual
 
 ```python linenums="1"
 web.cookies.delete('my_cookie')

@@ -1,10 +1,10 @@
 ---
-description: Learn how to easily wait for some events.
+description: Aprenda como esperar facilmente por alguns eventos.
 ---
 
-You can wait some time before or after execute some action with the automation.
+Você pode esperar algum tempo antes ou depois de executar uma ação com a automação.
 
-## Accessing the object
+## Acessando o objeto
 
 ```python linenums="1"
 app = FastRPA(timeout=60)
@@ -12,100 +12,100 @@ web = app.browse('https:...')
 type(web.wait)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.wait.Wait
 ```
 
-## Shortcuts
+## Atalhos
 
-### Wait some seconds
+### Esperar alguns segundos
 
-The method is just a simple proxy for `time.sleep`, to remove the need of one more import.
+O método é apenas um simples proxy para `time.sleep`, para remover a necessidade de uma importação adicional.
 
 ```python linenums="1"
 web.wait.seconds(10)
 ```
 
-## Reference
+## Referência
 
 !!!info
-    By default, all methods get the default **timeout** from **FastRPA** instance. Every methods listed below, accepts an last parameter called **timeout** to specify a custom value.
+    Por padrão, todos os métodos usam o **timeout** padrão da instância **FastRPA**. Todos os métodos listados abaixo aceitam um parâmetro final chamado **timeout** para especificar um valor personalizado.
 
-### Wait until element is present
+### Esperar até que o elemento esteja presente
 
 ```python linenums="1"
 web.wait.is_present('//button[@id="myBtn"]')
 ```
 
-To specify a custom `timeout`, you can do this in every method below.
+Para especificar um `timeout` personalizado, você pode fazer isso em qualquer método abaixo.
 
 ```python linenums="1"
 web.wait.is_present('//button[@id="myBtn"]', 60)
 web.wait.is_present('//button[@id="myBtn"]', timeout=60)
 ```
 
-### Wait until element **not** is present
+### Esperar até que o elemento **não** esteja presente
 
 ```python linenums="1"
 web.wait.not_is_present('//button[@id="myBtn"]')
 ```
 
-### Wait until element is clickable
+### Esperar até que o elemento seja clicável
 
 ```python linenums="1"
 web.wait.is_clickable('//button[@id="myBtn"]')
 ```
 
-### Wait until element **not** is clickable
+### Esperar até que o elemento **não** seja clicável
 
 ```python linenums="1"
 web.wait.not_is_clickable('//button[@id="myBtn"]')
 ```
 
-### Wait until element is hidden
+### Esperar até que o elemento esteja oculto
 
 ```python linenums="1"
 web.wait.is_hidden('//button[@id="myBtn"]')
 ```
 
-### Wait until element **not** is hidden
+### Esperar até que o elemento **não** esteja oculto
 
 ```python linenums="1"
 web.wait.not_is_hidden('//button[@id="myBtn"]')
 ```
 
-### Wait until element contains text
+### Esperar até que o elemento contenha texto
 
 ```python linenums="1"
-web.wait.contains_text('//button[@id="myBtn"]', 'any text')
+web.wait.contains_text('//button[@id="myBtn"]', 'qualquer texto')
 ```
 
-### Wait until element **not** contains text
+### Esperar até que o elemento **não** contenha texto
 
 ```python linenums="1"
-web.wait.not_contains_text('//button[@id="myBtn"]', 'any text')
+web.wait.not_contains_text('//button[@id="myBtn"]', 'qualquer texto')
 ```
 
-### Wait until URL contains some text
+### Esperar até que a URL contenha algum texto
 
 ```python linenums="1"
 web.wait.url_contains('mysite.com/mypath')
 ```
 
-### Wait until URL **not** contains some text
+### Esperar até que a URL **não** contenha algum texto
 
 ```python linenums="1"
 web.wait.not_url_contains('mysite.com/mypath')
 ```
 
-### Wait until title contains some text
+### Esperar até que o título contenha algum texto
 
 ```python linenums="1"
-web.wait.title_contains('my page')
+web.wait.title_contains('minha página')
 ```
 
-### Wait until title **not** contains some text
+### Esperar até que o título **não** contenha algum texto
 
 ```python linenums="1"
-web.wait.not_title_contains('my page')
+web.wait.not_title_contains('minha página')
 ```
