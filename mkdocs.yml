@@ -73,5 +73,5 @@ plugins:
           name: English
           build: true
         - locale: pt-BR
-          name: Portuquês
+          name: Português
           build: true
