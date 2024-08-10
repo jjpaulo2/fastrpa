@@ -1,7 +1,5 @@
-Claro, aqui está a tradução para o português:
-
 ---
-**Descrição:** Interações com a tag `form`.
+description: Interações com a tag `form`.
 ---
 
 Interações com a tag `form`.

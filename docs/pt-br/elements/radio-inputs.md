@@ -1,7 +1,5 @@
 ---
-
 description: Interações com a tag `input` com o atributo `type="radio"`.
-
 ---
 
 Interações com `input` com o atributo `type="radio"`.

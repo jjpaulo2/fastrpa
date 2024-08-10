@@ -1,7 +1,5 @@
 ---
-
 description: Interações com a tag `table`.
-
 ---
 
 Interações com a tag `table`.

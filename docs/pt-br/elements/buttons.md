@@ -1,5 +1,5 @@
 ---
-descrição: Interações com tags de botão e `a`.
+description: Interações com tags de botão e `a`.
 ---
 
 Interações com tags `button` e `a`.

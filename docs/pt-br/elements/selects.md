@@ -1,7 +1,5 @@
 ---
-
 description: Interações com a tag `select`.
-
 ---
 
 Interações com a tag `select`.

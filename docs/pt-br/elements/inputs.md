@@ -1,7 +1,5 @@
 ---
-
 description: Interações com tags `input` e `textarea`.
-
 ---
 
 Interações com tags `input` e `textarea`.

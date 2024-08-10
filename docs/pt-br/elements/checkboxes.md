@@ -1,7 +1,5 @@
 ---
-
-descrição: Interações com a tag `input` com atributo [@type="checkbox"].
-
+description: Interações com a tag `input` com atributo [@type="checkbox"].
 ---
 
 Interações com `input` com atributo `type="checkbox"`.

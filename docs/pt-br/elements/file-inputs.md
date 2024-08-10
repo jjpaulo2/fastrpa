@@ -1,7 +1,5 @@
 ---
-
-descrição: Interações com a tag `input` com atributo [@type="file"].
-
+description: Interações com a tag `input` com atributo [@type="file"].
 ---
 
 Interações com `input` com atributo `type="file"`.

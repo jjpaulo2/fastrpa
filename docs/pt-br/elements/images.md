@@ -1,5 +1,5 @@
 ---
-descrição: Interações com a tag `img`.
+description: Interações com a tag `img`.
 ---
 
 Interações com a tag `img`.
