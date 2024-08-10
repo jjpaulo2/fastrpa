@@ -1,12 +1,12 @@
 ---
-description: Learn how to easily access the Selenium and requests native objects.
+description: Aprenda como acessar facilmente os objetos nativos do Selenium e do requests.
 ---
 
-In this page, you will learn to access selenium and requests objects directly, to implement your own abstractions, if FastRPA does not deliver some feature to you.
+Nesta página, você aprenderá a acessar diretamente os objetos selenium e requests para implementar suas próprias abstrações, caso o FastRPA não ofereça algum recurso desejado.
 
-## Get `WebDriver` instances
+## Obter instâncias de `WebDriver`
 
-Both `FastRPA` and `Web` have a `webdriver` property that always return a `WebDriver` instance. An example below shows an access to the object from the `FastRPA` instance.
+Tanto `FastRPA` quanto `Web` têm uma propriedade `webdriver` que sempre retorna uma instância de `WebDriver`. Um exemplo abaixo mostra o acesso ao objeto a partir da instância do `FastRPA`.
 
 ```python linenums="1"
 app = FastRPA()
@@ -17,7 +17,7 @@ app.webdriver
 <selenium.webdriver.remote.webdriver.WebDriver (session="...")>
 ```
 
-Now, to access the object from the `Web` instance.
+Agora, para acessar o objeto a partir da instância do `Web`.
 
 ```python linenums="1"
 web = app.web()
@@ -28,9 +28,9 @@ web.webdriver
 <selenium.webdriver.remote.webdriver.WebDriver (session="...")>
 ```
 
-## Get `WebElement` instances
+## Obter instâncias de `WebElement`
 
-Every `Element` instances have an `source` property that always must return a `WebElement` instance.
+Toda instância de `Element` tem uma propriedade `source` que sempre deve retornar uma instância de `WebElement`.
 
 ```python linenums="1"
 element = web.element('//*[@id="myElement"]')
@@ -41,9 +41,9 @@ element.source
 <selenium.webdriver.remote.webelement.WebElement (session="...", element="...")>
 ```
 
-## Get `Session` instances
+## Obter instâncias de `Session`
 
-The `Web` object has a session property, that always return a request's `Session` object. The session comes with all cookies from the webdriver instance.
+O objeto `Web` tem uma propriedade `session`, que sempre retorna um objeto `Session` do requests. A sessão vem com todos os cookies da instância do webdriver.
 
 ```python linenums="1"
 web = app.web()

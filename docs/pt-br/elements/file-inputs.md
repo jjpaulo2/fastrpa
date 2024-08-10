@@ -1,42 +1,44 @@
 ---
-description: Interactions with input tag with attribute [@type="file"].
+
+descrição: Interações com a tag `input` com atributo [@type="file"].
+
 ---
 
-Interactions with `input` with attribute `type="file"`.
+Interações com `input` com atributo `type="file"`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe de elemento correta para o xpath
 
 ```python linenums="1"
 my_input = web.element('//*[id="myFileInput"]')
 type(my_input)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.FileInputElement
 ```
 
-### Try to get a `FileInputElement`
+### Tentando obter um `FileInputElement`
 
 ```python linenums="1"
 my_input = web.file_input('//*[id="myFileInput"]')
 type(my_input)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.FileInputElement
 ```
 
-## Reference
+## Referência
 
-### Attach a local file
+### Anexar um arquivo local
 
 ```python linenums="1"
 my_input.attach_file('/home/user/picture.png')
 ```
 
-### Attach a file from the web
+### Anexar um arquivo da web
 
 ```python linenums="1"
 my_input.attach_file('https://website.com/picture.png')

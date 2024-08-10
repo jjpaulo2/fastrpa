@@ -1,65 +1,67 @@
 ---
-description: Interactions with input tag with attribute [@type="checkbox"].
+
+descrição: Interações com a tag `input` com atributo [@type="checkbox"].
+
 ---
 
-Interactions with `input` with attribute `type="checkbox"`.
+Interações com `input` com atributo `type="checkbox"`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
-
-```python linenums="1"
-my_check = web.checkbox('//*[id="myCheckbox"]')
-type(my_check)
-```
-
-```python title="Output"
-fastrpa.core.elements.CheckboxElement
-```
-
-### Try to get a `CheckboxElement`
+### Obtendo a classe de elemento correta para o xpath
 
 ```python linenums="1"
 my_check = web.checkbox('//*[id="myCheckbox"]')
 type(my_check)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.CheckboxElement
 ```
 
-## Reference
+### Tentando obter um `CheckboxElement`
 
-### Get if it's checked
+```python linenums="1"
+my_check = web.checkbox('//*[id="myCheckbox"]')
+type(my_check)
+```
+
+```python title="Saída"
+fastrpa.core.elements.CheckboxElement
+```
+
+## Referência
+
+### Verificar se está marcado
 
 ```python linenums="1"
 my_check.is_checked
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Set as checked
+### Marcar como selecionado
 
-Only set the checkbox as checked/active.
+Apenas marca a caixa de seleção como ativa.
 
 ```python linenums="1"
-my_radio.check()
+my_check.check()
 ```
 
-### Set as unchecked
+### Desmarcar
 
-Only set the checkbox as unchecked/inactive.
+Apenas desmarca a caixa de seleção como inativa.
 
 ```python linenums="1"
-my_radio.uncheck()
+my_check.uncheck()
 ```
 
-### Switch the value
+### Alternar o valor
 
-Just switch the checkbox value. If it's checked, it will be unchecked, and vice versa.
+Apenas alterna o valor da caixa de seleção. Se estiver marcada, será desmarcada, e vice-versa.
 
 ```python linenums="1"
-my_radio.switch()
+my_check.switch()
 ```

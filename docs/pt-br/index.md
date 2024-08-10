@@ -1,8 +1,7 @@
 ---
-title: Documentation
-description: Official documentation from FastRPA. A simple to use abstraction over Selenium.
+título: Documentação
+descrição: Documentação oficial do FastRPA. Uma abstração simples sobre o Selenium.
 ---
-
 
 # FastRPA
 
@@ -13,30 +12,30 @@ description: Official documentation from FastRPA. A simple to use abstraction ov
 [![PyPI - Version](https://img.shields.io/pypi/v/fastrpa)](https://pypi.org/project/fastrpa/)
 [![Sponsor](https://img.shields.io/badge/Sponsor-FastRPA-deeppink)](https://github.com/sponsors/jjpaulo2)
 
-A simple to use abstraction over Selenium.
+Uma abstração simples sobre o Selenium.
 
-- [x] **Easy to use**: complex interactions are abstracted to intuitive methods.
-- [x] **Clean imports**: remove the necessity of import many packages and objects. Every automation features are accessible by methods of one main object.
-- [x] **Typed**: type hints grant the code readability, and turn possible to navigate through the methods with any Intellisense tool.
-- [x] **Selenium safe**: the core was developed following the Selenium best-practices. You can focus on business rules.
+- [x] **Fácil de usar**: interações complexas são abstraídas para métodos intuitivos.
+- [x] **Imports limpos**: elimina a necessidade de importar muitos pacotes e objetos. Todos os recursos de automação são acessíveis por métodos de um único objeto principal.
+- [x] **Tipado**: dicas de tipo garantem a legibilidade do código e tornam possível navegar pelos métodos com qualquer ferramenta de Intellisense.
+- [x] **Seguro para Selenium**: o núcleo foi desenvolvido seguindo as melhores práticas do Selenium. Você pode se concentrar nas regras de negócios.
 
-## Installation
+## Instalação
 
-To perform a basic installation, just run:
+Para uma instalação básica, execute:
 
 ```
 pip install fastrpa
 ```
 
-To install also, packages to help you to debug your application, install with **debug** extras:
+Para instalar também pacotes que ajudam a depurar sua aplicação, instale com o extra **debug**:
 
 ```
 pip install "fastrpa[debug]"
 ```
 
-## Your first instance
+## Sua primeira instância
 
-The FastRPA object, will prepare everything you need to start browse on the web. You can pass Selenium configurations to it. See [here](./selenium.md) how to do it.
+O objeto FastRPA preparará tudo o que você precisa para começar a navegar na web. Você pode passar configurações do Selenium para ele. Veja [aqui](./selenium.md) como fazer isso.
 
 ```python linenums="1"
 from fastrpa import FastRPA
@@ -45,97 +44,96 @@ web = app.web()
 type(web)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.app.Web
 ```
 
-You can also instanciate a Web object and browse to an starter URL.
+Você também pode instanciar um objeto Web e navegar para uma URL inicial.
 
 ```python linenums="1"
 web = app.web('https://...')
 ```
 
-## The Web objects
+## Os objetos Web
 
-Once you have a `Web` object, you are able to browse on the web. The `Web` class is a abstraction of main browser and user functions.
+Uma vez que você tem um objeto `Web`, você pode navegar na web. A classe `Web` é uma abstração das principais funções do navegador e do usuário.
 
-### Get the current URL from the browser
+### Obter a URL atual do navegador
 
 ```python linenums="1"
 web.url
 ```
 
-```python title="Output"
+```python title="Saída"
 'https://www.site.com/mypage'
 ```
 
-### Get the domain from the current URL
+### Obter o domínio da URL atual
 
 ```python linenums="1"
 web.domain
 ```
 
-```python title="Output"
+```python title="Saída"
 'www.site.com'
 ```
 
-### Get the title from the current page
+### Obter o título da página atual
 
 ```python linenums="1"
 web.title
 ```
 
-```python title="Output"
-'My website'
+```python title="Saída"
+'Meu site'
 ```
 
-### Get the HTML source-code from the current page
+### Obter o código-fonte HTML da página atual
 
 ```python linenums="1"
 web.html
 ```
 
-```python title="Output"
+```python title="Saída"
 '<html lang="en"><head>\n    <meta charset="utf-8">...'
 ```
 
-### Navigate to an URL
+### Navegar para uma URL
 
 ```python linenums="1"
 web.browse('https://www.site.com/another_page')
 ```
 
-### Refresh the current page
+### Atualizar a página atual
 
 ```python linenums="1"
 web.refresh()
 ```
 
-### Check if an element is interactive on the screen
+### Verificar se um elemento está interativo na tela
 
 ```python linenums="1"
 web.is_interactive('//*[@id="myElement"]')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Get the text content from an element
+### Obter o conteúdo de texto de um elemento
 
 ```python linenums="1"
 web.read('//*[@id="myElement"]')
 ```
 
-```python title="Output"
-'Any text'
-
+```python title="Saída"
+'Qualquer texto'
 ```
 
-## Next steps
+## Próximos passos
 
-- [Configure the selenium integration](./selenium.md)
-- [Running interactions with the current page](./interactions/index.md)
-- [Manipulating elements](./elements/index.md)
-- [Get xpaths in a easier way](./xpath-tools.md)
-- [Use the selenium/requests API directly](./low-level.md)
+- [Configurar a integração com o selenium](./selenium.md)
+- [Executar interações com a página atual](./interactions/index.md)
+- [Manipular elementos](./elements/index.md)
+- [Obter xpaths de forma mais fácil](./xpath-tools.md)
+- [Usar a API selenium/requests diretamente](./low-level.md)

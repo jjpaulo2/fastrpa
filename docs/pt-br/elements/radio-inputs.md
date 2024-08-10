@@ -1,132 +1,134 @@
 ---
-description: Interactions with input tag with attribute [@type="radio"].
+
+description: Interações com a tag `input` com o atributo `type="radio"`.
+
 ---
 
-Interactions with `input` with attribute `type="radio"`.
+Interações com `input` com o atributo `type="radio"`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe correta do elemento para o xpath
 
 ```python linenums="1"
 my_radio = web.radio_input('//*[id="myRadioInput"]')
 type(my_radio)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.RadioInputElement
 ```
 
-### Try to get a `RadioInputElement`
+### Tentando obter um `RadioInputElement`
 
 ```python linenums="1"
 my_radio = web.file_input('//*[id="myRadioInput"]')
 type(my_radio)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.RadioInputElement
 ```
 
-## Reference
+## Referência
 
-### Get all radio options
+### Obter todas as opções de rádio
 
-Given one radio element, you can query by another options with same `@name` attribute. This method will returns a dict with radio values and it's respective label text associated.
+Dado um elemento de rádio, você pode consultar outras opções com o mesmo atributo `@name`. Este método retornará um dicionário com os valores dos rádios e seu respectivo texto de rótulo associado.
 
 ```python linenums="1"
 my_radio.options
 ```
 
-```python title="Output"
+```python title="Saída"
 {'option1': 'Default radio',
  'option2': 'Second default radio'}
 ```
 
-### Get all radio options values
+### Obter todos os valores das opções de rádio
 
 ```python linenums="1"
 my_radio.options_values
 ```
 
-```python title="Output"
+```python title="Saída"
 ['option1', 'option2']
 ```
 
-### Get all radio options labels
+### Obter todos os rótulos das opções de rádio
 
-This method will return all texts from labels pointing to radio elements with same `@name` of the source radio element.
+Este método retornará todos os textos dos rótulos que apontam para elementos de rádio com o mesmo `@name` do elemento de rádio original.
 
 ```python linenums="1"
-my_radio.options_values
+my_radio.options_labels
 ```
 
-```python title="Output"
+```python title="Saída"
 ['Default radio', 'Second default radio']
 ```
 
-### Select a radio option by label
+### Selecionar uma opção de rádio pelo rótulo
 
-Following the same rule, you can select another radio from the form with the same `@name` of the source radio element.
+Seguindo a mesma regra, você pode selecionar outro rádio no formulário com o mesmo `@name` do elemento de rádio original.
 
 ```python linenums="1"
 my_radio.select('Second default radio')
 ```
 
-### Select a radio option by value
+### Selecionar uma opção de rádio pelo valor
 
 ```python linenums="1"
 my_radio.select(value='option1')
 ```
 
-### To just active the source radio element
+### Apenas ativar o elemento de rádio original
 
 ```python linenums="1"
 my_radio.click()
 ```
 
-### Check if radios have some option
+### Verificar se os rádios possuem alguma opção
 
-To check by both label and value.
+Para verificar por rótulo e valor.
 
 ```python linenums="1"
 'Other option' in my_radio
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Check if radios have some option label
+### Verificar se os rádios possuem algum rótulo de opção
 
 ```python linenums="1"
 my_radio.has_option('Other option')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Check if radios have some option value
+### Verificar se os rádios possuem algum valor de opção
 
 ```python linenums="1"
 my_radio.has_option(value='3')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Print the options of the radio
+### Imprimir as opções do rádio
 
-!!! warning "Extra needed!"
-    To use this method, you need to install the **debug** extras, as [shown here](../index.md#installation), with the command `pip install "fastrpa[debug]"`.
+!!! warning "Extra necessário!"
+    Para usar este método, você precisa instalar os extras **debug**, como [mostrado aqui](../index.md#installation), com o comando `pip install "fastrpa[debug]"`.
 
 ```python linenums="1"
 my_radio.print()
 ```
 
-```python title="Output"
+```python title="Saída"
 [@id="myRadioInput"]
 ├── [1] Option 1
 ├── [2] Option 2

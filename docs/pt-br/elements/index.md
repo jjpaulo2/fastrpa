@@ -1,102 +1,102 @@
 ---
-title: Elements
-description: Learn how to easily interact with page elements.
+title: Elementos
+description: Aprenda a interagir facilmente com elementos da página.
 ---
 
-# Elements
+# Elementos
 
-!!! info "FastRPA is xpath-oriented!"
+!!! info "FastRPA é orientado a xpath!"
 
-    FastRPA is totally based on **xpath locations**. It means that does not exists any way, but xpath, to access elements from the web pages. This is a important concept that guarants the consistence on framework's code base.
+    FastRPA é totalmente baseado em **localizações xpath**. Isso significa que não existe outra forma, além do xpath, para acessar elementos nas páginas web. Este é um conceito importante que garante a consistência na base de código do framework.
 
-    If you want to obtain elements using another identifier, just write an xpath that wraps that identifier. For example, if you want to get a div with an id `my_div`, just use the xpath `//*[@id="my_div"]`. You can use a site like [xpather.com](http://xpather.com/) to help you building your xpaths.
+    Se você deseja obter elementos usando outro identificador, basta escrever um xpath que encapsule esse identificador. Por exemplo, se você deseja obter um div com um id `my_div`, use o xpath `//*[@id="my_div"]`. Você pode usar um site como [xpather.com](http://xpather.com/) para ajudar a construir seus xpaths.
 
-## Get elements from the page
+## Obter elementos da página
 
-To start our interactions with page elements, we just need to obtain these with the methods shown below.
+Para começar nossas interações com os elementos da página, precisamos apenas obtê-los com os métodos mostrados abaixo.
 
-### Get just one element or the first found
+### Obter apenas um elemento ou o primeiro encontrado
 
 ```python linenums="1"
 web.element('//*[@id="my_div"]')
 ```
 
-```python title="Output"
+```python title="Saída"
 <fastrpa.core.elements.Element at 0x...>
 ```
 
-#### The wait strategy
+#### A estratégia de espera
 
-By default, FastRPA always waits until the element is interactable. The default timeout is 15 seconds, and it is configurable by the FastRPA constructor. In case of timeout, you will receive a `ElementTimeoutException`.
+Por padrão, o FastRPA sempre espera até que o elemento seja interativo. O tempo limite padrão é de 15 segundos, e ele é configurável pelo construtor do FastRPA. Em caso de timeout, você receberá uma `ElementTimeoutException`.
 
 ```python linenums="1"
 app = FastRPA(timeout=60)
 web = app.browse('https:...')
 
-# If after the timeout, the element isn't avaliable
+# Se após o timeout, o elemento não estiver disponível
 web.element('//*[@id="my_div"]')
 ```
 
-```python title="Output"
+```python title="Saída"
 Traceback (most recent call last):
     ...
-ElementTimeoutException: Element [//*[@id="my_div"]] not found after 60 seconds!
+ElementTimeoutException: Elemento [//*[@id="my_div"]] não encontrado após 60 segundos!
 ```
 
-#### Disabling the waiting
+#### Desativando a espera
 
-If you don't want to wait, just send a `wait=False` parameter to the element method.
+Se você não quiser esperar, basta enviar o parâmetro `wait=False` para o método element.
 
 ```python linenums="1"
 web.elements('//*[@id="my_div"]', wait=False)
 ```
 
-```python title="Output"
+```python title="Saída"
 <fastrpa.core.elements.Element at 0x...>
 ```
 
-If you try to get an element that is not in the page, you will get an `ElementNotFoundException`.
+Se você tentar obter um elemento que não está na página, você receberá uma `ElementNotFoundException`.
 
 ```python linenums="1"
 web.elements('//*[@id="my_div"]', wait=False)
 ```
 
-```python title="Output"
+```python title="Saída"
 Traceback (most recent call last):
     ...
-ElementNotFoundException: No one element [//*[@id="my_div"]] was found!
+ElementNotFoundException: Nenhum elemento [//*[@id="my_div"]] foi encontrado!
 ```
 
-### Get all elements found
+### Obter todos os elementos encontrados
 
 ```python linenums="1"
 web.elements('//*[@id="my_div"]')
 ```
 
-```python title="Output"
+```python title="Saída"
 [<fastrpa.core.elements.Element at 0x...>,
  <fastrpa.core.elements.Element at 0x...>]
 ```
 
-In the case of trying to get many elements, the framework will now run a wait strategy.
+No caso de tentar obter muitos elementos, o framework agora aplicará uma estratégia de espera.
 
 ```python linenums="1"
 web.elements('//*[@id="my_inexistent_div"]')
 ```
 
-```python title="Output"
+```python title="Saída"
 Traceback (most recent call last):
     ...
-ElementNotFoundException: No one element [//*[@id="my_div"]] was found!
+ElementNotFoundException: Nenhum elemento [//*[@id="my_div"]] foi encontrado!
 ```
 
-## Elements abstractions
+## Abstrações de Elementos
 
-There is some abstractions that implements actions and rules for specific elements. They is listed below.
+Existem algumas abstrações que implementam ações e regras para elementos específicos. Elas estão listadas abaixo.
 
-| Class | HTML5 tags |
+| Classe | Tags HTML5 |
 |-|-|
-| [`Element`](#element-reference) | any element |
+| [`Element`](#element-reference) | qualquer elemento |
 | [`InputElement`](./inputs.md) | `input`, `textarea` |
 | [`FileInputElement`](./file-inputs.md) | `input type="file"` |
 | [`RadioInputElement`](./radio-inputs.md) | `input type="radio"` |
@@ -108,102 +108,102 @@ There is some abstractions that implements actions and rules for specific elemen
 | [`TableElement`](./tables.md) | `table` |
 | [`ImageElement`](./images.md) | `img` |
 
-## Element reference
+## Referência de Elementos
 
-To interact with generical `Element` instances, you can use the properties and methods below.
+Para interagir com instâncias genéricas de `Element`, você pode usar as propriedades e métodos abaixo.
 
-### Get the element
+### Obter o elemento
 
 ```python linenums="1"
 element = web.element('//*[id="myElement"]')
 type(element)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.Element
 ```
 
-### Get the tag
+### Obter a tag
 
 ```python linenums="1"
 element.tag
 ```
 
-```python title="Output"
+```python title="Saída"
 'div'
 ```
 
-### Get the id
+### Obter o id
 
 ```python linenums="1"
 element.id
 ```
 
-```python title="Output"
+```python title="Saída"
 'searchform'
 ```
 
-### Get the classes
+### Obter as classes
 
 ```python linenums="1"
 element.css_class
 ```
 
-```python title="Output"
+```python title="Saída"
 ['form', 'form-styled']
 ```
 
-### Get the inline css
+### Obter o CSS inline
 
 ```python linenums="1"
 element.css_inline
 ```
 
-```python title="Output"
+```python title="Saída"
 {'background-image': 'url("...")'}
 ```
 
-### Get the text or value
+### Obter o texto ou valor
 
 ```python linenums="1"
 element.text
 ```
 
-```python title="Output"
+```python title="Saída"
 'Fazer login'
 ```
 
-### Returns if the element is visible for the user
+### Retorna se o elemento é visível para o usuário
 
 ```python linenums="1"
 element.is_visible
 ```
 
-```python title="Output"
+```python title="Saída"
 True
 ```
 
-### Returns the value for any element attribute, or None if doesn't exists
+### Retorna o valor para qualquer atributo do elemento, ou None se não existir
 
 ```python linenums="1"
 element.attribute('data-property')
 ```
 
-```python title="Output"
+```python title="Saída"
 'any value'
 ```
 
-### Check if some attribute has some value
+### Verifica se algum atributo possui um valor específico
 
 ```python linenums="1"
 element.check('attribute', 'value')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Scroll and move the cursor to the element
+### Rolagem e movimento do cursor para o elemento
 
 ```python linenums="1"
 element.focus()

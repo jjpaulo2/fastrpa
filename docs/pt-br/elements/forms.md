@@ -1,121 +1,63 @@
 ---
-description: Interactions with form tag.
+descrição: Interações com a tag `img`.
 ---
 
-Interactions with `form` tag.
+Interações com a tag `img`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
-
-```python linenums="1"
-my_form = web.element('//*[id="myForm"]')
-type(my_select)
-```
-
-```python title="Output"
-fastrpa.core.elements.FormElement
-```
-### Try to get a `FormElement`
+### Obtendo a classe de elemento correta para o xpath
 
 ```python linenums="1"
-my_form = web.button('//*[id="myForm"]')
-type(my_select)
+my_image = web.element('//*[id="myImage"]')
+type(my_image)
 ```
 
-```python title="Output"
-fastrpa.core.elements.FormElement
+```python title="Saída"
+fastrpa.core.elements.ImageElement
 ```
 
-## Reference
-
-### Get form method
+### Tentando obter um `ImageElement`
 
 ```python linenums="1"
-my_form.method
+my_image = web.image('//*[id="myImage"]')
+type(my_image)
 ```
 
-```python title="Output"
-'POST'
+```python title="Saída"
+fastrpa.core.elements.ImageElement
 ```
 
-### Get form action
+## Referência
+
+### Obter o caminho da imagem do atributo src
 
 ```python linenums="1"
-my_form.action
+my_image.reference
 ```
 
-```python title="Output"
-'https://www.mysite.com/form'
+```python title="Saída"
+'https://mysite.com/resources/image.png'
 ```
 
-### Get form type
+### Obter o texto alternativo do atributo alt
 
 ```python linenums="1"
-my_form.type
+my_image.text
 ```
 
-```python title="Output"
-'application/x-www-form-urlencoded'
+```python title="Saída"
+'Uma imagem do site'
 ```
 
-### Submit the form
+### Salvar a imagem no diretório de trabalho atual
 
 ```python linenums="1"
-my_form.submit()
+my_image.save()
 ```
 
-### Submit the form by clicking in a button
+### Salvar a imagem em um caminho personalizado
 
 ```python linenums="1"
-my_form.submit('//*[id="formSubmit"]')
-```
-
-## Success conditions
-
-Forms also accept success conditions to ensure your form was properly filled. If any condition fail, the form raises a `FormException`.
-
-### Set success by rediret to any url
-
-```python linenums="1"
-my_form.set_success_condition(redirect_url='https:://.../success_page.html')
-```
-
-### Set success by any element on the page
-
-```python linenums="1"
-my_form.set_success_condition(elements_to_find=['//div[@id="success_message"]'])
-```
-
-### Set success by any text on the page
-
-```python linenums="1"
-my_form.set_success_condition(text_to_find=['Success!'])
-```
-
-### Set success by all available conditions
-
-```python linenums="1"
-my_form.set_success_condition(
-    redirect_url='https:://.../success_page.html',
-    elements_to_find=['//div[@id="success_message"]'],
-    text_to_find=['Success!'])
-```
-
-### Submit a form successfully
-
-```python linenums="1"
-my_form.submit()
-```
-
-### Fails a form submission
-
-```python linenums="1"
-my_form.submit()
-```
-
-```python title="Output"
-Traceback (most recent call last):
-    ...
-FormException: The form submission got an error! Condition [redirect_url, https://...] not satisfied!
+my_image.save('/my/path/image.png')
 ```

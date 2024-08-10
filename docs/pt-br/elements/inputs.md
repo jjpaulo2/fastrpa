@@ -1,52 +1,54 @@
 ---
-description: Interactions with input and textarea tags.
+
+description: Interações com tags `input` e `textarea`.
+
 ---
 
-Interactions with `input` and `textarea` tags.
+Interações com tags `input` e `textarea`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe correta do elemento para o xpath
 
 ```python linenums="1"
 my_input = web.element('//*[id="myInput"]')
 type(my_input)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.InputElement
 ```
 
-### Try to get an `InputElement`
+### Tentando obter um `InputElement`
 
 ```python linenums="1"
 my_input = web.input('//*[id="myInput"]')
 type(my_input)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.InputElement
 ```
 
-## Reference
+## Referência
 
-### Clear the element value
+### Limpar o valor do elemento
 
 ```python linenums="1"
 my_input.clear()
 ```
 
-### Fill the input box with some value
+### Preencher a caixa de entrada com um valor
 
 ```python linenums="1"
 my_input.fill('my input')
 ```
 
-### Fill the input box, key by key
+### Preencher a caixa de entrada, tecla por tecla
 
 ```python linenums="1"
 my_input.fill_slowly('my input')
 
-# Fill the input box, key by key, waiting 3 seconds between every key send
+# Preencher a caixa de entrada, tecla por tecla, aguardando 3 segundos entre cada tecla enviada
 my_input.fill_slowly('my input', 3)
 ```

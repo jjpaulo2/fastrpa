@@ -1,128 +1,130 @@
 ---
-description: Interactions with select tag.
+
+description: Interações com a tag `select`.
+
 ---
 
-Interactions with `select` tag.
+Interações com a tag `select`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe correta do elemento para o xpath
 
 ```python linenums="1"
 my_select = web.element('//*[id="mySelect"]')
 type(my_select)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.SelectElement
 ```
 
-### Try to get a `SelectElement`
+### Tentando obter um `SelectElement`
 
 ```python linenums="1"
 my_select = web.select('//*[id="mySelect"]')
 type(my_select)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.SelectElement
 ```
 
-## Reference
+## Referência
 
-### Get all options from the select
+### Obter todas as opções do select
 
 ```python linenums="1"
 my_select.options
 ```
 
-```python title="Output"
+```python title="Saída"
 {'1': 'Option 1',
  '2': 'Option 2'}
 ```
 
-### Get just the options values
+### Obter apenas os valores das opções
 
 ```python linenums="1"
 my_select.options_values
 ```
 
-```python title="Output"
+```python title="Saída"
 ['1', '2']
 ```
 
-### Get just the options labels
+### Obter apenas os rótulos das opções
 
 ```python linenums="1"
 my_select.options_labels
 ```
 
-```python title="Output"
+```python title="Saída"
 ['Option 1', 'Option 2']
 ```
 
-### Select the option by label
+### Selecionar a opção pelo rótulo
 
 ```python linenums="1"
 my_select.select('Option 1')
 ```
 
-### Select the option by value
+### Selecionar a opção pelo valor
 
 ```python linenums="1"
 my_select.select(value='1')
 ```
 
-### Get the current value from the select
+### Obter o valor atual do select
 
 ```python linenums="1"
 my_select.current
 ```
 
-```python title="Output"
+```python title="Saída"
 ('1', 'Option 1')
 ```
 
-### Check if an option exists, by label and value
+### Verificar se uma opção existe, por rótulo e valor
 
 ```python linenums="1"
 'Option 3' in my_select
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Check if an option exists, just by label
+### Verificar se uma opção existe, apenas pelo rótulo
 
 ```python linenums="1"
 my_select.has_option('Option 3')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Check if an option exists, just by value
+### Verificar se uma opção existe, apenas pelo valor
 
 ```python linenums="1"
 my_select.has_option(value='3')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Print the options of the select
+### Imprimir as opções do select
 
-!!! warning "Extra needed!"
-    To use this method, you need to install the **debug** extras, as [shown here](../index.md#installation), with the command `pip install "fastrpa[debug]"`.
+!!! warning "Extra necessário!"
+    Para usar este método, você precisa instalar os extras **debug**, como [mostrado aqui](../index.md#installation), com o comando `pip install "fastrpa[debug]"`.
 
 ```python linenums="1"
 my_select.print()
 ```
 
-```python title="Output"
+```python title="Saída"
 [@id="mySelect"]
 ├── [1] Option 1
 ├── [2] Option 2

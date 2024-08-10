@@ -1,60 +1,57 @@
 ---
-description: Interactions with button and a tags.
+descrição: Interações com tags de botão e `a`.
 ---
 
-Interactions with `button` and `a` tags.
+Interações com tags `button` e `a`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe de elemento correta para o xpath
 
 ```python linenums="1"
 my_button = web.element('//*[id="myButton"]')
-type(my_select)
+type(my_button)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.ButtonElement
 ```
 
-### Try to get a `ButtonElement`
+### Tentando obter um `ButtonElement`
 
 ```python linenums="1"
 my_button = web.button('//*[id="myButton"]')
-type(my_select)
+type(my_button)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.ButtonElement
 ```
 
-## Reference
+## Referência
 
-### Check if the button is a link
+### Verificar se o botão é um link
 
 ```python linenums="1"
 my_button.is_link
 ```
 
-```python title="Output"
+```python title="Saída"
 True
 ```
 
-### Get the link reference
+### Obter a referência do link
 
 ```python linenums="1"
 my_button.reference
 ```
 
-```python title="Output"
+```python title="Saída"
 'https://www.mysite.com/page'
 ```
 
-### Perform a double click in the button
+### Realizar um duplo clique no botão
 
 ```python linenums="1"
-```
-
-```python title="Output"
 my_button.double_click()
 ```

@@ -1,101 +1,103 @@
 ---
-description: Interactions with table tag.
+
+description: Interações com a tag `table`.
+
 ---
 
-Interactions with `table` tag.
+Interações com a tag `table`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe correta do elemento para o xpath
 
 ```python linenums="1"
 my_table = web.element('//*[id="myTable"]')
-type(my_select)
+type(my_table)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.TableElement
 ```
 
-### Try to get a `TableElement`
+### Tentando obter um `TableElement`
 
 ```python linenums="1"
 my_table = web.button('//*[id="myTable"]')
-type(my_select)
+type(my_table)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.TableElement
 ```
 
-## Reference
+## Referência
 
-### Get the headers values
+### Obter os valores dos cabeçalhos
 
 ```python linenums="1"
 my_table.headers
 ```
 
-```python title="Output"
+```python title="Saída"
 ['Company', 'Contact', 'Country']
 ```
 
-### Get the rows values
+### Obter os valores das linhas
 
 ```python linenums="1"
 my_table.rows
 ```
 
-```python title="Output"
+```python title="Saída"
 [['Alfreds Futterkiste', 'Maria Anders', 'Germany'],
  ['Centro comercial Moctezuma', 'Francisco Chang', 'Mexico'],
  ...]
 ```
 
-### Get all values from one column, by column name
+### Obter todos os valores de uma coluna, pelo nome da coluna
 
 ```python linenums="1"
 my_table.column_values('Company')
 ```
 
-```python title="Output"
+```python title="Saída"
 ['Alfreds Futterkiste',
  'Centro comercial Moctezuma',
  ...]
 ```
 
-### Get all values from one column, by column index
+### Obter todos os valores de uma coluna, pelo índice da coluna
 
 ```python linenums="1"
 my_table.column_values(index=0)
 ```
 
-```python title="Output"
+```python title="Saída"
 ['Alfreds Futterkiste',
  'Centro comercial Moctezuma',
  ...]
 ```
 
-### Check if a value exists in one of the table cells
+### Verificar se um valor existe em uma das células da tabela
 
 ```python linenums="1"
 'Cell content' in my_table
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Print the table in console
+### Imprimir a tabela no console
 
-!!! warning "Extra needed!"
-    To use this method, you need to install the **debug** extras, as [shown here](../index.md#installation), with the command `pip install "fastrpa[debug]"`.
+!!! warning "Extra necessário!"
+    Para usar este método, você precisa instalar os extras **debug**, como [mostrado aqui](../index.md#installation), com o comando `pip install "fastrpa[debug]"`.
 
 ```python linenums="1"
 my_table.print()
 ```
 
-```python title="Output"
+```python title="Saída"
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
 ┃ Company                      ┃ Contact          ┃ Country ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━┩

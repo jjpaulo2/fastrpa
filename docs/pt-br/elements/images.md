@@ -1,62 +1,62 @@
 ---
-description: Interactions with img tag.
+descrição: Interações com a tag `img`.
 ---
 
-Interactions with `img` tag.
+Interações com a tag `img`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe de elemento correta para o xpath
 
 ```python linenums="1"
 my_image = web.element('//*[id="myImage"]')
-type(my_select)
+type(my_image)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.ImageElement
 ```
 
-### Try to get a `ImageElement`
+### Tentando obter um `ImageElement`
 
 ```python linenums="1"
 my_image = web.image('//*[id="myImage"]')
-type(my_select)
+type(my_image)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.ImageElement
 ```
 
-## Reference
+## Referência
 
-### Get the image path from src attribute
+### Obter o caminho da imagem do atributo src
 
 ```python linenums="1"
 my_image.reference
 ```
 
-```python title="Output"
+```python title="Saída"
 'https://mysite.com/resources/image.png'
 ```
 
-### Get the alternative text from alt attribute
+### Obter o texto alternativo do atributo alt
 
 ```python linenums="1"
 my_image.text
 ```
 
-```python title="Output"
-'An website image'
+```python title="Saída"
+'Uma imagem do site'
 ```
 
-### Save the image on the current workdir
+### Salvar a imagem no diretório de trabalho atual
 
 ```python linenums="1"
 my_image.save()
 ```
 
-### Save the image on a custom path
+### Salvar a imagem em um caminho personalizado
 
 ```python linenums="1"
 my_image.save('/my/path/image.png')

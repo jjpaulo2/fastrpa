@@ -1,127 +1,130 @@
 ---
-description: Interactions with ol and ul tag.
+
+description: Interações com tags `ol` e `ul`.
+
 ---
 
-Interactions with `ol` and `ul` tags.
+Interações com tags `ol` e `ul`.
 
-## Reading the element
+## Lendo o elemento
 
-### Getting the right element class for the xpath
+### Obtendo a classe correta do elemento para o xpath
 
 ```python linenums="1"
 my_list = web.element('//*[id="myList"]')
 type(my_select)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.ListElement
 ```
 
-### Try to get a `ListElement`
+### Tentando obter um `ListElement`
 
 ```python linenums="1"
 my_list = web.list('//*[id="myList"]')
 type(my_select)
 ```
 
-```python title="Output"
+```python title="Saída"
 fastrpa.core.elements.ListElement
 ```
 
-## Reference
+## Referência
 
-### Check if the list is ordered
+### Verificar se a lista é ordenada
 
 ```python linenums="1"
 my_list.is_ordered
 ```
 
-```python title="Output"
+```python title="Saída"
 True
 ```
 
-### Get all items from the list
+### Obter todos os itens da lista
 
 ```python linenums="1"
 my_list.items
 ```
 
-```python title="Output"
+```python title="Saída"
 {'1': 'Item 1',
  '2': 'Item 2'}
 ```
 
-### Get just the items ids
+### Obter apenas os ids dos itens
 
 ```python linenums="1"
 my_list.items_ids
 ```
 
-```python title="Output"
+```python title="Saída"
 ['1', '2']
 ```
 
-### Get just the items labels
+### Obter apenas os rótulos dos itens
 
 ```python linenums="1"
 my_list.items_labels
 ```
 
-```python title="Output"
+```python title="Saída"
 ['Item 1', 'Item 2']
 ```
 
-### Click in the item by label
+### Clicar no item pelo rótulo
 
 ```python linenums="1"
 my_list.click_in_item('Item 1')
 ```
 
-### Click in the item by id
+### Clicar no item pelo id
 
 ```python linenums="1"
 my_list.click_in_item(id='1')
 ```
 
-### Check if an item exists, by label and value
+### Verificar se um item existe, pelo rótulo e valor
 
 ```python linenums="1"
 'Item 3' in my_list
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Check if an item exists, just by label
+### Verificar se um item existe, apenas pelo rótulo
 
 ```python linenums="1"
 my_list.has_item('Option 3')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
 
-### Check if an item exists, just by id
+### Verificar se um item existe, apenas pelo id
 
 ```python linenums="1"
 my_list.has_item(id='3')
 ```
 
-```python title="Output"
+```python title="Saída"
 False
 ```
-### Print the items of the list
 
-!!! warning "Extra needed!"
-    To use this method, you need to install the **debug** extras, as [shown here](../index.md#installation), with the command `pip install "fastrpa[debug]"`.
+### Imprimir os itens da lista
+
+!!! warning "Extra necessário!"
+    Para usar este método, você precisa instalar os extras **debug**, como [mostrado aqui](../index.md#installation), com o comando `pip install "fastrpa[debug]"`.
 
 ```python linenums="1"
 my_list.print()
 ```
 
-```python title="Output"
+```python title="Saída"
 [@id="myList"]
 ├── [1] Item 1
 ├── [2] Item 2
