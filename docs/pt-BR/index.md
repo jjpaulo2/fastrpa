@@ -19,7 +19,7 @@ Uma abstração simples sobre o Selenium.
 - [x] **Tipado**: dicas de tipo garantem a legibilidade do código e tornam possível navegar pelos métodos com qualquer ferramenta de Intellisense.
 - [x] **Seguro para Selenium**: o núcleo foi desenvolvido seguindo as melhores práticas do Selenium. Você pode se concentrar nas regras de negócios.
 
-## Instalação
+# Instalação
 
 Para uma instalação básica, execute:
 
