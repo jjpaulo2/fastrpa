@@ -1,63 +1,124 @@
+Claro, aqui está a tradução para o português:
+
 ---
-descrição: Interações com a tag `img`.
+**Descrição:** Interações com a tag `form`.
 ---
 
-Interações com a tag `img`.
+Interações com a tag `form`.
 
 ## Lendo o elemento
 
 ### Obtendo a classe de elemento correta para o xpath
 
 ```python linenums="1"
-my_image = web.element('//*[id="myImage"]')
-type(my_image)
+my_form = web.element('//*[id="myForm"]')
+type(my_select)
 ```
 
 ```python title="Saída"
-fastrpa.core.elements.ImageElement
+fastrpa.core.elements.FormElement
 ```
 
-### Tentando obter um `ImageElement`
+### Tentando obter um `FormElement`
 
 ```python linenums="1"
-my_image = web.image('//*[id="myImage"]')
-type(my_image)
+my_form = web.button('//*[id="myForm"]')
+type(my_select)
 ```
 
 ```python title="Saída"
-fastrpa.core.elements.ImageElement
+fastrpa.core.elements.FormElement
 ```
 
 ## Referência
 
-### Obter o caminho da imagem do atributo src
+### Obter o método do formulário
 
 ```python linenums="1"
-my_image.reference
+my_form.method
 ```
 
 ```python title="Saída"
-'https://mysite.com/resources/image.png'
+'POST'
 ```
 
-### Obter o texto alternativo do atributo alt
+### Obter a ação do formulário
 
 ```python linenums="1"
-my_image.text
+my_form.action
 ```
 
 ```python title="Saída"
-'Uma imagem do site'
+'https://www.mysite.com/form'
 ```
 
-### Salvar a imagem no diretório de trabalho atual
+### Obter o tipo do formulário
 
 ```python linenums="1"
-my_image.save()
+my_form.type
 ```
 
-### Salvar a imagem em um caminho personalizado
+```python title="Saída"
+'application/x-www-form-urlencoded'
+```
+
+### Enviar o formulário
 
 ```python linenums="1"
-my_image.save('/my/path/image.png')
+my_form.submit()
+```
+
+### Enviar o formulário clicando em um botão
+
+```python linenums="1"
+my_form.submit('//*[id="formSubmit"]')
+```
+
+## Condições de sucesso
+
+Os formulários também aceitam condições de sucesso para garantir que seu formulário foi preenchido corretamente. Se alguma condição falhar, o formulário gera uma `FormException`.
+
+### Definir sucesso por redirecionamento para qualquer URL
+
+```python linenums="1"
+my_form.set_success_condition(redirect_url='https:://.../success_page.html')
+```
+
+### Definir sucesso por qualquer elemento na página
+
+```python linenums="1"
+my_form.set_success_condition(elements_to_find=['//div[@id="success_message"]'])
+```
+
+### Definir sucesso por qualquer texto na página
+
+```python linenums="1"
+my_form.set_success_condition(text_to_find=['Success!'])
+```
+
+### Definir sucesso por todas as condições disponíveis
+
+```python linenums="1"
+my_form.set_success_condition(
+    redirect_url='https:://.../success_page.html',
+    elements_to_find=['//div[@id="success_message"]'],
+    text_to_find=['Success!'])
+```
+
+### Enviar um formulário com sucesso
+
+```python linenums="1"
+my_form.submit()
+```
+
+### Falhar na submissão de um formulário
+
+```python linenums="1"
+my_form.submit()
+```
+
+```python title="Saída"
+Traceback (most recent call last):
+    ...
+FormException: A submissão do formulário encontrou um erro! Condição [redirect_url, https://...] não satisfeita!
 ```
